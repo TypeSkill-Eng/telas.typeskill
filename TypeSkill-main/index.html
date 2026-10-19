@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeSkill</title>
+<link rel="stylesheet" href="stylesheet.css">
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="coracao" viewBox="0 0 7 6" shape-rendering="crispEdges">
+    <path d="M1 0h2v1h-2zM4 0h2v1h-2zM0 1h7v2h-7zM1 3h5v1h-5zM2 4h3v1h-3zM3 5h1v1h-1z"/>
+  </symbol>
+</svg>
+
+<header class="topo" id="inicio">
+  <div class="container topo__linha">
+    <a class="marca" href="#inicio"><img class="marca__logo" src="LOGO TypeSkill.png" alt="" width="70" height="95"><span><span class="destaque">T</span>ypeSkill</span></a>
+    <nav class="menu" aria-label="Principal">
+      <a class="ativo" href="#inicio">Início</a>
+      <a href="#como-funciona">Como funciona</a>
+    </nav>
+    <div class="topo__acoes">
+      <input type="checkbox" id="modo-noturno" class="tema__check">
+      <label for="modo-noturno" class="tema" title="Modo noturno"><span class="so-leitor">Modo noturno</span></label>
+      <a class="botao botao--vazado" href="Usuarios/Login/Login.html">Entrar</a>
+      <a class="botao botao--cheio" href="cadastro.html">Começar agora</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HERÓI ===== -->
+  <section class="heroi">
+    <!-- enfeites do lado esquerdo -->
+    <div class="enfeite pontos" style="left:3%; top:26px" aria-hidden="true"></div>
+    <div class="enfeite pontos esconde-no-celular" style="left:44%; bottom:70px; width:110px; height:80px; animation-direction:reverse" aria-hidden="true"></div>
+    <div class="enfeite sol" aria-hidden="true"></div>
+    <div class="enfeite flutua esconde-no-celular" style="--x:30%; --y:86%; --v:7s; color:#dfe1ea" aria-hidden="true"><svg class="coracao" style="--t:34px"><use href="#coracao"/></svg></div>
+    <span class="enfeite brilho" style="--x:5%; --y:78%; --d:.4s" aria-hidden="true">+</span>
+    <span class="enfeite brilho esconde-no-celular" style="--x:39%; --y:14%; --d:1.2s; --t:.9rem" aria-hidden="true">+</span>
+
+    <div class="container heroi__conteudo">
+      <div class="heroi__texto">
+        <p class="etiqueta"><span aria-hidden="true">♥</span> Aprenda. Pratique. Evolua.</p>
+        <h1><span>Domine o teclado.</span><span class="destaque">Conquiste o jogo.</span></h1>
+        <p class="heroi__resumo">TypeSkill transforma o aprendizado de digitação em uma jornada épica. Complete missões, ganhe recompensas e suba no ranking.</p>
+        <div class="heroi__botoes">
+          <a class="botao botao--cheio" href="#comecar">Começar agora <span class="seta" aria-hidden="true">→</span></a>
+          <a class="botao botao--vazado" href="#como-funciona">Ver como funciona</a>
+        </div>
+        <ul class="vantagens">
+          <li>🎮 Aprendizado gamificado</li>
+          <li>⚡ Desafios diários</li>
+          <li>🏆 Ranking competitivo</li>
+          <li>📍 Acompanhe seu progresso</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- metade direita: tudo aqui é decoração, por isso aria-hidden -->
+    <div class="heroi__arte" aria-hidden="true">
+      <svg class="onda onda--fundo" viewBox="0 0 600 700" preserveAspectRatio="none">
+        <defs><linearGradient id="pessego" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1e3"/><stop offset="1" stop-color="#ffd9b8"/></linearGradient></defs>
+        <path fill="url(#pessego)" d="M150 0C60 120 230 220 150 370C90 480 10 570 70 700H600V0Z"/>
+      </svg>
+      <svg class="onda onda--linha" viewBox="0 0 600 700" preserveAspectRatio="none">
+        <path fill="none" stroke="#ffb27a" stroke-width="1.5" vector-effect="non-scaling-stroke" d="M190 0C110 130 270 240 195 380C140 490 70 580 125 700"/>
+      </svg>
+      <div class="enfeite luz"></div>
+
+      <div class="enfeite flutua" style="--x:2%; --y:7%; --v:8s; --g:-6deg"><span class="trofeu">🏆</span></div>
+      <div class="enfeite flutua" style="--x:36%; --y:21%; --v:5s; --g:10deg">
+        <svg class="estrela" viewBox="0 0 48 48"><path fill="#ffc48f" stroke="#ffc48f" stroke-width="6" stroke-linejoin="round" d="M24 6l5.6 11.4 12.4 1.8-9 8.8 2.1 12.4L24 34.6 12.9 40.4 15 28 6 19.2l12.4-1.8z"/></svg>
+      </div>
+      <p class="enfeite flutua px xp" style="--x:47%; --y:11%; --v:5.5s">+<span class="xp__janela"><span class="xp__fita"><span>500</span><span>900</span><span>300</span><span>500</span></span></span> XP</p>
+      <p class="enfeite px level" style="right:7%; top:25%">LEVEL UP!</p>
+      <p class="enfeite px ganho" style="--x:58%; --y:36%">+100</p>
+      <div class="enfeite flutua vidas" style="--x:70%; --y:42%; --v:6.5s">
+        <svg class="coracao"><use href="#coracao"/></svg><svg class="coracao"><use href="#coracao"/></svg><svg class="coracao"><use href="#coracao"/></svg>
+      </div>
+      <span class="enfeite brilho" style="--x:24%; --y:26%; --d:.8s">+</span>
+      <span class="enfeite brilho" style="--x:17%; --y:38%; --d:2s; --t:.9rem">✦</span>
+      <span class="enfeite brilho" style="--x:88%; --y:12%; --d:1.5s">+</span>
+
+      <div class="cena">
+        <div class="teclado">
+          <div class="teclado__sombra"></div>
+          <div class="fileira">
+            <div class="tecla" style="--i:6">Q</div><div class="tecla" style="--i:1">W</div><div class="tecla" style="--i:9">E</div><div class="tecla" style="--i:3">R</div><div class="tecla" style="--i:12">T</div>
+          </div>
+          <div class="fileira">
+            <div class="tecla" style="--i:4">A</div><div class="tecla" style="--i:10">S</div><div class="tecla tecla--laranja" style="--i:0">D</div><div class="tecla" style="--i:7">F</div><div class="tecla" style="--i:13">G</div>
+          </div>
+          <div class="fileira">
+            <div class="tecla" style="--i:11">Z</div><div class="tecla" style="--i:2">X</div><div class="tecla" style="--i:8">C</div><div class="tecla" style="--i:14">V</div><div class="tecla" style="--i:5">B</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NÚMEROS ===== -->
+  <section class="numeros container" aria-label="TypeSkill em números">
+    <span class="numeros__titulo">Como funciona</span>
+    <div class="numeros__caixa">
+      <div class="numero"><strong>20</strong><span>Alunos ativos</span></div>
+      <div class="numero"><strong>20</strong><span>Missões concluídas</span></div>
+      <div class="numero"><strong>+98%</strong><span>Taxa de satisfação</span></div>
+      <div class="numero"><strong>+50</strong><span>Lições disponíveis</span></div>
+      <a class="numero numero--convite" href="#comecar"><strong aria-hidden="true">🚀</strong><span>Pronto para subir?</span></a>
+    </div>
+  </section>
+
+  <!-- ===== 4 PASSOS ===== -->
+  <section class="passos container" id="como-funciona">
+    <h2>Aprenda jogando em 4 passos</h2>
+    <div class="passos__grade">
+      <article class="passo" tabindex="0">
+        <span class="passo__num">01</span>
+        <span class="passo__icone" aria-hidden="true">🎯</span>
+        <h3>Escolha sua missão</h3>
+        <p>Selecione a lição ideal para seu nível e objetivo.</p>
+        <div class="passo__mais">
+          <p>Fileira guia, números ou símbolos: você escolhe.</p>
+          <span class="passo__xp">+50 XP</span>
+        </div>
+      </article>
+      <article class="passo" tabindex="0">
+        <span class="passo__num">02</span>
+        <span class="passo__icone" aria-hidden="true">⌨️</span>
+        <h3>Pratique e evolua</h3>
+        <p>Complete desafios e melhore sua precisão.</p>
+        <div class="passo__mais">
+          <p>Veja suas PPM e sua precisão a cada rodada.</p>
+          <span class="passo__xp">+120 XP</span>
+        </div>
+      </article>
+      <article class="passo" tabindex="0">
+        <span class="passo__num">03</span>
+        <span class="passo__icone" aria-hidden="true">🏆</span>
+        <h3>Ganhe recompensas</h3>
+        <p>Acumule XP e desbloqueie novas conquistas.</p>
+        <div class="passo__mais">
+          <p>Medalhas, sequências diárias e novos níveis.</p>
+          <span class="passo__xp">+300 XP</span>
+        </div>
+      </article>
+      <article class="passo" tabindex="0">
+        <span class="passo__num">04</span>
+        <span class="passo__icone" aria-hidden="true">🚩</span>
+        <h3>Suba no ranking</h3>
+        <p>Compita com outros jogadores e vire mestre.</p>
+        <div class="passo__mais">
+          <p>Dispute a liga semanal com seus amigos.</p>
+          <span class="passo__xp">+900 XP</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== CHAMADA FINAL ===== -->
+ <section class="chamada container" id="comecar">
+    <div class="chamada__caixa">
+      <h2>Pronto para <span class="destaque">transformar</span> suas habilidades?</h2>
+      <div class="inscricao">
+        <label class="so-leitor" for="email">Seu melhor e-mail</label>
+        <input type="email" id="email" placeholder="Seu melhor e-mail" autocomplete="email">
+        <a class="botao botao--cheio" href="cadastro.html"> Começar agora <span class="seta" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="rodape">
+  <div class="container rodape__grade">
+    <div class="rodape__sobre">
+      <a class="marca" href="#inicio">
+        <img class="marca__logo" src="LOGO TypeSkill.png" alt="" width="70" height="95">
+        <span><span class="destaque">T</span>ypeSkill</span></a>
+      <p>O jogo que transforma sua digitação em uma habilidade épica.</p>
+    </div>
+    <div>
+      <h3>Produto</h3>
+      <ul>
+        <li>
+          <a href="#como-funciona">Recursos</a>
+        </li>
+        <li>
+          <a href="#como-funciona">Lições</a>
+        </li>
+        <li>
+          <a href="#como-funciona">Conquistas</a>
+        </li>
+        <li>
+          <a href="#comecar">Planos</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>Empresa</h3>
+      <ul><li><a href="#inicio">Sobre nós</a></li><li><a href="#inicio">Blog</a></li><li><a href="#inicio">Carreiras</a></li><li><a href="#comecar">Contato</a></li></ul>
+    </div>
+    <div>
+      <h3>Suporte</h3>
+      <ul><li><a href="#inicio">Central de ajuda</a></li><li><a href="#inicio">Privacidade</a></li><li><a href="#inicio">Termos</a></li></ul>
+    </div>
+  </div>
+  <div class="container rodape__fim">© 2026 TypeSkill. Todos os direitos reservados.</div>
+</footer>
+</body>
+</html>

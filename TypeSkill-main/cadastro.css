@@ -1,0 +1,295 @@
+
+:root {
+  --breu: #0b0b0e;            /* fundo preto do palco */
+  --grade: rgba(255, 255, 255, .035);
+  --placa-fundo: #111115;
+  --placa-borda: #d9dbe2;
+  --placa-borda-2: #5d616c;
+  --branco-px: #f2f4f8;       /* branco dos textos em pixel */
+  --campo-borda: #eceef3;
+  --erro: #e5484d;
+}
+
+body { background: var(--breu); color: var(--branco-px); }
+
+/* ---------- 2. Palco: duas colunas (vitrine + cartão) ---------- */
+.palco {
+  position: relative; overflow: hidden; isolation: isolate;
+  min-height: 100vh; min-height: 100svh;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  align-items: center; column-gap: 4vw;
+  padding: 32px clamp(20px, 6vw, 96px);
+}
+
+/* grade de pixels que desliza sem parar (anda 1 quadrado e recomeça) */
+.palco::before {
+  content: ""; position: absolute; inset: -48px; z-index: -2;
+  background-image:
+    linear-gradient(var(--grade) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grade) 1px, transparent 1px);
+  background-size: 24px 24px;
+  animation: grade-anda 6s linear infinite;
+}
+@keyframes grade-anda { to { transform: translate(24px, 24px); } }
+
+/* escurece as bordas da tela */
+.palco::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(ellipse at 38% 50%, transparent 35%, rgba(0, 0, 0, .75) 100%);
+  pointer-events: none;
+}
+
+/* partículas que sobem do chão até o teto */
+.particula {
+  position: absolute; bottom: -12px; left: var(--x); z-index: 0;
+  width: var(--t, 4px); height: var(--t, 4px);
+  background: var(--c, var(--laranja));
+  opacity: 0; pointer-events: none;
+  animation: sobe-px var(--v, 10s) linear var(--d, 0s) infinite;
+}
+@keyframes sobe-px {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: .8; }
+  85%  { opacity: .4; }
+  100% { transform: translateY(-105vh); opacity: 0; }
+}
+
+/* ---------- 3. Cenário: camada com os itens, do tamanho da página toda ----------
+   Fica centralizada e no máximo com 1600px, para os itens não irem
+   parar nos cantos em telas muito largas. */
+.cenario {
+  position: absolute; inset: 0; z-index: 0;
+  max-width: 1600px; margin-inline: auto;
+  pointer-events: none;
+}
+.cenario > .enfeite { left: var(--x); top: var(--y); }
+
+/* ---------- 3b. Vitrine (lado esquerdo, só a marca) ---------- */
+.vitrine {
+  position: relative; z-index: 1; align-self: stretch;
+  display: grid; place-items: center;
+  min-height: 560px;
+}
+/* brilho laranja atrás da marca */
+.vitrine::before {
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: -1;
+  width: min(560px, 90%); aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 98, 0, .2), transparent 65%);
+  animation: respira 6s ease-in-out infinite;
+}
+
+/* desenhos em pixel (SVG) */
+.sprite { display: block; width: 100%; height: auto; }
+.trofeu-px  { width: clamp(70px, 7.5vw, 112px); filter: drop-shadow(0 0 18px rgba(255, 190, 40, .35)); }
+.espada-px  { width: clamp(60px, 6vw, 92px); filter: drop-shadow(0 0 14px rgba(255, 98, 0, .35)); transform-origin: 20% 85%; animation: balanca 3.6s ease-in-out infinite; }
+.medalha-px { width: clamp(52px, 5vw, 76px); filter: drop-shadow(0 0 16px rgba(255, 190, 40, .3)); transform-origin: 50% 0; animation: pendulo 3.4s ease-in-out infinite; }
+.estrela-px { width: clamp(34px, 3.2vw, 48px); filter: drop-shadow(0 0 14px rgba(255, 190, 40, .45)); animation: estrela-gira 4s ease-in-out infinite; }
+.coracoes   { display: flex; gap: 6px; }
+.coracoes .sprite { width: 26px; filter: drop-shadow(0 0 10px rgba(255, 98, 0, .45)); animation: bate 1.6s ease-in-out infinite; }
+.coracoes .sprite:nth-child(2) { animation-delay: .2s; }
+.coracoes .sprite:nth-child(3) { animation-delay: .4s; }
+.ilha-px    { width: clamp(90px, 9vw, 128px); filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .5)); }
+
+@keyframes balanca      { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg) translateY(-6px); } }
+@keyframes pendulo      { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+@keyframes estrela-gira { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.18) rotate(14deg); } }
+
+/* placas "XP +250" e "COMBO x15" */
+.placa {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 14px 18px; border-radius: 12px;
+  background: var(--placa-fundo);
+  border: 3px solid var(--placa-borda);
+  box-shadow: inset 0 0 0 3px var(--placa-fundo), inset 0 0 0 5px var(--placa-borda-2), 0 0 30px rgba(255, 98, 0, .12);
+  font-family: var(--fonte-pixel); line-height: 1;
+}
+.placa__titulo { color: var(--laranja); font-size: clamp(1.1rem, 1.8vw, 1.6rem); text-shadow: 0 3px 0 #6e2600; }
+.placa__valor { color: var(--branco-px); font-size: clamp(.8rem, 1.2vw, 1.05rem); line-height: 1.2; }
+.placa--combo .placa__titulo { font-size: clamp(.85rem, 1.2vw, 1.1rem); }
+.placa--combo .placa__valor { font-size: clamp(1rem, 1.6vw, 1.35rem); animation: bate 1.6s ease-in-out infinite; }
+
+/* barra de combo que vai enchendo em degraus */
+.barra { display: block; width: 120px; height: 16px; padding: 2px; border: 3px solid var(--placa-borda); background: #26262c; }
+.barra__cheio { display: block; height: 100%; width: 25%; background: var(--laranja); animation: carrega 3.2s steps(7, end) infinite; }
+@keyframes carrega { from { width: 25%; } to { width: 100%; } }
+
+/* barra de XP 650/1000: 6 blocos cheios e o 7º piscando */
+.xpbarra { display: grid; grid-template-columns: auto auto; align-items: center; gap: 8px 10px; font-family: var(--fonte-pixel); }
+.xpbarra__rotulo { color: var(--laranja); font-size: .95rem; }
+.xpbarra__trilho { display: flex; gap: 3px; padding: 3px; border: 2px solid #3a3d47; border-radius: 4px; background: #141418; }
+.xpbarra__trilho i { width: clamp(10px, 1vw, 14px); aspect-ratio: 1; border-radius: 2px; background: #2f3139; }
+.xpbarra__trilho i:nth-child(-n+6) { background: var(--laranja); box-shadow: inset 0 -3px 0 #c24300; }
+.xpbarra__trilho i:nth-child(7) { animation: carregando 1s steps(2, jump-none) infinite; }
+@keyframes carregando { from { background: #2f3139; } to { background: #ff9a52; } }
+.xpbarra__texto { grid-column: 2; justify-self: center; color: #d9dbe2; font-size: .8rem; }
+
+/* teclas W A S D voando, com rastro de velocidade */
+.teclas { width: 180px; height: 160px; }
+.tecla-px {
+  position: absolute; left: var(--tx); top: var(--ty);
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border: 3px solid #141418; border-radius: 6px;
+  background: #eef0f4; color: #2a2a30;
+  font: 400 1rem/1 var(--fonte-pixel);
+  box-shadow: inset 0 -5px 0 #b7bcc8, 0 5px 0 #141418;
+  rotate: var(--r);
+  animation: voa 2.4s ease-in-out var(--d) infinite;
+}
+.tecla-px--laranja { background: var(--laranja); color: #fff; box-shadow: inset 0 -5px 0 #b84400, 0 5px 0 #141418; }
+.tecla-px::before {
+  content: ""; position: absolute; right: calc(100% + 8px); top: 40%;
+  width: 26px; height: 4px; background: #5d616c;
+  box-shadow: -8px 9px 0 rgba(255, 98, 0, .85);
+  transform-origin: right;
+  animation: rastro 2.4s ease-in-out var(--d) infinite;
+}
+@keyframes voa    { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(9px, -7px); } }
+@keyframes rastro { 0%, 100% { transform: scaleX(.5); opacity: .35; } 50% { transform: scaleX(1); opacity: 1; } }
+
+/* brilhos em pixel: um quadradinho com 4 cópias em cruz (box-shadow) */
+.cintila {
+  width: 5px; height: 5px; color: var(--c, var(--laranja));
+  box-shadow: 5px 0 currentColor, -5px 0 currentColor, 0 5px currentColor, 0 -5px currentColor;
+  animation: pisca 3s ease-in-out var(--d, 0s) infinite;
+}
+.cintila--cheia { background: currentColor; }
+
+/* ---------- 4. Marca no centro da vitrine ---------- */
+.marca-jogo { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.marca-jogo__icone { display: flex; flex-direction: column; align-items: center; gap: 14px; animation: flutua 5s ease-in-out infinite; }
+.marca-jogo__logo { height: clamp(70px, 8vw, 110px); width: auto; filter: drop-shadow(0 0 22px rgba(255, 98, 0, .45)); }
+
+/* balão "TS" com raios piscando em volta */
+.bolha {
+  position: relative; padding: 8px 9px 7px;
+  background: var(--laranja); color: #fff;
+  border: 3px solid var(--branco-px); border-radius: 5px;
+  font: 400 .85rem/1 var(--fonte-pixel);
+}
+.bolha::after { /* pontinha do balão */
+  content: ""; position: absolute; left: 50%; bottom: -8px; width: 9px; height: 9px;
+  background: var(--laranja); border-right: 3px solid var(--branco-px); border-bottom: 3px solid var(--branco-px);
+  translate: -50% 0; rotate: 45deg;
+}
+.bolha::before { /* raios: 1 tracinho + 2 cópias com box-shadow */
+  content: ""; position: absolute; left: 50%; top: -18px; width: 4px; height: 10px;
+  background: var(--branco-px); translate: -50% 0;
+  box-shadow: -30px 14px 0 var(--branco-px), 30px 14px 0 var(--branco-px);
+  animation: pisca-raio 1.4s steps(2, jump-none) infinite;
+}
+@keyframes pisca-raio { from { opacity: .3; } to { opacity: 1; } }
+
+/* TYPESKILL: cada letra cai no lugar ao abrir a página e depois
+   uma "onda" passa pulando pelas letras de tempos em tempos */
+.letreiro { display: flex; font: 400 clamp(1.7rem, 3.6vw, 3.6rem)/1.1 var(--fonte-pixel); }
+.letreiro span {
+  display: inline-block; color: var(--branco-px);
+  text-shadow: 0 .08em 0 #9ea3af, 0 .16em 0 #4b4f59, 0 .2em 18px rgba(0, 0, 0, .6);
+  animation:
+    letra-cai .7s cubic-bezier(.3, 1.6, .5, 1) calc(var(--i) * .07s) both,
+    letra-onda 4s ease-in-out calc(1.4s + var(--i) * .08s) infinite;
+}
+.letreiro .skill { color: var(--laranja); text-shadow: 0 .08em 0 #c24300, 0 .16em 0 #6e2600, 0 0 24px rgba(255, 98, 0, .45); }
+@keyframes letra-cai  { from { transform: translateY(-.9em); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes letra-onda { 0%, 14%, 100% { transform: translateY(0); } 7% { transform: translateY(-.2em); } }
+
+.slogan { font: 400 clamp(.55rem, 1vw, .85rem)/1.6 var(--fonte-pixel); letter-spacing: .04em; color: var(--branco-px); text-shadow: 0 3px 0 rgba(0, 0, 0, .6); }
+.slogan span { color: var(--laranja); }
+
+/* ---------- 5. Cartão de cadastro ---------- */
+.cartao {
+  position: relative; z-index: 3; justify-self: end;
+  width: 100%; max-width: 380px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 30px 30px 26px; border-radius: 24px;
+  background: var(--superficie); color: var(--tinta);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, .08), 0 0 60px rgba(255, 98, 0, .12);
+  /* entra subindo com um pulinho */
+  animation: cartao-entra .9s cubic-bezier(.2, .8, .2, 1) .2s both;
+}
+@keyframes cartao-entra {
+  0%   { opacity: 0; transform: translateY(48px) scale(.96); }
+  60%  { opacity: 1; transform: translateY(-10px) scale(1.01); }
+  80%  { transform: translateY(4px); }
+  100% { transform: none; }
+}
+.cartao__logo { display: block; border-radius: 10px; transition: transform .2s; }
+.cartao__logo:hover { transform: translateY(-3px) rotate(-4deg); }
+.cartao__logo img { display: block; height: 60px; width: auto; filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .25)); }
+.cartao h1 { margin-top: 14px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.01em; text-shadow: 0 3px 8px rgba(0, 0, 0, .14); }
+.cartao__sub { margin-top: 6px; font-size: .82rem; color: var(--suave); }
+
+.cartao__form { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+/* cada campo: ícone + texto dentro de uma caixa branca com sombra */
+.campo {
+  display: flex; align-items: center; gap: 10px;
+  height: 46px; padding-inline: 14px; border-radius: 10px;
+  background: var(--superficie); border: 1.5px solid var(--campo-borda);
+  box-shadow: 0 4px 12px rgba(20, 20, 40, .08);
+  color: var(--suave); cursor: text;
+  transition: border-color .2s, box-shadow .2s, transform .2s, color .2s;
+}
+.campo svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.campo input {
+  flex: 1; min-width: 0; height: 100%;
+  border: 0; outline: 0; background: transparent;
+  color: var(--tinta); font: 400 .85rem var(--fonte);
+}
+.campo input::placeholder { color: #a9adb8; }
+.campo:focus-within {
+  border-color: var(--laranja); color: var(--laranja);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, .14), 0 6px 14px rgba(20, 20, 40, .1);
+  transform: translateY(-1px);
+}
+/* fica vermelho se a pessoa mexeu no campo e ele está errado
+   (vazio, e-mail sem @, senha curta...) — o próprio HTML confere */
+.campo:has(input:user-invalid) { border-color: var(--erro); color: var(--erro); }
+
+.cartao__botao { width: 100%; justify-content: center; padding-block: 14px; margin-top: 4px; font-size: .9rem; }
+
+.divisor { width: 100%; display: flex; align-items: center; gap: 12px; margin-block: 18px; color: var(--suave); font-size: .78rem; }
+.divisor::before, .divisor::after { content: ""; flex: 1; height: 1px; background: var(--campo-borda); }
+
+.cartao__google { width: 100%; justify-content: center; gap: 10px; padding-block: 13px; box-shadow: 0 4px 12px rgba(20, 20, 40, .08); }
+.cartao__google svg { width: 18px; height: 18px; }
+
+.cartao__rodape { margin-top: 26px; font-size: .8rem; color: var(--tinta); }
+.cartao__rodape a { color: var(--laranja); font-weight: 700; margin-left: 4px; }
+.cartao__rodape a:hover { text-decoration: underline; }
+
+/* ---------- 6. Telas menores: uma coluna só ---------- */
+@media (max-width: 999px) {
+  .palco {
+    grid-template-columns: 1fr; justify-items: center; align-content: start;
+    row-gap: 24px; padding-block: 24px 40px;
+  }
+  .vitrine { width: 100%; min-height: 0; padding-block: 84px 8px; }
+  .so-desktop { display: none; }
+  /* aqui uso left/top direto: as variáveis --x/--y estão no style="" do HTML e ganhariam */
+  .cenario > .trofeu-px { left: 16px; top: 22px; width: 62px; }
+  .cenario > .placa--xp { left: auto; right: 16px; top: 26px; padding: 10px 12px; }
+  .cartao { justify-self: center; }
+}
+@media (max-width: 420px) {
+  .cartao { padding-inline: 20px; }
+  .slogan span { display: block; }
+}
+/* logo + nome lado a lado, os dois clicáveis */
+.cartao__marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--tinta);
+  border-radius: 10px;
+  transition: transform .2s;
+}
+.cartao__marca:hover { transform: translateY(-3px); }
+.cartao__marca img {
+  height: 60px;
+  width: auto;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .25));
+}

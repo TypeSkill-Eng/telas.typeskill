@@ -11,10 +11,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    <!-- Os dois primeiros são os mesmos das telas de login/cadastro/recuperar senha -->
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="stylesheet" href="cadastro.css">
-    <!-- Estilo novo, só desta tela (carregar por último) -->
     <link rel="stylesheet" href="codigo.css">
 </head>
 
@@ -88,7 +86,7 @@
     <div class="marca-jogo">
       <div class="marca-jogo__icone">
         <span class="bolha">TS</span>
-        <img class="marca-jogo__logo" src="logo.png" alt="">
+        <img class="marca-jogo__logo" src="LOGO TypeSkill.png" alt="">
       </div>
       <p class="letreiro"><span style="--i:0">T</span><span style="--i:1">Y</span><span style="--i:2">P</span><span style="--i:3">E</span><span class="skill" style="--i:4">S</span><span class="skill" style="--i:5">K</span><span class="skill" style="--i:6">I</span><span class="skill" style="--i:7">L</span><span class="skill" style="--i:8">L</span></p>
       <p class="slogan">DOMINE O TECLADO. <span>CONQUISTE O JOGO.</span></p>
@@ -99,14 +97,13 @@
         <!-- Cartão do código de verificação -->
         <section class="cartao codigo-cartao" aria-labelledby="titulo-codigo">
 
-            <img class="codigo-logo" src="logo.png" alt="Logo TypeSkill">
+            <img class="codigo-logo" src="LOGO TypeSkill.png" alt="Logo TypeSkill">
 
             <h1 id="titulo-codigo">Código</h1>
 
             <p class="cartao__sub" id="descricao-codigo">
                 Insira o código enviado ao seu endereço de email.
             </p>
-            <!-- O e-mail aparece mascarado (ex.: jo***@gmail.com). Veja o script abaixo. -->
             <p class="codigo-email">(<span id="email-destino">seu email</span>)</p>
 
             <form class="cartao__form" id="form-codigo" novalidate aria-describedby="descricao-codigo">
@@ -240,18 +237,6 @@
             });
         });
 
-        /* ---------- Envio ----------
-           TROQUE esta função pela chamada real ao backend. Exemplo:
-
-           async function verificarCodigo(codigo) {
-               var r = await fetch("/api/recuperar-senha/codigo", {
-                   method: "POST",
-                   headers: { "Content-Type": "application/json" },
-                   body: JSON.stringify({ email: lerEmail(), codigo: codigo })
-               });
-               if (!r.ok) throw new Error("Código inválido ou expirado.");
-           }
-        */
         function verificarCodigo(codigo) {
             return new Promise(function (resolve) { setTimeout(resolve, 400); });
         }

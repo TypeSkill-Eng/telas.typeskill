@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeSkill — Início</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ============ MENU LATERAL ============ -->
+    <aside class="sidebar">
+      <a class="logo" href="#" aria-label="TypeSkill">
+        <img src="img/logo.png" alt="" width="56" height="58">
+        <span class="logo__text"><b>T</b>ypeSkill</span>
+      </a>
+
+      <nav class="menu" aria-label="Menu principal">
+        <a class="menu__item is-active" href="#" aria-current="page"><span class="menu__icon"><img src="img/ic-inicio.png" alt=""></span>Início</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-missoes.png" alt=""></span>Missões</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-praticar.png" alt=""></span>Praticar</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-conquistas.png" alt=""></span>Conquistas</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-progresso.png" alt=""></span>Progresso</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-certificados.png" alt=""></span>Certificados</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-perfil.png" alt=""></span>Perfil</a>
+        <a class="menu__item" href="#"><span class="menu__icon"><img src="img/ic-config.png" alt=""></span>Configurações</a>
+      </nav>
+
+      <div class="daily-goal card">
+        <h2 class="daily-goal__title">Meta Diária</h2>
+        <p class="daily-goal__value">🔥 15/20 Minutos</p>
+        <div class="bar bar--orange" role="progressbar" aria-label="Meta diária" aria-valuenow="15" aria-valuemin="0" aria-valuemax="20">
+          <span style="width: 75%"></span>
+        </div>
+        <p class="daily-goal__msg">Continue assim!</p>
+      </div>
+    </aside>
+
+    <!-- ============ CONTEÚDO ============ -->
+    <main class="content">
+
+      <!-- Cabeçalho -->
+      <header class="topbar card">
+        <div class="topbar__hello">
+          <h1>Olá, player01!</h1>
+          <p>Pronto pra evoluir hoje?</p>
+        </div>
+
+        <div class="topbar__stats">
+          <div class="stat">
+            <strong class="stat__value">🔥 7</strong>
+            <span class="stat__label">Sequência</span>
+          </div>
+          <div class="stat">
+            <strong class="stat__value">⭐ 1708</strong>
+            <span class="stat__label">XP Total</span>
+          </div>
+        </div>
+
+        <div class="player">
+          <img class="player__avatar" src="img/avatar.png" alt="Avatar do jogador" width="62" height="62">
+          <div class="player__level">
+            <span class="player__name">Nível 7</span>
+            <div class="bar bar--orange" role="progressbar" aria-label="Progresso de nível" aria-valuenow="1708" aria-valuemin="0" aria-valuemax="3000">
+              <span style="width: 57%"></span>
+            </div>
+            <small>1.708 / 3000 XP</small>
+          </div>
+        </div>
+      </header>
+
+      <!-- Mundo atual -->
+      <section class="world" aria-labelledby="world-title">
+        <div class="world__info">
+          <h2 id="world-title">🌍 Mundo 3 — nível amador</h2>
+          <div class="world__progress">
+            <div class="bar bar--orange" role="progressbar" aria-label="Progresso do mundo" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+              <span style="width: 80%"></span>
+            </div>
+            <strong>80%</strong>
+          </div>
+        </div>
+        <img class="world__map" src="img/mapa.png" alt="Mapa do Mundo 3: fases 1 e 2 concluídas, fase 3 atual, fase 4 bloqueada e baú do tesouro">
+      </section>
+
+      <!-- Missão / Praticar / Desafio -->
+      <section class="grid-3">
+        <article class="card task task--mission">
+          <h2 class="task__title">🎯 Missão Atual</h2>
+          <h3 class="task__name">Sequência Perfeita</h3>
+          <p class="task__desc">Faça 10 sequências perfeitas</p>
+          <div class="task__progress">
+            <div class="bar bar--green" role="progressbar" aria-label="Missão atual" aria-valuenow="6" aria-valuemin="0" aria-valuemax="10">
+              <span style="width: 60%"></span>
+            </div>
+            <span class="task__count">6 / 10</span>
+          </div>
+          <p class="task__reward-label">Recompensa</p>
+          <p class="task__reward">⭐ 150 XP</p>
+          <a class="btn btn--orange" href="#">Continuar missão</a>
+        </article>
+
+        <article class="card task task--practice">
+          <h2 class="task__title">⚡ Pratique Agora</h2>
+          <div class="lesson-card">
+            <p class="lesson-card__label">Lição recomendada</p>
+            <p class="lesson-card__desc">Digitação - Nível 5</p>
+            <img class="lesson-card__img" src="img/teclado.png" alt="" width="86" height="64">
+          </div>
+          <a class="btn btn--gray" href="#">Começar lição</a>
+        </article>
+
+        <article class="card task task--challenge">
+          <h2 class="task__title">🔥 Desafio Diário</h2>
+          <div class="challenge">
+            <h3 class="task__name">Velocidade</h3>
+            <p class="task__desc">Digite 50 palavras por minuto</p>
+            <div class="task__progress">
+              <div class="bar bar--purple" role="progressbar" aria-label="Desafio diário" aria-valuenow="32" aria-valuemin="0" aria-valuemax="50">
+                <span style="width: 64%"></span>
+              </div>
+              <span class="task__count">32 / 50</span>
+            </div>
+            <p class="task__reward-label">Recompensa</p>
+            <p class="task__reward">⭐ 200 XP</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- Progresso / Conquistas -->
+      <section class="grid-2">
+        <article class="card progress">
+          <h2 class="task__title">📈 Seu progresso</h2>
+          <div class="progress__body">
+            <div class="progress__level">
+              <strong>Nível 7</strong>
+              <div class="bar bar--teal" role="progressbar" aria-label="Progresso do nível" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">
+                <span style="width: 57%"></span>
+              </div>
+            </div>
+            <div class="progress__metric progress__metric--first">
+              <span class="metric__label">Precisão</span>
+              <strong class="metric__value">78%</strong>
+              <span class="metric__delta metric__delta--up">+7%</span>
+            </div>
+            <div class="progress__metric">
+              <span class="metric__label metric__label--lg">Sequência</span>
+              <strong class="metric__value">15</strong>
+              <span class="metric__delta metric__delta--best">melhor</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card achievements">
+          <h2 class="task__title">🏆 Conquistas recentes</h2>
+          <ul class="achievements__list">
+            <li class="achievement">
+              <img src="img/medalha1.png" alt="" width="54" height="50">
+              <div class="achievement__text">
+                <h3>Primeiros Passos</h3>
+                <div>
+                  <p>Complete sua primeira lição</p>
+                  <strong>+100 XP</strong>
+                </div>
+              </div>
+            </li>
+            <li class="achievement">
+              <img src="img/medalha2.png" alt="" width="52" height="50">
+              <div class="achievement__text">
+                <h3>Dedicado</h3>
+                <div>
+                  <p>Complete 7 dias seguidos</p>
+                  <strong>+200 XP</strong>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- Continue de onde parou -->
+      <section class="continue" aria-label="Continue de onde parou">
+        <h2 class="continue__title"><span aria-hidden="true">▶</span> Continue de onde parou</h2>
+        <p class="continue__lesson">Lição: Pontuação e Símbolos</p>
+        <p class="continue__percent">65% concluído</p>
+        <div class="bar bar--orange continue__bar" role="progressbar" aria-label="Progresso da lição" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+          <span style="width: 65%"></span>
+        </div>
+        <a class="btn btn--orange continue__btn" href="#">Continuar</a>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

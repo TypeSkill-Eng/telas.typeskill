@@ -1,0 +1,138 @@
+/* ==========================================================
+   TypeSkill — tela "Código" (etapa 2 da recuperação de senha)
+   Usa as classes do projeto (.cartao, .botao, .botao--cheio, ...) e só
+   acrescenta o que é novo: logo, texto do e-mail e os 4 campos do código.
+   Carregue este arquivo DEPOIS de stylesheet.css e cadastro.css.
+   ========================================================== */
+
+/* Cartão centralizado na tela (na tela "Esqueceu a senha?" ele fica à direita) */
+.codigo-cartao {
+    box-sizing: border-box;          /* o padding não aumenta a largura do cartão */
+    justify-self: center;
+    align-self: center;
+    width: min(100%, 468px);
+    padding: 30px 40px 38px;
+    text-align: center;
+}
+
+.codigo-logo {
+    display: block;
+    width: 76px;
+    height: auto;
+    margin: 0 auto 6px;
+}
+
+.codigo-cartao h1 {
+    margin: 0 0 30px;
+    text-align: center;
+    font-size: 1.9rem;
+    line-height: 1.2;
+}
+
+.codigo-cartao .cartao__sub {
+    margin: 0 0 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.codigo-email {
+    margin: 0 0 22px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.codigo-cartao .cartao__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+/* ---------- Os 4 campos do código ---------- */
+.codigo-grupo {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+.codigo-campos {
+    display: flex;
+    justify-content: center;
+    gap: 16px;                       /* espaço entre os campos */
+}
+
+.codigo-campo {
+    width: clamp(44px, 14vw, 52px);  /* largura de cada campo */
+    height: 56px;                    /* altura de cada campo */
+    padding: 0;
+    border: 1.5px solid #1b1b1f;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
+    color: #16161d;
+    font: 700 1.5rem "Poppins", system-ui, sans-serif;
+    text-align: center;
+    caret-color: var(--laranja, #ff5a00);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.codigo-campo:focus {
+    outline: none;
+    border-color: var(--laranja, #ff5a00);
+    box-shadow: 0 0 0 3px rgba(255, 90, 0, 0.25);
+}
+
+.codigo-campo.is-preenchido {
+    border-color: var(--laranja, #ff5a00);
+}
+
+/* Estado de erro: contorno vermelho e um tremidinho */
+.codigo-campos.is-erro .codigo-campo {
+    border-color: #d93025;
+    animation: codigo-tremer 0.3s;
+}
+
+@keyframes codigo-tremer {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-4px); }
+    75%      { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .codigo-campos.is-erro .codigo-campo { animation: none; }
+}
+
+/* ---------- Mensagem e botão ---------- */
+.codigo-mensagem {
+    min-height: 1.4em;               /* reserva o espaço para a tela não "pular" */
+    margin: 14px 0 10px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.codigo-mensagem[data-tipo="erro"] { color: #d93025; }
+.codigo-mensagem[data-tipo="ok"]   { color: #1a8f4d; }
+
+.codigo-cartao .cartao__botao {
+    width: auto;
+    min-width: 160px;
+    margin-top: 0;
+}
+
+/* Texto só para leitores de tela */
+.codigo-cartao .so-leitor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .codigo-cartao { padding: 26px 22px 32px; }
+    .codigo-campos { gap: 10px; }
+}

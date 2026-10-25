@@ -1,11 +1,3 @@
-/* ==========================================================
-   TypeSkill — tela "Código" (etapa 2 da recuperação de senha)
-   Usa as classes do projeto (.cartao, .botao, .botao--cheio, ...) e só
-   acrescenta o que é novo: logo, texto do e-mail e os 4 campos do código.
-   Carregue este arquivo DEPOIS de stylesheet.css e cadastro.css.
-   ========================================================== */
-
-/* Cartão centralizado na tela (na tela "Esqueceu a senha?" ele fica à direita) */
 .codigo-cartao {
     box-sizing: border-box;          /* o padding não aumenta a largura do cartão */
     justify-self: center;

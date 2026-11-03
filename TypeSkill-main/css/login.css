@@ -1,0 +1,73 @@
+
+.login-esqueci {
+    align-self: flex-end;
+    margin-top: -4px;
+    color: var(--laranja);
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.login-esqueci:hover {
+    text-decoration: underline;
+}
+
+.login-separador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: var(--suave);
+    font-size: 0.8rem;
+}
+
+.login-separador::before,
+.login-separador::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--linha);
+}
+
+.login-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 0;
+}
+
+.login-google__icone {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.login-cadastro {
+    margin-top: 26px;
+    font-size: 0.8rem;
+    color: var(--tinta);
+    text-align: center;
+}
+
+
+@media (max-width: 999px) {
+    .login-separador {
+        margin: 16px 0;
+    }
+}
+
+.login-erro {
+    color: #d93025;
+    font-size: 0.8rem;
+    margin: 8px 0;
+}
+
+.login-erro[hidden] {
+    display: none;
+}
+
+.cartao__rodape.login-cadastro span {
+    color: #ff6200 !important;
+    font-weight: 700;
+}

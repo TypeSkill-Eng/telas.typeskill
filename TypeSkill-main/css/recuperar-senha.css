@@ -1,0 +1,74 @@
+.recuperar-cartao {
+    justify-self: end;
+}
+
+.recuperar-simbolo {
+    margin: 18px 0 12px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.recuperar-cartao h1 {
+    text-align: center;
+    font-size: 1.45rem;
+}
+
+.recuperar-cartao .cartao__sub {
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.recuperar-cartao .cartao__form {
+    gap: 14px;
+}
+
+.recuperar-cartao .cartao__botao {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.recuperar-mensagem {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.recuperar-instrucao {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--suave);
+}
+
+.recuperar-codigo {
+    margin-top: 18px;
+}
+
+.recuperar-codigo[hidden] {
+    display: none;
+}
+
+.recuperar-voltar {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.82rem;
+}
+
+.recuperar-voltar a {
+    display: inline-block;
+    margin-left: 4px;
+    color: var(--laranja);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.recuperar-voltar a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 999px) {
+    .recuperar-cartao {
+        justify-self: center;
+    }
+}

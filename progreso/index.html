@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TypeSkill - Meu Progresso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= MENU LATERAL ================= -->
+  <aside class="sidebar">
+    <div class="logo"><img src="img/logo.png" alt=""><span><b>T</b>ypeSkill</span></div>
+
+    <nav class="menu">
+      <a href="#inicio"><img src="img/ic-inicio.png" alt="">Início</a>
+      <a href="#missoes"><img src="img/ic-missoes.png" alt="">Missões</a>
+      <a href="#praticar"><img src="img/ic-praticar.png" alt="">Praticar</a>
+      <a href="#conquistas"><img src="img/ic-conquistas.png" alt="">Conquistas</a>
+      <a href="#progresso" class="ativo"><img src="img/ic-praticar.png" alt="">Progresso</a>
+      <a href="#certificados"><img src="img/ic-certificados.png" alt="">Certificados</a>
+      <a href="#perfil"><img src="img/ic-perfil.png" alt="">Perfil</a>
+      <a href="#config"><img src="img/configuracao.png" alt="">Configurações</a>
+    </nav>
+
+    <div class="meta-diaria">
+      <strong>Meta Diária</strong>
+      <div class="minutos"><img src="assets/icons/fogo.png" alt="">15/20 Minutos</div>
+      <div class="barra"><span style="width:75%"></span></div>
+      <div class="incentivo">Continue assim!</div>
+    </div>
+  </aside>
+
+  <!-- ================= CONTEÚDO ================= -->
+  <main class="main">
+
+    <!-- Topo -->
+    <header class="topo">
+      <div>
+        <h1>Meu Progresso</h1>
+        <p class="subtitulo">Acompanhe sua evolução e continue crescendo</p>
+      </div>
+      <div class="status">
+        <div class="status-item"><img src="img/🔥.png" alt=""><span><b>7</b>Sequência</span></div>
+        <div class="status-item"><img src="img/icone de estrela.png" alt=""><span><b>1.708</b>XP</span></div>
+        <div class="status-item"><img src="img/icone de baú 1.png" alt=""></div>
+      </div>
+    </header>
+
+    <!-- Cards de números -->
+    <section class="cards">
+
+      <div class="card card--laranja card-nivel">
+        <img src="img/medalha.png" alt="">
+        <div>
+          <h3>Nível Atual</h3>
+          <div class="numero">7</div>
+          <small>Digitador Experiente</small>
+        </div>
+      </div>
+
+      <div class="card card--laranja card-proximo">
+        <h3>Próximo Nível 8</h3>
+        <small>Falta <b>286</b> XP para subir de nível</small>
+        <div class="barra"><span style="width:85.4%"></span></div>
+        <div class="xp">1.708 / 2.000 XP</div>
+      </div>
+
+      <div class="card card--verde card-geral">
+        <h3>Progresso geral</h3>
+        <div class="numero">76%</div>
+        <div class="barra barra--verde"><span style="width:76%"></span></div>
+        <small>78% concluído</small>
+      </div>
+
+      <div class="card card--verde card-atividades">
+        <h3>ATIVIDADES CONCLUÍDAS</h3>
+        <div class="metrica"><img src="img/concluiu.png" alt=""><div class="numero">45</div></div>
+        <div class="centro"><small>Total</small></div>
+      </div>
+
+      <div class="card card--verde card-metrica">
+        <h3>PRECISÃO MÉDIA</h3>
+        <div class="metrica"><img src="img/precisao.png" alt=""><div class="numero">96%</div></div>
+        <div class="centro"><small>Geral</small></div>
+      </div>
+
+      <div class="card card-metrica">
+        <h3>VELOCIDADE MÉDIA</h3>
+        <div class="metrica"><img src="img/raio.png" alt=""><div class="numero">58 PPM</div></div>
+        <div class="centro"><small>Palavras por minuto</small></div>
+      </div>
+
+      <div class="card card-metrica">
+        <h3>MELHOR MARCA</h3>
+        <div class="metrica"><img src="img/trofeu.png" alt=""><div class="numero">72 PPM</div></div>
+        <div class="centro"><small>Seu melhor resultado</small></div>
+      </div>
+
+      <div class="card card-semanal">
+        <img src="img/Cadendario.png" alt="">
+        <div>
+          <h3>META SEMANAL</h3>
+          <small>Complete 5 atividades</small>
+          <div class="numero">4 / 5</div>
+          <small>Atividades concluídas</small>
+          <div class="linha-barra">
+            <div class="barra"><span style="width:80%"></span></div>
+            <small>80%</small>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Gráfico -->
+    <section class="painel">
+      <div class="painel-topo">
+        <div>
+          <h2>Seu progresso</h2>
+          <p class="subtitulo">Veja seu desempenho geral na plataforma.</p>
+        </div>
+        <select aria-label="Período">
+          <option>Este mês</option>
+          <option>Esta semana</option>
+          <option>Este ano</option>
+        </select>
+      </div>
+
+      <svg class="grafico" viewBox="0 0 1400 440" role="img" aria-label="Progresso semanal: 20%, 33%, 52%, 68% e 81%">
+        <!-- Porcentagens do lado esquerdo -->
+        <text class="eixo-y" x="62" y="37">100%</text>
+        <text class="eixo-y" x="62" y="118">75%</text>
+        <text class="eixo-y" x="62" y="212">50%</text>
+        <text class="eixo-y" x="62" y="300">25%</text>
+        <text class="eixo-y" x="62" y="380">0%</text>
+
+        <!-- Moldura e linhas de grade -->
+        <rect class="moldura" x="100" y="20" width="1290" height="355" rx="18"/>
+        <line class="grade" x1="100" x2="1390" y1="104" y2="104"/>
+        <line class="grade" x1="100" x2="1390" y1="188" y2="188"/>
+        <line class="grade" x1="100" x2="1390" y1="272" y2="272"/>
+
+        <!-- Linha e pontos (para mudar um valor, altere o "y" do ponto) -->
+        <polyline class="linha" points="172,342 468,264 744,180 1003,127 1329,86"/>
+        <circle class="ponto" cx="172"  cy="342" r="10"/>
+        <circle class="ponto" cx="468"  cy="264" r="10"/>
+        <circle class="ponto" cx="744"  cy="180" r="10"/>
+        <circle class="ponto" cx="1003" cy="127" r="10"/>
+        <circle class="ponto" cx="1329" cy="86"  r="10"/>
+
+        <!-- Valores em cima de cada ponto -->
+        <text class="valor" x="172"  y="316">20%</text>
+        <text class="valor" x="468"  y="238">33%</text>
+        <text class="valor" x="744"  y="154">52%</text>
+        <text class="valor" x="1003" y="101">68%</text>
+        <text class="valor" x="1329" y="46">81%</text>
+
+        <!-- Semanas -->
+        <text class="semana" x="180"  y="418">Semana 1</text>
+        <text class="semana" x="472"  y="418">Semana 2</text>
+        <text class="semana" x="750"  y="418">Semana 3</text>
+        <text class="semana" x="1005" y="418">Semana 4</text>
+        <text class="semana" x="1330" y="418">Semana 5</text>
+      </svg>
+    </section>
+
+    <!-- Atividades recentes -->
+    <section class="painel painel-recentes">
+      <div class="faixa">Atividades recentes<small>Suas últimas atividades concluídas</small></div>
+      <div class="atividades">
+        <div class="atividade">
+          <div><b>Aula: Teclas Iníciais</b><span>Concluída em 20/05/2026</span></div>
+          <div class="direita"><em>98%</em><br><span>Precisão</span></div>
+        </div>
+        <div class="atividade">
+          <div><b>Aula: Teclas Iníciais</b><span>Concluída em 20/05/2026</span></div>
+          <div class="direita"><em>98%</em><br><span>Precisão</span></div>
+        </div>
+        <div class="atividade">
+          <div><b>Aula: Teclas Iníciais</b><span>Concluída em 20/05/2026</span></div>
+          <div class="direita"><em>98%</em><br><span>Precisão</span></div>
+        </div>
+        <div class="atividade">
+          <div><b>Desafio de Velocidade</b><span>Concluída em 20/05/2026</span></div>
+          <div class="direita"><em class="alerta">85%</em><br><span>Precisão</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner final -->
+    <section class="banner">
+      <div class="mascote"><img src="img/mascote.png" alt=""></div>
+      <div>
+        <h3>Continue assim, Trump!</h3>
+        <p>Você está evoluindo muito! Cada prática te deixa mais -próximo do próximo nível.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

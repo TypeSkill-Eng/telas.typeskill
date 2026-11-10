@@ -1,0 +1,524 @@
+:root {
+  --laranja: #ff5a00;
+  --laranja-claro: #fde8df;
+  --laranja-borda: #ff9a6a;
+  --laranja-menu: #ffc7a8;
+  --verde: #3dd9c5;
+  --texto: #111;
+  --texto-suave: #555;
+  --fundo: #f2f3f7;
+  --branco: #fff;
+  --borda: #e4e4e8;
+  --trilho: #e0b9a8;
+  color-scheme: light;
+}
+
+html {
+  font-size: calc(8px + 0.4167vw);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Poppins", system-ui, sans-serif;
+}
+img {
+  display: block;
+  flex: none;            /* impede a imagem de ser esmagada */
+  object-fit: contain;   /* mantém a proporção da imagem */
+}
+
+/* 3. LAYOUT GERAL ------------------------------------ */
+.app {
+  display: grid;
+  grid-template-columns: 21rem minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 100vh;
+  padding: 1rem;
+}
+.main {
+  min-width: 0;
+  padding: 2rem 1.5rem;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 1.5rem;
+}
+
+/* 4. MENU LATERAL ------------------------------------ */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-self: start;              /* não estica junto com o conteúdo */
+  position: sticky;               /* fica parado enquanto a página rola */
+  top: 1rem;
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: 2rem 1.8rem;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 1.5rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.2rem 0 3rem 0.6rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--texto);
+}
+.logo b {
+  color: var(--laranja);
+}
+.logo img {
+  width: 3.4rem;
+  height: 3.4rem;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  text-decoration: none;
+}
+.menu a img {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+.menu a.ativo {
+  background: var(--laranja-menu);
+  color: var(--laranja);
+}
+
+/* Meta diária (rodapé do menu) */
+.meta-diaria {
+  margin-top: auto;
+  padding: 1.6rem 1.4rem;
+  border: 1px solid var(--borda);
+  border-radius: 1.4rem;
+  font-size: 1.05rem;
+}
+.meta-diaria strong {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.meta-diaria .barra {
+  height: 0.7rem;
+  margin: 0.4rem 0 0;
+}
+.meta-diaria .minutos {
+  margin-top: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+.meta-diaria .minutos img {
+  width: 1rem;
+  height: 1rem;
+}
+.meta-diaria .incentivo {
+  margin-top: 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 5. TOPO DA PÁGINA ---------------------------------- */
+.topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.topo h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.subtitulo {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 2rem;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+}
+.status-item img {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+.status-item b {
+  display: block;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--texto);
+}
+
+/* 6. CARDS DE NÚMEROS -------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 27fr) minmax(0, 30.6fr) minmax(0, 31.3fr) minmax(0, 35.2fr);
+  gap: 2.2rem 5rem;
+  margin-top: 1.6rem;
+}
+.card {
+  min-width: 0;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid var(--borda);
+  border-radius: 1.4rem;
+}
+.card--laranja {
+  background: var(--laranja-claro);
+  border-color: var(--laranja-borda);
+}
+.card--verde {
+  border-color: var(--verde);
+}
+.card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.card small {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+.numero {
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.centro {
+  text-align: center;
+}
+
+/* Barra de progresso (usada em vários cards) */
+.barra {
+  height: 0.75rem;
+  overflow: hidden;
+  background: var(--trilho);
+  border-radius: 1rem;
+}
+.barra > span {
+  display: block;
+  height: 100%;
+  background: var(--laranja);
+  border-radius: 1rem;
+}
+.barra--verde > span {
+  background: var(--verde);
+}
+
+/* Card: nível atual */
+.card-nivel {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.card-nivel img {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+.card-nivel > div {
+  flex: 1;
+  text-align: center;
+}
+.card-nivel .numero {
+  font-weight: 700;
+  color: var(--laranja);
+}
+.card-nivel small {
+  color: var(--texto);
+}
+
+/* Card: próximo nível */
+.card-proximo .barra {
+  margin-top: 0.7rem;
+}
+.xp {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--laranja);
+}
+
+/* Card: progresso geral */
+.card-geral .numero {
+  color: var(--verde);
+}
+.card-geral .barra {
+  margin: 0.3rem 0 0.4rem;
+}
+
+/* Card: atividades concluídas */
+.card-atividades h3 {
+  text-align: right;
+}
+.card-atividades .numero {
+  color: var(--verde);
+}
+
+/* Cards com ícone + número (precisão, velocidade, melhor marca) */
+.card-metrica h3 {
+  text-align: center;
+}
+.metrica {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.metrica img,
+.card-atividades img {
+  width: 3rem;
+  height: 3rem;
+}
+.card-atividades .metrica {
+  justify-content: flex-start;
+}
+
+/* Card: meta semanal */
+.card-semanal {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.card-semanal img {
+  width: 3rem;
+  height: 3rem;
+}
+.card-semanal > div {
+  flex: 1;
+}
+.card-semanal .numero {
+  margin-left: 1rem;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+.card-semanal .linha-barra {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.card-semanal .barra {
+  flex: 1;
+  height: 0.6rem;
+}
+.card-semanal .linha-barra small {
+  font-weight: 600;
+  color: var(--texto);
+}
+
+/* 7. PAINÉIS (gráfico e atividades) ------------------ */
+.painel {
+  margin-top: 2rem;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid var(--borda);
+  border-radius: 1.4rem;
+}
+.painel-topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.painel-topo > div {
+  padding-left: 2rem;
+}
+.painel-topo h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+select {
+  min-width: 14rem;
+  padding: 0.9rem 1.5rem;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--texto);
+  background: var(--branco);
+  border: 1px solid var(--laranja-borda);
+  border-radius: 1rem;
+
+  
+  appearance: none;
+  padding-right: 3.2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 9l7 7 7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  background-size: 1.1rem;
+  cursor: pointer;
+}
+select:focus-visible,
+.menu a:focus-visible { outline: 3px solid var(--laranja); outline-offset: 2px; }
+
+/* Gráfico (o SVG escala sozinho) */
+.grafico {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0.6rem;
+}
+.grafico text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  fill: var(--texto);
+}
+.grafico .moldura { fill: none; stroke: #ff7a3d; }
+.grafico .grade   { stroke: #ff7a3d; stroke-opacity: 0.7; }
+.grafico .linha   { fill: none; stroke: var(--laranja); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.grafico .ponto   { fill: var(--laranja); }
+.grafico .eixo-y  { font-size: 23px; text-anchor: end; }
+.grafico .valor   { font-size: 19px; text-anchor: middle; }
+.grafico .semana  { font-size: 20px; text-anchor: middle; }
+
+/* Atividades recentes */
+.painel-recentes {
+  text-align: center;
+}
+.faixa {
+  width: 58%;
+  margin: 0.5rem auto 2.2rem;
+  padding: 0.6rem 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--branco);
+  background: var(--laranja);
+  border-radius: 1.2rem;
+}
+.faixa small {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.atividades {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+}
+.atividade {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  column-gap: 1rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  border: 1px solid var(--laranja-borda);
+  border-radius: 1.2rem;
+}
+.atividade > div { display: contents; }
+.atividade br { display: none; }
+.atividade b {
+  grid-area: 1 / 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.atividade span {
+  grid-area: 2 / 1;
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+}
+.atividade em {
+  grid-area: 1 / 2;
+  text-align: right;
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--verde);
+}
+.atividade .direita span {
+  grid-area: 2 / 2;
+  text-align: right;
+  font-size: 0.9rem;
+}
+.atividade em.alerta {
+  color: var(--laranja);
+}
+
+/* 8. BANNER FINAL ------------------------------------ */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  margin-top: 2.2rem;
+  padding: 1.4rem 1.6rem;
+  background: var(--laranja-claro);
+  border: 1.5px solid var(--laranja-borda);
+  border-radius: 1.4rem;
+}
+.mascote {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 8.2rem;
+  height: 8.2rem;
+  background: #ffb48f;
+  border-radius: 50%;
+}
+.mascote img {
+  width: 75%;
+  height: 75%;
+}
+.banner h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.banner p {
+  max-width: 32rem;
+  margin-top: 0.3rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+/* 9. TELAS PEQUENAS (celular) -------------------------
+   Muda só o encaixe dos blocos. O tamanho continua
+   proporcional à largura (nada de tamanho fixo).       */
+@media (max-width: 900px) {
+  html { font-size: calc(9px + 0.6vw); }
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: static; height: auto; }
+  .menu { flex-direction: row; flex-wrap: wrap; }
+  .meta-diaria { margin-top: 1.2rem; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .atividades { flex-wrap: wrap; }
+  .atividade { flex: 1 1 45%; }
+  .status { gap: 1.4rem; padding-right: 0; }
+}
+@media (max-width: 560px) {
+  html { font-size: calc(10px + 1vw); }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .atividade { flex-basis: 100%; }
+  .banner { flex-direction: column; gap: 1rem; text-align: center; }
+  .faixa { width: 100%; }
+}

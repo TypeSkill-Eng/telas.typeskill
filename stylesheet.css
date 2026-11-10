@@ -1,0 +1,672 @@
+
+:root {
+  color-scheme: light;
+
+  --fundo: #f6f7fb;        /* cinza bem claro, levemente azulado */
+  --superficie: #ffffff;
+  --tinta: #15151b;        /* texto principal */
+  --suave: #6a6e7a;        /* texto secundário */
+  --linha: #e6e8ef;
+  --laranja: #ff6200;
+  --laranja-escuro: #d94c00;
+  --pessego: #ffe6cf;
+  --pessego-claro: #fff3e7;
+  --pixel: #ffbf8f;        /* textos "de jogo" no fundo */
+  --noite: #0f0f12;        /* rodapé */
+  --noite-texto: #a5a7b0;
+
+  --fonte: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --fonte-pixel: "Press Start 2P", "Courier New", monospace;
+
+  --raio: 18px;
+  --sombra: 0 10px 30px rgba(30, 24, 60, .07);
+  --sombra-forte: 0 22px 44px rgba(255, 98, 0, .18);
+
+  /* teclado 3D */
+  --tecla: clamp(46px, 6.8vw, 90px);  /* tamanho de cada tecla */
+  --alt: 18px;                      /* altura da tecla solta */
+  --baixa: 6px;                     /* altura da tecla apertada */
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.12; }
+:focus-visible { outline: 3px solid var(--laranja); outline-offset: 3px; border-radius: 6px; }
+
+/* largura máxima + margem lateral em um lugar só */
+.container { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+.destaque { color: var(--laranja); }
+
+/* ---------- 3. Botões ---------- */
+.botao {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px;
+  border: 1.5px solid transparent; border-radius: 10px;
+  font: 600 .875rem/1 var(--fonte);
+  cursor: pointer; white-space: nowrap;
+  transition: transform .2s, box-shadow .2s, background-color .2s, border-color .2s;
+}
+.botao--cheio { background: var(--laranja); color: #fff; box-shadow: 0 6px 16px rgba(255, 98, 0, .28); }
+.botao--cheio:hover { background: var(--laranja-escuro); transform: translateY(-2px); box-shadow: 0 10px 22px rgba(255, 98, 0, .34); }
+.botao--vazado { background: var(--superficie); border-color: var(--linha); color: var(--tinta); }
+.botao--vazado:hover { border-color: var(--laranja); color: var(--laranja); transform: translateY(-2px); }
+.botao .seta { transition: transform .2s; }
+.botao:hover .seta { transform: translateX(4px); }
+
+/* ---------- 4. Cabeçalho ---------- */
+.topo {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: rgba(246, 247, 251, .86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linha);
+}
+.topo__linha { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.marca { display: inline-flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.50rem; letter-spacing: -.01em; }
+  .marca__logo {
+    width: 70px; height: 95px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .25));
+    flex: none;
+  }
+.marca__tecla {
+  display: grid; place-items: center;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--laranja); color: #fff;
+  font: 400 .8rem/1 var(--fonte-pixel);
+  box-shadow: 0 4px 0 var(--laranja-escuro);
+}
+.menu { display: flex; gap: 28px; font-size: .875rem; font-weight: 500; }
+.menu a { padding-block: 6px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+.menu a:hover { color: var(--laranja); }
+.menu .ativo { color: var(--laranja); border-color: var(--laranja); }
+.topo__acoes { display: flex; gap: 10px; }
+
+/* ---------- 5. Herói ---------- */
+.heroi { position: relative; overflow: hidden; }
+.heroi__conteudo { position: relative; z-index: 2; padding-block: 64px 132px; }
+.heroi__texto { max-width: 470px; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
+
+.etiqueta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: 999px;
+  background: var(--pessego-claro); color: var(--laranja);
+  font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+}
+.heroi h1 { font-size: clamp(2.5rem, 5.4vw, 3.9rem); font-weight: 700; letter-spacing: -.025em; }
+.heroi h1 span { display: block; }
+.heroi__resumo { color: var(--suave); max-width: 42ch; }
+.heroi__botoes { display: flex; flex-wrap: wrap; gap: 12px; }
+.vantagens { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: .8rem; font-weight: 600; }
+
+/* --- 5a. Enfeites do fundo (todos animados) --- */
+.enfeite { position: absolute; pointer-events: none; }
+
+/* grade de pontinhos que desliza: o fundo anda exatamente 1 "quadrado"
+   (16px) e recomeça, então o movimento parece infinito */
+.pontos {
+  width: 150px; height: 110px;
+  background-image: radial-gradient(circle, #d3d6e2 1.6px, transparent 2px);
+  background-size: 16px 16px;
+  animation: pontos-andam 5s linear infinite;
+}
+@keyframes pontos-andam { to { background-position: 16px 16px; } }
+
+/* sinais de + e brilhos que piscam e giram */
+.brilho {
+  left: var(--x); top: var(--y);
+  color: var(--laranja); font-weight: 700; font-size: var(--t, 1.1rem); line-height: 1;
+  animation: pisca 3.6s ease-in-out var(--d, 0s) infinite;
+}
+@keyframes pisca {
+  0%, 100% { transform: scale(.5) rotate(0deg); opacity: .25; }
+  50%      { transform: scale(1.2) rotate(90deg); opacity: 1; }
+}
+
+/* coisas que flutuam para cima e para baixo */
+.flutua { left: var(--x); top: var(--y); animation: flutua var(--v, 6s) ease-in-out var(--d, 0s) infinite; }
+@keyframes flutua {
+  0%, 100% { transform: translateY(0) rotate(var(--g, 0deg)); }
+  50%      { transform: translateY(-16px) rotate(calc(var(--g, 0deg) * -1)); }
+}
+
+/* meio sol no canto de baixo */
+.sol {
+  left: -70px; bottom: -90px; width: 230px; height: 230px; border-radius: 50%;
+  background: radial-gradient(circle, #ffd9b5 0%, #ffe9d6 55%, transparent 72%);
+  animation: respira 7s ease-in-out infinite;
+}
+@keyframes respira { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+
+.coracao { width: var(--t, 34px); fill: currentColor; display: block; }
+.estrela { width: 46px; display: block; }
+.trofeu { font-size: 3rem; filter: grayscale(1) opacity(.22); }
+
+/* --- 5b. Metade direita: onda pêssego + textos de jogo + teclado --- */
+.heroi__arte { position: absolute; inset: 0 0 0 auto; width: 57%; z-index: 1; }
+
+.onda { position: absolute; top: 0; right: -6%; width: 112%; height: 100%; }
+.onda--fundo { animation: onda-vai 9s ease-in-out infinite; }
+.onda--linha { animation: onda-vai 13s ease-in-out infinite reverse; }
+@keyframes onda-vai { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-22px); } }
+
+.luz {
+  right: 8%; bottom: 6%; width: 46%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 60, .5), transparent 68%);
+  filter: blur(22px);
+  animation: respira 6s ease-in-out infinite;
+}
+
+.px { font-family: var(--fonte-pixel); color: var(--pixel); white-space: nowrap; line-height: 1.2; }
+
+/* +500 XP: uma "janela" de 1 linha de altura mostra uma fita com os
+   números empilhados; a fita sobe um número por vez e volta ao começo */
+.xp { font-size: clamp(1rem, 2.1vw, 1.55rem); color: #ff9447; text-shadow: 0 3px 0 rgba(255, 255, 255, .8); }
+.xp__janela { display: inline-block; height: 1.2em; overflow: hidden; vertical-align: bottom; }
+.xp__fita { display: flex; flex-direction: column; animation: xp-troca 5.4s cubic-bezier(.7, 0, .2, 1) infinite; }
+.xp__fita span { height: 1.2em; }
+@keyframes xp-troca {
+  0%, 24%   { transform: translateY(0); }      /* 500 */
+  33%, 57%  { transform: translateY(-25%); }   /* 900 */
+  66%, 90%  { transform: translateY(-50%); }   /* 300 */
+  100%      { transform: translateY(-75%); }   /* 500 de novo (cópia) */
+}
+
+.level { font-size: clamp(.7rem, 1.4vw, 1rem); animation: flutua 5s ease-in-out infinite, acende 1.8s steps(2, jump-none) infinite; }
+@keyframes acende { from { opacity: .45; } to { opacity: 1; } }
+
+/* +100 que sobe e some, como ponto ganho em jogo */
+.ganho { left: var(--x); top: var(--y); font-size: clamp(.65rem, 1.2vw, .9rem); animation: sobe 3.2s ease-out infinite; }
+@keyframes sobe {
+  0%   { transform: translateY(18px); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translateY(-34px); opacity: 0; }
+}
+
+.vidas { display: flex; gap: 6px; color: #ffc9a0; }
+.vidas .coracao { animation: bate 1.6s ease-in-out infinite; }
+.vidas .coracao:nth-child(2) { animation-delay: .2s; }
+.vidas .coracao:nth-child(3) { animation-delay: .4s; }
+@keyframes bate { 0%, 100% { transform: scale(1); } 18% { transform: scale(1.22); } 36% { transform: scale(1); } }
+
+/* --- 5c. Teclado 3D em CSS puro ---
+   .cena dá a perspectiva; .teclado é um plano deitado (rotateX) e
+   girado (rotateZ). Cada tecla é a face de cima levantada com
+   translateZ; ::before e ::after são as duas laterais visíveis. */
+.cena { position: absolute; right: -3%; bottom: 9%; perspective: 1400px; }
+.teclado {
+  position: relative;
+  display: flex; flex-direction: column; gap: calc(var(--tecla) * .14);
+  padding: calc(var(--tecla) * .26);
+  background: #ffd3ae; border-radius: 10px;
+  transform-style: preserve-3d;
+  transform: rotateX(56deg) rotateZ(-32deg);
+  animation: teclado-boia 6s ease-in-out infinite;
+}
+@keyframes teclado-boia {
+  0%, 100% { transform: rotateX(56deg) rotateZ(-32deg) translateZ(0); }
+  50%      { transform: rotateX(56deg) rotateZ(-32deg) translateZ(18px); }
+}
+.teclado::before, .teclado::after, .tecla::before, .tecla::after { content: ""; position: absolute; }
+/* lateral da frente: dobra 90° para baixo a partir da borda de baixo */
+.teclado::before { left: 0; top: 100%; width: 100%; height: 16px; background: #eeb083; transform-origin: top; transform: rotateX(-90deg); }
+/* lateral esquerda: dobra 90° para baixo a partir da borda esquerda */
+.teclado::after { right: 100%; top: 0; width: 16px; height: 100%; background: #f6c49b; transform-origin: right; transform: rotateY(-90deg); }
+.teclado__sombra {
+  position: absolute; inset: 10% -6% -14% 6%; border-radius: 40px;
+  background: rgba(210, 110, 40, .38); filter: blur(26px);
+  transform: translateZ(-60px);
+}
+
+.fileira { display: flex; gap: calc(var(--tecla) * .14); transform-style: preserve-3d; }
+.fileira:nth-child(3) { margin-left: calc(var(--tecla) * .3); }
+.fileira:nth-child(4) { margin-left: calc(var(--tecla) * .6); }
+
+.tecla {
+  --topo: linear-gradient(145deg, #ffffff, #f4ece5);
+  --frente: #d9c8ba;
+  --lado: #e8dcd1;
+  position: relative;
+  display: grid; place-items: center;
+  width: var(--tecla); height: var(--tecla); border-radius: 8px;
+  background: var(--topo); color: #91857b;
+  font-weight: 600; font-size: calc(var(--tecla) * .34);
+  transform-style: preserve-3d;
+  transform: translateZ(var(--alt));
+  /* cada tecla espera a sua vez: --i é a posição dela na fila */
+  animation: tecla-topo 6s calc(var(--i) * .4s) infinite;
+}
+.tecla::before {
+  left: 0; top: 100%; width: 100%; height: var(--alt);
+  background: var(--frente); transform-origin: top; transform: rotateX(-90deg);
+  animation: tecla-frente 6s calc(var(--i) * .4s) infinite;
+}
+.tecla::after {
+  right: 100%; top: 0; width: var(--alt); height: 100%;
+  background: var(--lado); transform-origin: right; transform: rotateY(-90deg);
+  animation: tecla-lado 6s calc(var(--i) * .4s) infinite;
+}
+/* a tecla desce e as laterais encolhem junto, no mesmo tempo */
+@keyframes tecla-topo   { 0%, 9%, 100% { transform: translateZ(var(--alt)); } 4% { transform: translateZ(var(--baixa)); } }
+@keyframes tecla-frente { 0%, 9%, 100% { height: var(--alt); } 4% { height: var(--baixa); } }
+@keyframes tecla-lado   { 0%, 9%, 100% { width: var(--alt); }  4% { width: var(--baixa); } }
+
+.tecla--laranja {
+  --topo: linear-gradient(145deg, #ff8a33, #ff5a00);
+  --frente: #c24300;
+  --lado: #e25200;
+  color: #fff;
+  box-shadow: 0 0 34px rgba(255, 98, 0, .55);
+}
+
+/* ---------- 6. Faixa de números ---------- */
+.numeros { position: relative; z-index: 3; margin-top: -58px; }
+.numeros__titulo {
+  display: block; width: fit-content; margin: 0 auto 10px;
+  color: var(--laranja); font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+}
+.numeros__caixa {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+  padding: 24px 20px; border-radius: var(--raio);
+  background: var(--pessego-claro); border: 1px solid #ffe2c8;
+  box-shadow: var(--sombra);
+}
+.numero { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; min-width: 0; }
+.numero strong { color: var(--laranja); font-size: 1.6rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.numero span { color: var(--suave); font-size: .78rem; }
+.numero--convite strong { font-size: 1.5rem; }
+.numero--convite { transition: transform .2s; }
+.numero--convite:hover { transform: translateY(-3px); }
+.numero--convite:hover span { color: var(--laranja); }
+
+/* ---------- 7. Os 4 passos (cards que abrem no hover) ---------- */
+.passos { padding-block: 88px 104px; scroll-margin-top: 70px; }
+.passos h2 { text-align: center; font-size: clamp(1.6rem, 3.2vw, 2.15rem); font-weight: 700; letter-spacing: -.02em; margin-bottom: 44px; }
+.passos__grade { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.passo {
+  --extra: 5.4rem;               /* quanto o card cresce ao abrir */
+  position: relative;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 22px; border-radius: var(--raio);
+  background: var(--superficie); border: 1.5px solid transparent;
+  box-shadow: var(--sombra);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s, border-color .35s, margin-bottom .35s;
+}
+.passo__num {
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px;
+  background: var(--laranja); color: #fff; font-size: .72rem; font-weight: 700;
+  transition: transform .35s;
+}
+.passo__icone { font-size: 1.9rem; line-height: 1; margin-top: 8px; transition: transform .35s; transform-origin: left bottom; }
+.passo h3 { font-size: .98rem; font-weight: 700; }
+.passo p { color: var(--suave); font-size: .82rem; line-height: 1.55; }
+
+/* parte escondida: altura 0 → --extra */
+.passo__mais {
+  height: 0; overflow: hidden; opacity: 0;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;
+  transition: height .35s cubic-bezier(.2, .8, .2, 1), opacity .3s;
+}
+.passo__mais p { border-top: 1px dashed var(--linha); padding-top: 10px; }
+.passo__xp { font: 400 .62rem/1 var(--fonte-pixel); color: var(--laranja); }
+
+.passo:hover, .passo:focus-visible {
+  z-index: 2;
+  transform: translateY(-10px);
+  border-color: var(--laranja);
+  box-shadow: var(--sombra-forte);
+}
+.passo:hover .passo__mais, .passo:focus-visible .passo__mais { height: var(--extra); opacity: 1; }
+.passo:hover .passo__num, .passo:focus-visible .passo__num { transform: rotate(-8deg) scale(1.1); }
+.passo:hover .passo__icone, .passo:focus-visible .passo__icone { transform: scale(1.25) rotate(-6deg); }
+
+/* Com 4 colunas, a margem negativa "devolve" a altura extra: o card
+   cresce por cima do espaço de baixo e o resto da página não pula. */
+@media (min-width: 1000px) {
+  .passo:hover, .passo:focus-visible { margin-bottom: calc(var(--extra) * -1); }
+}
+/* Em telas de toque não existe hover: o card já fica aberto. */
+@media (hover: none) {
+  .passo__mais { height: var(--extra); opacity: 1; }
+}
+
+/* ---------- 8. Chamada final ---------- */
+.chamada { padding-bottom: 96px; scroll-margin-top: 90px; }
+.chamada__caixa {
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px;
+  padding: clamp(28px, 5vw, 52px); border-radius: 22px;
+  background: var(--pessego-claro); border: 1px solid #ffe2c8;
+}
+.chamada h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); font-weight: 700; letter-spacing: -.02em; max-width: 16ch; }
+.inscricao { display: flex; gap: 10px; min-width: 0; }
+.inscricao input {
+  flex: 1; min-width: 0; padding: 12px 16px;
+  border: 1.5px solid transparent; border-radius: 10px;
+  background: var(--superficie); color: var(--tinta);
+  font: 400 .875rem var(--fonte);
+  transition: border-color .2s, box-shadow .2s;
+}
+.inscricao input::placeholder { color: #a9adb8; }
+.inscricao input:focus { outline: none; border-color: var(--laranja); box-shadow: 0 0 0 4px rgba(255, 98, 0, .15); }
+.so-leitor { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- 9. Rodapé ---------- */
+.rodape { background: var(--noite); color: var(--noite-texto); border-radius: 22px 22px 0 0; font-size: .82rem; }
+.rodape__grade { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 32px; padding-block: 52px 36px; }
+.rodape .marca { color: #fff; margin-bottom: 12px; }
+.rodape__sobre p { max-width: 26ch; }
+.rodape h3 { color: #fff; font-size: .82rem; font-weight: 600; margin-bottom: 14px; }
+.rodape ul { display: flex; flex-direction: column; gap: 9px; }
+.rodape li a { transition: color .2s, padding-left .2s; }
+.rodape li a:hover { color: var(--laranja); padding-left: 4px; }
+.rodape__fim { border-top: 1px solid #25252b; padding-block: 20px; text-align: center; font-size: .75rem; }
+
+/* ---------- 10. Telas menores ---------- */
+@media (max-width: 999px) {
+  .passos__grade { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .menu { display: none; }
+  .heroi__conteudo { padding-block: 44px 0; }
+  .heroi__texto { max-width: 560px; }
+  /* a arte sai de trás do texto e vira um bloco embaixo dele */
+  .heroi__arte { position: relative; inset: auto; width: 100%; height: 380px; margin-top: 12px; }
+  .onda { right: -30%; width: 150%; }
+  .cena { bottom: 22%; }
+  .sol, .esconde-no-celular { display: none; }
+  .numeros__caixa { grid-template-columns: repeat(2, 1fr); gap: 22px 8px; }
+  .numero--convite { grid-column: 1 / -1; }
+  .chamada__caixa { grid-template-columns: 1fr; }
+  .chamada h2 { max-width: none; }
+  .rodape__grade { grid-template-columns: repeat(2, 1fr); }
+  .rodape__sobre { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .topo__acoes .botao--vazado { display: none; }
+  .passos__grade { grid-template-columns: 1fr; }
+  .passos { padding-block: 64px 72px; }
+  .inscricao { flex-direction: column; }
+  .inscricao .botao { justify-content: center; }
+}
+
+/*--------11. MODO NOTURNO -----------*/
+.tema__check { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+/* o trilho do interruptor */
+.tema {
+  position: relative; flex: none; align-self: center;
+  width: 56px; height: 30px; border-radius: 999px;
+  background: var(--superficie); border: 1.5px solid var(--linha);
+  cursor: pointer;
+  transition: background-color .3s, border-color .3s;
+}
+.tema:hover { border-color: var(--laranja); }
+.tema__check:focus-visible + .tema { outline: 3px solid var(--laranja); outline-offset: 3px; }
+
+/* a bolinha: sol laranja no modo claro... */
+.tema::after {
+  content: ""; position: absolute; top: 3px; left: 4px;
+  width: 21px; height: 21px; border-radius: 50%;
+  background: var(--laranja);
+  box-shadow: 0 0 10px rgba(255, 98, 0, .5);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), background-color .35s, box-shadow .35s;
+}
+/* ...que desliza para a direita e vira lua (sombra interna recorta o círculo) */
+.tema__check:checked + .tema::after {
+  transform: translateX(25px);
+  background: transparent;
+  box-shadow: inset 7px -3px 0 0 #ffd27a;
+}
+
+body { transition: background-color .4s, color .4s; }
+
+/* novas cores quando o modo noturno está ligado */
+:root:has(#modo-noturno:checked) {
+  color-scheme: dark;
+  --fundo: #121219;
+  --superficie: #1c1d27;
+  --tinta: #f1f1f5;
+  --suave: #a2a5b3;
+  --linha: #2c2d3b;
+  --laranja: #ff7424;
+  --laranja-escuro: #e85d0c;
+  --pessego: #3a2618;
+  --pessego-claro: #221915;
+  --pixel: #a8592a;
+  --noite: #0b0b0f;
+  --sombra: 0 10px 30px rgba(0, 0, 0, .35);
+  --sombra-forte: 0 22px 44px rgba(255, 116, 36, .16);
+}
+
+/* partes que tinham cor escrita direto (sem variável) */
+:root:has(#modo-noturno:checked) .topo { background: rgba(18, 18, 25, .86); }
+:root:has(#modo-noturno:checked) .pontos { background-image: radial-gradient(circle, #353849 1.6px, transparent 2px); }
+:root:has(#modo-noturno:checked) .sol { background: radial-gradient(circle, #4a2a14 0%, #2a1c15 55%, transparent 72%); }
+:root:has(#modo-noturno:checked) .onda stop:first-child { stop-color: #1f1714; }
+:root:has(#modo-noturno:checked) .onda stop:last-child { stop-color: #4a2a17; }
+:root:has(#modo-noturno:checked) .onda--linha path { stroke: #8a4a20; }
+:root:has(#modo-noturno:checked) .xp { text-shadow: 0 3px 0 rgba(0, 0, 0, .5); }
+:root:has(#modo-noturno:checked) .vidas { color: #b8622a; }
+:root:has(#modo-noturno:checked) .numeros__caixa,
+:root:has(#modo-noturno:checked) .chamada__caixa { border-color: #3a2a1f; }
+/* o coração cinza tem a cor no style="" do HTML; só !important vence o style="" */
+:root:has(#modo-noturno:checked) .heroi > .flutua.esconde-no-celular { color: #2c2d3b !important; }
+
+/* teclado escuro (a tecla D continua laranja) */
+:root:has(#modo-noturno:checked) .teclado { background: #3b2a20; }
+:root:has(#modo-noturno:checked) .teclado::before { background: #22170f; }
+:root:has(#modo-noturno:checked) .teclado::after { background: #2d1f16; }
+:root:has(#modo-noturno:checked) .teclado__sombra { background: rgba(0, 0, 0, .55); }
+:root:has(#modo-noturno:checked) .tecla:not(.tecla--laranja) {
+  --topo: linear-gradient(145deg, #353641, #292a34);
+  --frente: #15151b;
+  --lado: #1e1f27;
+  color: #b5b8c6;
+}
+
+/* no celular o cabeçalho fica apertado: diminui um pouco */
+@media (max-width: 560px) {
+  .topo__acoes { gap: 8px; }
+  .topo__acoes .botao--cheio { padding: 10px 14px; }
+  .marca { font-size: 1rem; }
+}
+
+/* quem pede menos movimento no sistema vê a página parada */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+/* devanagari */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJbecmNE.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* devanagari */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9Z11lFc-K.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* devanagari */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z11lFc-K.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* devanagari */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z11lFc-K.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* devanagari */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDD4Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDD4Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nYivN04w.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nRivN04w.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nWivN04w.woff2) format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nbivN04w.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

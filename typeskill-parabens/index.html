@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parabéns! | TypeSkill</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="tela">
+
+    <!-- Confetes (decoração). Cor, posição e giro vêm das variáveis de cada <i> -->
+    <div class="confetes" aria-hidden="true">
+      <!-- lado esquerdo -->
+      <i style="--x:19%; --y:11%; --r:35deg;  --c:#ff5a00"></i>
+      <i style="--x:25%; --y:10%; --r:-40deg; --c:#4ed8d0"></i>
+      <i style="--x:16%; --y:17%; --r:80deg;  --c:#ffee00"></i>
+      <i style="--x:22%; --y:18%; --r:-20deg; --c:#4020ff"></i>
+      <i style="--x:25%; --y:21%; --r:60deg;  --c:#9b1fff"></i>
+      <i style="--x:28%; --y:23%; --r:-30deg; --c:#ff5a00"></i>
+      <i style="--x:20%; --y:25%; --r:20deg;  --c:#ff1a1a"></i>
+      <i style="--x:16%; --y:26%; --r:-55deg; --c:#9b1fff"></i>
+      <i style="--x:19%; --y:30%; --r:90deg;  --c:#ffee00"></i>
+      <i style="--x:22%; --y:34%; --r:15deg;  --c:#ff1a1a"></i>
+      <!-- lado direito -->
+      <i style="--x:70%; --y:12%; --r:60deg;  --c:#ff5a00"></i>
+      <i style="--x:81%; --y:7%;  --r:-15deg; --c:#4ed8d0"></i>
+      <i style="--x:77%; --y:10%; --r:-60deg; --c:#ff1a1a"></i>
+      <i style="--x:78%; --y:16%; --r:70deg;  --c:#ffee00"></i>
+      <i style="--x:82%; --y:18%; --r:-10deg; --c:#4020ff"></i>
+      <i style="--x:75%; --y:20%; --r:95deg;  --c:#ffee00"></i>
+      <i style="--x:77%; --y:22%; --r:40deg;  --c:#9b1fff"></i>
+      <i style="--x:85%; --y:23%; --r:-30deg; --c:#9b1fff"></i>
+      <i style="--x:74%; --y:27%; --r:-80deg; --c:#ff1a1a"></i>
+      <i style="--x:83%; --y:29%; --r:25deg;  --c:#ff5a00"></i>
+      <i style="--x:79%; --y:31%; --r:-45deg; --c:#4ed8d0"></i>
+    </div>
+
+    <!-- Cabeçalho -->
+    <header class="topo">
+      <div class="topo__titulo">
+        <img class="topo__medalha" src="img/medalha.png" alt="" width="74" height="90">
+        <h1>Parabéns!</h1>
+      </div>
+      <p class="topo__sub">Você concluiu com sucesso o curso</p>
+      <h2 class="curso">Formação Digitação Pro</h2>
+
+      <p class="data">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7 14h.01M11 14h.01M15 14h.01M7 17.5h.01M11 17.5h.01M15 17.5h.01" stroke-width="2.4"/></svg>
+        <span>Data de conclusão: 28 de Maio de 2026</span>
+      </p>
+    </header>
+
+    <!-- Prévia do certificado (troque img/certificado.png pela imagem real gerada pelo sistema) -->
+    <figure class="certificado">
+      <img src="img/certificado.png" alt="Certificado de conclusão da Formação Digitação Pro, emitido pela TypeSkill, com carga horária de 20h e aproveitamento Aprovado com Distinção" width="864" height="480">
+    </figure>
+
+    <!-- Faixa de mensagem -->
+    <p class="mensagem">
+      <img src="img/medalha-mini.png" alt="" width="38" height="42">
+      <span>Missão concluída com sucesso.<br>Continue evoluindo suas habilidades!</span>
+    </p>
+
+    <!-- Botões -->
+    <nav class="acoes" aria-label="Ações do certificado">
+      <a class="btn btn--claro acoes__voltar" href="#">Voltar</a>
+
+      <div class="acoes__grupo">
+        <a class="btn btn--claro" href="#">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg>
+          Visualizar Certificado
+        </a>
+        <a class="btn btn--cheio" href="#" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5"/><path d="M4 17v3h16v-3"/></svg>
+          Baixar PDF
+        </a>
+        <a class="btn btn--claro" href="#">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>
+          Compartilhar
+        </a>
+      </div>
+    </nav>
+
+  </main>
+</body>
+</html>

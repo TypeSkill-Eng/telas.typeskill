@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modo Prática | TypeSkill</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Press+Start+2P&display=swap">
+<!-- primeiro o CSS da landing (cores, botões, animações), depois o desta tela -->
+<link rel="stylesheet" href="css/stylesheet.css">
+<link rel="stylesheet" href="css/praticar.css">
+</head>
+<body>
+
+<!-- desenhos usados mais de uma vez -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="estrela" viewBox="0 0 11 11" shape-rendering="crispEdges">
+    <path d="M5 0h1v1h-1zM4 1h3v1h-3zM4 2h3v1h-3zM0 3h11v1h-11zM0 4h11v1h-11zM1 5h9v1h-9zM2 6h7v1h-7zM2 7h7v1h-7zM1 8h4v1h-4zM6 8h4v1h-4zM1 9h3v1h-3zM7 9h3v1h-3zM1 10h2v1h-2zM8 10h2v1h-2z"/>
+  </symbol>
+  <!-- medalha dos prêmios: as cores vêm do CSS (.medalha--bronze, --prata...) -->
+  <symbol id="medalha" viewBox="0 0 14 15" shape-rendering="crispEdges"><path style="fill:#17120c" d="M0 0h3v1h-3zM11 0h3v1h-3zM0 1h1v1h-1zM3 1h1v1h-1zM10 1h1v1h-1zM13 1h1v1h-1zM1 2h1v1h-1zM4 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM2 3h1v1h-1zM5 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM3 4h1v1h-1zM6 4h2v1h-2zM10 4h1v1h-1zM4 5h6v1h-6zM3 6h1v1h-1zM10 6h1v1h-1zM2 7h1v1h-1zM11 7h1v1h-1zM1 8h1v1h-1zM12 8h1v1h-1zM1 9h1v1h-1zM12 9h1v1h-1zM1 10h1v1h-1zM12 10h1v1h-1zM1 11h1v1h-1zM12 11h1v1h-1zM2 12h1v1h-1zM11 12h1v1h-1zM3 13h1v1h-1zM10 13h1v1h-1zM4 14h6v1h-6z"/><path style="fill:var(--fita)" d="M1 1h2v1h-2zM2 2h2v1h-2zM3 3h2v1h-2zM4 4h2v1h-2z"/><path style="fill:var(--fita-escura)" d="M11 1h2v1h-2zM10 2h2v1h-2zM9 3h2v1h-2zM8 4h2v1h-2z"/><path style="fill:var(--brilho)" d="M4 6h2v1h-2zM3 7h1v1h-1zM6 7h1v1h-1zM2 8h1v1h-1zM6 8h2v1h-2zM2 9h1v1h-1zM4 9h6v1h-6zM5 10h4v1h-4zM5 11h1v1h-1zM8 11h1v1h-1z"/><path style="fill:var(--cor)" d="M6 6h3v1h-3zM4 7h2v1h-2zM7 7h3v1h-3zM3 8h3v1h-3zM8 8h3v1h-3zM3 9h1v1h-1zM10 9h1v1h-1zM2 10h3v1h-3zM9 10h2v1h-2zM2 11h3v1h-3zM6 11h2v1h-2zM9 11h2v1h-2zM3 12h7v1h-7z"/><path style="fill:var(--sombra-m)" d="M9 6h1v1h-1zM10 7h1v1h-1zM11 8h1v1h-1zM11 9h1v1h-1zM11 10h1v1h-1zM11 11h1v1h-1zM10 12h1v1h-1zM4 13h6v1h-6z"/></symbol>
+  <symbol id="ic-teclado" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- ===== MENU LATERAL ===== -->
+  <aside class="lateral">
+    <a class="lateral__marca" href="tela-Inicio.html">
+      <img src="img/LOGO TypeSkill.png" alt="">
+      <span><span class="destaque">T</span>ypeSkill</span>
+    </a>
+
+    <nav class="lateral__nav" aria-label="Menu">
+      <a href="tela-Inicio.html" title="Início"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>Início</a>
+      <a href="#" aria-disabled="true" title="Missões (em breve)"><svg viewBox="0 0 24 24"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>Missões</a>
+      <a class="ativo" href="praticar.html" aria-current="page" title="Praticar"><svg viewBox="0 0 24 24"><use href="#ic-teclado"/></svg>Praticar</a>
+      <a href="#" aria-disabled="true" title="Conquistas (em breve)"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/></svg>Conquistas</a>
+      <a href="#" aria-disabled="true" title="Progresso (em breve)"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progresso</a>
+      <a href="#" aria-disabled="true" title="Certificados (em breve)"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></svg>Certificados</a>
+      <a href="#" aria-disabled="true" title="Perfil (em breve)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Perfil</a>
+      <a href="#" aria-disabled="true" title="Configurações (em breve)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Configurações</a>
+    </nav>
+
+    <div class="meta">
+      <p class="meta__titulo">Meta Diária</p>
+      <p class="meta__valor">🔥 <span id="meta-min">0</span>/<span id="meta-alvo">20</span> Minutos</p>
+      <span class="meta__barra"><span id="meta-barra"></span></span>
+      <p class="meta__frase" id="meta-frase">Continue assim!</p>
+    </div>
+  </aside>
+
+  <!-- ===== PAINEL PRINCIPAL ===== -->
+  <main class="painel">
+
+    <header class="painel__topo">
+      <div class="modo">
+        <span class="modo__icone"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-teclado"/></svg></span>
+        <div>
+          <h1>Modo Prática</h1>
+          <p id="modo-sub">Treino Livre</p>
+        </div>
+      </div>
+      <div class="painel__chips">
+        <div class="chip-sequencia">
+          <span class="chip-sequencia__fogo" aria-hidden="true">🔥</span>
+          <div><span>Sequência</span><strong id="sequencia">0 dias</strong></div>
+        </div>
+        <div class="chip-xp">
+          <svg class="chip-xp__bau" viewBox="0 0 10 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="#5a3413" d="M1 0h8v1h-8zM0 1h1v1h-1zM9 1h1v1h-1zM0 2h1v1h-1zM9 2h1v1h-1zM0 3h4v1h-4zM8 3h2v1h-2zM0 4h1v1h-1zM9 4h1v1h-1zM0 5h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM0 6h1v1h-1zM9 6h1v1h-1zM1 7h8v1h-8z"/><path fill="#b8702e" d="M1 1h8v1h-8zM1 5h3v1h-3zM7 5h2v1h-2zM1 6h8v1h-8z"/><path fill="#8a4f1d" d="M1 2h8v1h-8z"/><path fill="#ffc21a" d="M4 3h4v1h-4zM1 4h4v1h-4zM7 4h2v1h-2zM5 5h1v1h-1z"/><path fill="#fff3b0" d="M5 4h2v1h-2z"/></svg>
+          <div>
+            <strong id="xp-total">0 XP</strong>
+            <span id="nivel">Nível 1</span>
+            <span class="chip-xp__barra"><span id="xp-barra"></span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- opções da prática -->
+    <section class="opcoes" aria-label="Configurar a prática">
+      <div class="opcoes__grupo" data-grupo="tipo" role="group" aria-label="Tipo de prática">
+        <p>Tipo de prática</p>
+        <div class="opcoes__botoes">
+          <button type="button" data-valor="letras">Letras</button>
+          <button type="button" data-valor="palavras">Palavras</button>
+          <button type="button" data-valor="frases">Frases</button>
+          <button type="button" data-valor="texto">Texto</button>
+        </div>
+      </div>
+      <div class="opcoes__grupo" data-grupo="dificuldade" role="group" aria-label="Dificuldade">
+        <p>Dificuldade</p>
+        <div class="opcoes__botoes">
+          <button type="button" data-valor="facil">Fácil</button>
+          <button type="button" data-valor="medio">Médio</button>
+          <button type="button" data-valor="dificil">Difícil</button>
+        </div>
+      </div>
+      <div class="opcoes__grupo" data-grupo="duracao" role="group" aria-label="Duração">
+        <p>Duração</p>
+        <div class="opcoes__botoes">
+          <button type="button" data-valor="1">1 Min</button>
+          <button type="button" data-valor="3">3 Min</button>
+          <button type="button" data-valor="5">5 Min</button>
+          <button type="button" data-valor="custom">Personalizado</button>
+          <label class="opcoes__custom" id="custom-caixa" hidden>
+            <input type="number" id="minutos" min="1" max="60" value="10"> min
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- texto + teclado -->
+    <section class="pratica" id="pista" aria-label="Texto para digitar">
+      <div class="pratica__cabeca">
+        <p class="rotulo">Texto para digitar</p>
+        <div class="pratica__chips">
+          <button class="chip-maos" id="botao-maos" type="button" aria-pressed="true" title="Mostrar ou esconder as mãos">✋ Mãos</button>
+          <button class="chip-maos chip-pele" id="botao-pele" type="button" title="Trocar o tom de pele das mãos"><span class="chip-pele__cor" id="pele-cor"></span>Pele</button>
+          <button class="chip-maos" id="botao-som" type="button" aria-pressed="false" title="Ligar ou desligar o som das teclas">🔇 Som</button>
+          <span class="combo" id="combo-chip">Combo <strong id="combo-mini">0</strong> <span class="combo__multi" id="multi-mini">×1</span></span>
+        </div>
+      </div>
+
+      <div class="pratica__janela"><div class="pratica__texto" id="texto"></div></div>
+      <div class="tracejado"><span id="tracejado"></span></div>
+      <p class="pratica__aviso" id="aviso">Clique no texto e comece a digitar. O tempo começa na 1ª tecla.</p>
+
+      <textarea id="entrada" class="pratica__entrada" aria-label="Digite o texto aqui" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
+
+      <div class="teclado-area" id="teclado-area">
+        <div class="teclado-caixa" id="teclado-caixa" aria-hidden="true">
+          <div class="teclado-abnt" id="teclado"></div>
+        </div>
+        <!-- mãos desenhadas em SVG pelo JavaScript (bloco 15 do praticar.js) -->
+        <div class="maos" id="maos" aria-hidden="true"></div>
+      </div>
+
+      <div class="pratica__pausa" id="pausa-tela" hidden>
+        <strong>Pausado</strong>
+        <span>Clique aqui ou em Continuar para voltar.</span>
+      </div>
+    </section>
+
+    <!-- barra de baixo -->
+    <footer class="painel__rodape">
+      <a class="btn-pessego" href="tela-Inicio.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4H6v16h8"/><path d="M10 12h10m-3-3 3 3-3 3"/></svg>
+        Sair do exercício
+      </a>
+      <div class="sessao">
+        <p>Sessão atual</p>
+        <div class="sessao__linha">
+          <span class="sessao__barra"><span id="sessao-barra"></span></span>
+          <strong id="sessao-pct">0%</strong>
+        </div>
+      </div>
+      <button class="btn-pessego" id="reiniciar" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
+        Reiniciar
+      </button>
+      <button class="btn-laranja" id="pausar" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true" id="pausar-icone"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span id="pausar-texto">Pausar</span>
+      </button>
+    </footer>
+
+    <!-- coluna da direita -->
+    <aside class="dados">
+      <section class="cartao-dados">
+        <h2>Seu desempenho</h2>
+        <ul class="desempenho">
+          <li>
+            <svg class="ic ic--turquesa" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/><path d="m15 9 5-5"/></svg>
+            <div><span>Precisão</span><strong id="precisao">100%</strong></div>
+          </li>
+          <li>
+            <svg class="ic ic--laranja ic--cheio" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+            <div><span>Velocidade</span><strong id="ppm">0 PPM</strong></div>
+          </li>
+          <li>
+            <svg class="ic ic--laranja" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div><span>Tempo</span><strong id="tempo">00:00</strong></div>
+          </li>
+          <li>
+            <svg class="ic ic--vermelho" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+            <div><span>Erros</span><strong id="erros">0</strong></div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="cartao-dados">
+        <h2>Tecla atual</h2>
+        <div class="tecla-atual">
+          <span class="tecla-atual__tecla" id="tecla-atual">a</span>
+          <p>Use o dedo<br><strong id="dedo-atual">Mínimo Esquerdo</strong></p>
+        </div>
+      </section>
+
+      <section class="cartao-dados cartao-combo" id="combo-cartao">
+        <h2>Combo &amp; prêmios</h2>
+        <div class="combo-grande">
+          <strong id="combo">0</strong>
+          <span class="combo__multi" id="multi">×1</span>
+        </div>
+        <span class="combo-barra"><span id="combo-barra"></span></span>
+        <p class="combo-prox" id="combo-prox">Próximo prêmio: Dedos Quentes (faltam 20)</p>
+        <ul class="medalhas" id="medalhas" aria-label="Prêmios desta sessão"></ul>
+        <p class="combo-recorde">Recorde: <strong id="combo-recorde">0</strong> seguidos</p>
+      </section>
+
+      <section class="cartao-dados cartao-dados--sessao">
+        <h2>Melhor sessão</h2>
+        <p class="sessao-ppm"><strong id="melhor-ppm">–</strong> PPM</p>
+        <p class="sessao-info" id="melhor-info">Faça sua primeira sessão</p>
+      </section>
+
+      <section class="cartao-dados cartao-dados--sessao">
+        <h2>Última sessão</h2>
+        <p class="sessao-ppm"><strong id="ultima-ppm">–</strong> PPM</p>
+        <p class="sessao-info" id="ultima-info">Ainda não tem</p>
+      </section>
+
+      <section class="cartao-dica">
+        <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Dica de digitação</h2>
+        <p id="dica">Mantenha os dedos na posição inicial (ASDF JKLÇ) e evite olhar para o teclado.</p>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- janela de resultado (abre quando o tempo acaba) -->
+<dialog class="resultado" id="resultado" aria-labelledby="r-titulo">
+  <div class="resultado__estrelas" id="r-estrelas"></div>
+  <h2 id="r-titulo">Sessão concluída!</h2>
+  <p class="resultado__sub" id="r-sub"></p>
+  <p class="resultado__recorde" id="r-recorde" hidden>Novo recorde de velocidade!</p>
+
+  <div class="resultado__numeros">
+    <div><strong id="r-ppm">0</strong><span>PPM</span></div>
+    <div><strong id="r-precisao">0%</strong><span>Precisão</span></div>
+    <div><strong id="r-erros">0</strong><span>Erros</span></div>
+    <div><strong id="r-combo">0</strong><span>Maior combo</span></div>
+  </div>
+
+  <p class="resultado__xp">+<span id="r-xp">0</span> XP</p>
+  <p class="resultado__detalhe" id="r-xp-detalhe"></p>
+  <div class="resultado__premios">
+    <p class="resultado__rotulo">Prêmios da sessão</p>
+    <div class="resultado__lista" id="r-premios"></div>
+  </div>
+  <p class="resultado__treinar"><span>Teclas para treinar:</span> <span id="r-teclas"></span></p>
+
+  <div class="resultado__acoes">
+    <a class="btn-pessego" href="tela-Inicio.html">Sair</a>
+    <button class="btn-laranja" id="r-nova" type="button">Nova sessão</button>
+  </div>
+</dialog>
+
+<!-- primeiro os textos, depois o jogo -->
+<script src="js/textos.js"></script>
+<script src="js/praticar.js"></script>
+</body>
+</html>

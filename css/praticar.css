@@ -1,0 +1,594 @@
+/* =========================================================
+   TypeSkill — Tela de Prática
+   Vem DEPOIS do stylesheet.css. De lá reaproveita as variáveis
+   (--laranja, --pessego, --tinta, --suave...), .destaque e as
+   fontes. Layout: menu lateral | painel (opções, texto, teclado)
+   | coluna de dados à direita.
+   ========================================================= */
+
+/* ---------- 1. Cores só desta tela ---------- */
+:root {
+  --app-fundo: #eef0f5;
+  --turquesa: #52d1c6;          /* cor da tecla atual e das opções escolhidas */
+  --turquesa-escuro: #138f84;
+  --turquesa-texto: #073a35;
+  --turquesa-claro: #e4f8f6;
+  --pessego-borda: #f9d2b4;
+  --tecla-fundo: #fff5ee;
+  --erro: #e5484d;
+  --erro-fundo: #ffe4e5;
+  --ouro: #ffc21a;
+  --raio-app: 16px;
+}
+
+body { background: var(--app-fundo); }
+[hidden] { display: none !important; }   /* garante que hidden esconda mesmo com display no CSS */
+
+/* ícones de linha (traço na cor do texto) */
+.app svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- 2. Estrutura: menu + painel ---------- */
+.app {
+  display: grid; grid-template-columns: 220px minmax(0, 1fr);
+  align-items: start; gap: 14px;
+  min-height: 100vh; padding: 14px;
+}
+
+/* ---------- 3. Menu lateral ---------- */
+.lateral {
+  position: sticky; top: 14px;
+  display: flex; flex-direction: column; gap: 26px;
+  height: calc(100vh - 28px); padding: 22px 14px 14px;
+  border-radius: var(--raio-app);
+  background: var(--superficie); box-shadow: var(--sombra);
+  overflow-y: auto;
+}
+.lateral__marca { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.35rem; font-weight: 800; letter-spacing: -.01em; }
+.lateral__marca img { height: 40px; width: auto; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .2)); }
+
+.lateral__nav { display: flex; flex-direction: column; gap: 4px; }
+.lateral__nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px; border-radius: 10px;
+  color: var(--tinta); font-size: .92rem; font-weight: 500;
+  transition: background-color .2s, color .2s;
+}
+.lateral__nav a:hover { background: var(--fundo); }
+.lateral__nav svg { width: 20px; height: 20px; flex: none; }
+.lateral__nav .ativo { background: var(--pessego); color: var(--laranja); font-weight: 600; }
+.lateral__nav [aria-disabled="true"] { cursor: default; }
+
+.meta {
+  margin-top: auto; display: flex; flex-direction: column; gap: 8px;
+  padding: 14px; border-radius: 12px; border: 1px solid var(--linha);
+}
+.meta__titulo { font-size: .82rem; font-weight: 700; }
+.meta__valor { font-size: .74rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.meta__barra { display: block; height: 8px; border-radius: 99px; background: #d9dbe2; overflow: hidden; }
+.meta__barra span { display: block; height: 100%; width: 0; background: var(--laranja); transition: width .4s; }
+.meta__frase { color: var(--suave); font-size: .72rem; }
+
+/* ---------- 4. Painel principal (grade) ---------- */
+.painel {
+  display: grid; min-width: 0;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "topo    topo"
+    "opcoes  dados"
+    "pratica dados"
+    "rodape  dados";
+  gap: 12px 14px; padding: 16px 18px;
+  border-radius: var(--raio-app);
+  background: var(--superficie); box-shadow: var(--sombra);
+}
+.painel__topo { grid-area: topo; }
+.opcoes { grid-area: opcoes; }
+.pratica { grid-area: pratica; }
+.painel__rodape { grid-area: rodape; }
+.dados { grid-area: dados; }
+
+/* topo: título + chips de sequência e XP */
+.painel__topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.modo { display: flex; align-items: center; gap: 14px; }
+.modo__icone { display: grid; place-items: center; width: 50px; height: 38px; color: var(--turquesa); }
+.modo__icone svg { width: 46px; height: 46px; }
+.modo h1 { font-size: 1.2rem; font-weight: 700; line-height: 1.2; }
+.modo p { color: var(--suave); font-size: .8rem; }
+
+.painel__chips { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip-sequencia, .chip-xp {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 18px; border-radius: 12px; border: 1.5px solid var(--pessego-borda);
+}
+.chip-sequencia { background: var(--pessego-claro); }
+.chip-sequencia__fogo { font-size: 1.6rem; line-height: 1; }
+.chip-sequencia div, .chip-xp div { display: flex; flex-direction: column; }
+.chip-sequencia span { font-size: .82rem; font-weight: 600; }
+.chip-sequencia strong { color: var(--laranja); font-size: 1.1rem; font-weight: 700; line-height: 1.2; }
+.chip-xp { background: var(--superficie); min-width: 160px; }
+.chip-xp__bau { width: 32px; height: 26px; flex: none; }
+.chip-xp__bau path { stroke: none; }
+.chip-xp strong { font-size: .92rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.chip-xp span { color: var(--suave); font-size: .7rem; }
+.chip-xp__barra { display: block; width: 100%; height: 6px; margin-top: 4px; border-radius: 99px; background: var(--linha); overflow: hidden; }
+.chip-xp__barra span { display: block; height: 100%; width: 0; background: var(--turquesa); transition: width .5s; }
+
+/* ---------- 5. Opções (tipo, dificuldade, duração) ---------- */
+.opcoes {
+  display: flex; flex-wrap: wrap; gap: 10px 0;
+  padding: 10px 6px; border-radius: 12px; border: 1px solid var(--linha);
+}
+.opcoes__grupo { display: flex; flex-direction: column; gap: 8px; padding-inline: 10px; }
+.opcoes__grupo + .opcoes__grupo { border-left: 1px solid var(--linha); }
+.opcoes__grupo > p { font-size: .76rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.opcoes__botoes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.opcoes__botoes button {
+  padding: 9px 13px; border-radius: 8px;
+  border: 1px solid var(--pessego-borda); background: var(--pessego-claro); color: var(--tinta);
+  font: 600 .75rem/1 var(--fonte); cursor: pointer;
+  transition: background-color .2s, border-color .2s, transform .15s;
+}
+.opcoes__botoes button:hover { border-color: var(--laranja); transform: translateY(-1px); }
+.opcoes__botoes button[aria-pressed="true"] { background: var(--turquesa); border-color: var(--turquesa); color: var(--turquesa-texto); }
+.opcoes__custom { display: inline-flex; align-items: center; gap: 4px; font-size: .75rem; font-weight: 600; }
+.opcoes__custom input {
+  width: 56px; padding: 7px 8px; border-radius: 8px;
+  border: 1px solid var(--pessego-borda); background: var(--superficie); color: var(--tinta);
+  font: 600 .78rem var(--fonte);
+}
+
+/* ---------- 6. Prática: texto + teclado ---------- */
+.pratica {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: 12px 18px 0; border-radius: 12px; border: 1px solid var(--linha);
+  cursor: text;
+  transition: border-color .2s, box-shadow .2s;
+}
+.pratica.focada { border-color: var(--turquesa); box-shadow: 0 0 0 4px rgba(82, 209, 198, .18); }
+.pratica.treme { animation: treme .3s ease-in-out; }
+@keyframes treme { 0%, 100% { translate: 0; } 25% { translate: -5px; } 75% { translate: 5px; } }
+
+.pratica__cabeca { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rotulo { color: var(--laranja); font-size: .76rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+
+/* chip de combo: a parte "jogo" da tela */
+.combo {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 99px;
+  background: var(--pessego-claro); border: 1px solid var(--pessego-borda);
+  color: var(--suave); font-size: .72rem; font-weight: 600;
+}
+.combo strong { color: var(--laranja); font: 400 .72rem/1 var(--fonte-pixel); }
+.combo__multi { padding: 2px 6px; border-radius: 5px; background: var(--laranja); color: #fff; font: 400 .55rem/1.2 var(--fonte-pixel); }
+.pulsa { display: inline-block; animation: pulsa .25s ease-out; }
+@keyframes pulsa { from { transform: scale(1.5); } to { transform: none; } }
+
+/* janela de 2 linhas: a linha atual fica sempre em cima */
+.pratica__janela { --linha-altura: 2.6rem; height: calc(var(--linha-altura) * 2); margin-top: 10px; overflow: hidden; }
+.pratica__texto {
+  position: relative; text-align: center; white-space: pre-wrap;
+  font: 600 clamp(1.15rem, 1.9vw, 1.6rem)/var(--linha-altura) var(--fonte);
+  color: var(--tinta);
+  transition: transform .25s ease;
+}
+.pratica__texto span { border-radius: 4px; transition: color .1s, background-color .1s; }
+.pratica__texto .ok { color: var(--turquesa-escuro); }
+.pratica__texto .erro { color: var(--erro); background: var(--erro-fundo); }
+.pratica__texto .atual { background: var(--turquesa); color: var(--turquesa-texto); animation: cursor 1s ease-in-out infinite; }
+@keyframes cursor { 50% { background: rgba(82, 209, 198, .45); } }
+
+/* linha tracejada: turquesa = já digitado, pêssego = falta */
+.tracejado {
+  position: relative; height: 3px; margin: 14px 0 6px;
+  background: repeating-linear-gradient(90deg, var(--pessego-borda) 0 16px, transparent 16px 24px);
+}
+.tracejado span {
+  position: absolute; inset: 0 auto 0 0; width: 0;
+  background: repeating-linear-gradient(90deg, var(--turquesa) 0 16px, transparent 16px 24px);
+  transition: width .2s;
+}
+.pratica__aviso { text-align: center; color: var(--suave); font-size: .74rem; }
+
+/* a caixa de texto de verdade fica invisível: ela só recebe as teclas */
+.pratica__entrada {
+  position: absolute; left: 0; top: 0; width: 1px; height: 1px;
+  opacity: 0; resize: none; border: 0; padding: 0; pointer-events: none;
+}
+
+/* tela de pausa por cima do texto */
+.pratica__pausa {
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(255, 255, 255, .82); backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+.pratica__pausa strong { color: var(--laranja); font: 400 1.3rem/1 var(--fonte-pixel); }
+.pratica__pausa span { color: var(--suave); font-size: .85rem; }
+
+/* ---------- 7. Teclado ABNT2 ----------
+   Grade com 60 colunas: cada tecla comum ocupa 4 (largura 1),
+   o Backspace ocupa 8, o espaço 20... O Enter ocupa 2 linhas. */
+/* área do teclado + mãos: fica logo abaixo do texto */
+.teclado-area { position: relative; display: flex; flex-direction: column; align-items: center; container-type: inline-size; }
+.teclado-caixa {
+  position: relative; width: min(880px, 100%);
+  margin-top: 14px; padding: 14px;
+  border-radius: 14px; border: 1px solid var(--pessego-borda); background: #fffaf6;
+  container-type: inline-size;   /* as teclas e as letras acompanham o tamanho do teclado */
+}
+.teclado-abnt {
+  display: grid; grid-template-columns: repeat(60, minmax(0, 1fr));
+  grid-auto-rows: calc((100cqw - 295px) / 15 + 15px);   /* altura da fileira = largura de uma tecla comum */
+  gap: 5px;
+}
+.k {
+  position: relative; grid-column: span var(--w, 4);
+  display: grid; place-items: center;
+  border-radius: 6px; border: 1px solid var(--pessego-borda);
+  background: var(--tecla-fundo); color: var(--tinta);
+  box-shadow: 0 2px 0 var(--pessego-borda);           /* "altura" da tecla */
+  font: 500 clamp(9px, 1.85cqw, 15px)/1 var(--fonte);
+  transition: transform .06s, box-shadow .06s, background-color .15s, border-color .15s, color .15s;
+}
+/* risquinho do F e do J */
+.k--guia::before { content: ""; position: absolute; bottom: 5px; width: 26%; height: 2px; border-radius: 2px; background: currentColor; opacity: .5; }
+.k--enter { grid-row: span 2; }
+.k--funcao { font-size: clamp(8px, 1.65cqw, 13px); }
+/* teclas com 2 ou 3 símbolos: Shift em cima, normal embaixo, AltGr à direita */
+.k--duplo { place-items: stretch; padding: 3px 6px; }
+.k__cima, .k__baixo { justify-self: start; }
+.k__cima { align-self: start; }
+.k__baixo { align-self: end; }
+.k__alt { position: absolute; right: 6px; bottom: 4px; color: var(--suave); font-size: .85em; }
+/* setas ↑ e ↓ empilhadas */
+.k-setas { grid-column: span 4; display: flex; flex-direction: column; gap: 3px; }
+.k-setas .k { flex: 1; font-size: .6rem; }
+
+/* próxima tecla (turquesa) e teclas de apoio (Shift, acento) */
+.k.alvo { background: var(--turquesa); border-color: var(--turquesa-escuro); color: var(--turquesa-texto); box-shadow: 0 0 0 3px rgba(82, 209, 198, .3); }
+.k.apoio { border: 2px solid var(--turquesa); color: var(--turquesa-escuro); }
+.k.apoio::after {
+  content: attr(data-passo); position: absolute; top: -8px; right: -6px;
+  display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--turquesa); color: var(--turquesa-texto); font: 700 .58rem/1 var(--fonte);
+}
+/* teclado de verdade: a tecla afunda enquanto está apertada... */
+.k.pressionada { transform: translateY(2px); box-shadow: 0 0 0 var(--pessego-borda); background: var(--pessego); }
+/* ...e pisca turquesa se acertou ou vermelho se errou */
+.k.acertou { background: var(--turquesa-escuro); border-color: var(--turquesa-escuro); color: #fff; }
+.k.errou { background: var(--erro); border-color: var(--erro); color: #fff; }
+/* luzinha do Caps Lock */
+.k.ligada::after { content: ""; position: absolute; top: 5px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 6px #3ddc84; }
+
+/* ---------- 7b. Mãos ----------
+   Desenhadas em SVG pelo JavaScript (bloco 15 do praticar.js), no estilo
+   ilustração: contorno escuro, recheio cor de pele transparente e
+   risquinhos nas juntas. Aqui ficam as cores e os tons de pele. */
+.pratica.com-maos .teclado-area { padding-bottom: var(--maos-sobra, 0px); }   /* espaço para pulso e antebraço */
+.maos {
+  position: absolute; left: -18px; right: -18px; top: 0; bottom: 0; z-index: 2;
+  pointer-events: none;
+  /* o antebraço some aos poucos na parte de baixo */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--maos-sobra, 0px) * .45), transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--maos-sobra, 0px) * .45), transparent 99%);
+  --pele: #f8c4ab;       /* tom "média" (padrão) */
+  --contorno: #51473e;
+}
+.maos[data-pele="clara"]  { --pele: #fcd8c6; --contorno: #594e45; }
+.maos[data-pele="morena"] { --pele: #d39a76; --contorno: #42332a; }
+.maos[data-pele="escura"] { --pele: #8f5c40; --contorno: #2b1e16; }
+.app .maos__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke: none; }
+.mao__recheio { fill: var(--pele); opacity: .82; }
+.mao__contorno { fill: none; stroke: var(--contorno); stroke-linejoin: round; }
+.mao__vincos { fill: var(--contorno); }
+.mao__unhas { fill: none; stroke: var(--contorno); stroke-linecap: round; stroke-linejoin: round; }
+/* dedo que aperta a próxima tecla (turquesa) e o de apoio (Shift, acento) */
+.mao__destaque { fill: var(--turquesa); opacity: 0; }
+.mao__destaque.ativo { opacity: .42; }
+.mao__destaque.apoio { opacity: .22; }
+/* ondinha na ponta do dedo: "aperte aqui" */
+.mao__anel { fill: none; stroke: var(--turquesa-escuro); stroke-width: 2.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.mao__anel.ativo { opacity: 1; animation: toque 1.1s ease-out infinite; }
+.mao__anel.apoio { opacity: .85; stroke-dasharray: 3 3; }
+@keyframes toque { from { scale: .5; opacity: .9; } to { scale: 1.7; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .mao__anel.ativo { animation: none; } }
+
+/* botão do tom de pele */
+.chip-pele { display: inline-flex; align-items: center; gap: 6px; }
+.chip-pele__cor { width: 12px; height: 12px; border-radius: 50%; background: #f8c4ab; box-shadow: inset 0 0 0 1.5px #51473e; }
+
+.pratica__chips { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; }
+.chip-maos {
+  padding: 4px 10px; border-radius: 99px; cursor: pointer;
+  border: 1px solid var(--linha); background: var(--superficie); color: var(--suave);
+  font: 600 .72rem/1.4 var(--fonte);
+}
+.chip-maos[aria-pressed="true"] { border-color: var(--turquesa); background: var(--turquesa-claro, #e4f8f6); color: var(--turquesa-escuro); }
+
+/* ---------- 8. Rodapé do painel ---------- */
+.painel__rodape { display: flex; align-items: center; gap: 16px; }
+.btn-pessego, .btn-laranja {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 20px; border-radius: 12px;
+  font: 700 .74rem/1 var(--fonte); letter-spacing: .04em; text-transform: uppercase;
+  cursor: pointer; white-space: nowrap;
+  transition: transform .2s, box-shadow .2s, background-color .2s;
+}
+.btn-pessego { border: 1.5px solid var(--pessego-borda); background: var(--pessego-claro); color: var(--tinta); }
+.btn-pessego:hover { transform: translateY(-2px); border-color: var(--laranja); }
+.btn-laranja { border: 0; background: var(--laranja); color: #fff; box-shadow: 0 6px 16px rgba(255, 98, 0, .28); padding-inline: 34px; }
+.btn-laranja:hover { background: var(--laranja-escuro); transform: translateY(-2px); }
+.btn-pessego svg, .btn-laranja svg { width: 18px; height: 18px; }
+.btn-laranja svg { fill: currentColor; stroke: none; }
+
+.sessao { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+.sessao p { font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.sessao__linha { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 320px; }
+.sessao__barra { flex: 1; height: 7px; border-radius: 99px; background: var(--pessego-borda); overflow: hidden; }
+.sessao__barra span { display: block; height: 100%; width: 0; background: var(--turquesa); transition: width .3s; }
+.sessao strong { font-size: .74rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ---------- 9. Coluna de dados ---------- */
+.dados { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cartao-dados {
+  padding: 14px 16px; border-radius: 14px;
+  border: 1.5px solid var(--pessego-borda); background: var(--pessego-claro);
+}
+.cartao-dados h2, .cartao-dica h2 {
+  color: var(--laranja); font-size: .82rem; font-weight: 700;
+  letter-spacing: .03em; text-transform: uppercase; text-align: center;
+}
+
+.desempenho { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+.desempenho li { display: flex; align-items: center; gap: 14px; }
+.desempenho div { display: flex; flex-direction: column; }
+.desempenho span { color: var(--suave); font-size: .86rem; font-weight: 500; }
+.desempenho strong { font-size: .8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ic { width: 28px; height: 28px; flex: none; }
+.ic--turquesa { color: var(--turquesa); }
+.ic--laranja { color: var(--laranja); }
+.ic--vermelho { color: var(--erro); }
+.app .ic--cheio { fill: currentColor; stroke: none; }
+
+.tecla-atual { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.tecla-atual__tecla {
+  display: grid; place-items: center; flex: none;
+  min-width: 42px; height: 42px; padding-inline: 8px; border-radius: 8px;
+  background: var(--turquesa); color: #fff;
+  font-size: 1.05rem; font-weight: 700;
+}
+.tecla-atual__tecla.troca { animation: pulsa .2s ease-out; }
+.tecla-atual p { font-size: .78rem; font-weight: 600; line-height: 1.5; }
+.tecla-atual strong { color: var(--turquesa-escuro); font-weight: 600; }
+
+.cartao-dados--sessao { display: flex; flex-direction: column; gap: 4px; }
+.sessao-ppm { margin-top: 8px; font-size: .78rem; font-weight: 600; }
+.sessao-ppm strong { font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sessao-info { color: var(--suave); font-size: .72rem; font-variant-numeric: tabular-nums; }
+
+.cartao-dica { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--linha); background: var(--superficie); }
+.cartao-dica h2 { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.cartao-dica h2 svg { width: 20px; height: 20px; color: var(--ouro); }
+.cartao-dica p { margin-top: 8px; font-size: .78rem; font-weight: 600; text-align: center; line-height: 1.55; }
+
+/* ---------- 10. Efeitos de jogo ---------- */
+/* "+12 XP" que sobe da letra quando a palavra termina */
+.estouro {
+  position: absolute; z-index: 5; pointer-events: none;
+  color: var(--laranja); font: 400 .72rem/1 var(--fonte-pixel); white-space: nowrap;
+  text-shadow: 0 2px 0 var(--superficie);
+  animation: estoura .9s ease-out forwards;
+}
+@keyframes estoura {
+  0%   { transform: translate(-50%, 0) scale(.8); opacity: 0; }
+  20%  { transform: translate(-50%, -12px) scale(1.1); opacity: 1; }
+  100% { transform: translate(-50%, -42px) scale(1); opacity: 0; }
+}
+/* aviso grande: COMBO x25!, LEVEL UP! */
+.anuncio {
+  position: fixed; left: 50%; top: 18%; z-index: 50; pointer-events: none;
+  padding: 14px 22px; border-radius: 12px;
+  background: var(--laranja); color: #fff;
+  font: 400 clamp(.9rem, 2.4vw, 1.4rem)/1 var(--fonte-pixel);
+  box-shadow: 0 6px 0 var(--laranja-escuro), 0 20px 40px rgba(255, 98, 0, .35);
+  animation: anuncia 1.5s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+@keyframes anuncia {
+  0%   { transform: translate(-50%, 20px) scale(.6); opacity: 0; }
+  15%  { transform: translate(-50%, 0) scale(1.08); opacity: 1; }
+  25%  { transform: translate(-50%, 0) scale(1); }
+  80%  { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -24px); opacity: 0; }
+}
+
+/* ---------- 10b. Combo e prêmios ---------- */
+.cartao-combo { display: flex; flex-direction: column; align-items: center; gap: 8px; transition: box-shadow .3s, border-color .3s; }
+.cartao-combo.quente { border-color: var(--laranja); box-shadow: 0 0 0 3px rgba(255, 98, 0, .12), 0 0 24px rgba(255, 98, 0, .18); }
+.combo-grande { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.combo-grande strong { color: var(--laranja); font: 400 1.7rem/1 var(--fonte-pixel); font-variant-numeric: tabular-nums; }
+.combo-grande .combo__multi { font-size: .7rem; padding: 4px 7px; }
+.combo-barra { display: block; width: 100%; height: 8px; border-radius: 99px; background: var(--pessego-borda); overflow: hidden; }
+.combo-barra span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--turquesa), var(--laranja)); transition: width .15s; }
+.combo-prox { color: var(--suave); font-size: .72rem; font-weight: 600; text-align: center; }
+.combo-recorde { color: var(--suave); font-size: .7rem; }
+.combo-recorde strong { color: var(--tinta); }
+
+.medalhas { display: flex; justify-content: center; gap: 6px; width: 100%; }
+.medalhas li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.medalhas__combo { color: var(--suave); font: 400 .45rem/1 var(--fonte-pixel); }
+.medalhas__qtd { position: absolute; top: -6px; right: -8px; color: var(--laranja); font: 700 .62rem/1 var(--fonte); }
+.medalhas li.brilha .medalha { animation: medalha-ganha .7s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes medalha-ganha { 0% { scale: .3; rotate: -30deg; } 100% { scale: 1; rotate: 0deg; } }
+
+/* cores de cada medalha (o desenho usa estas variáveis) */
+.medalha { --cor: #ffc21a; --brilho: #ffe27a; --sombra-m: #d98200; --fita: #ff6a10; --fita-escura: #c24300; width: 28px; height: 30px; flex: none; }
+.app .medalha { stroke: none; }
+.medalha--bronze   { --cor: #d98b4e; --brilho: #f4bf8f; --sombra-m: #9c5a28; }
+.medalha--prata    { --cor: #c3cad6; --brilho: #f1f4f8; --sombra-m: #868e9c; --fita: #52d1c6; --fita-escura: #138f84; }
+.medalha--ouro     { }
+.medalha--diamante { --cor: #6fdcec; --brilho: #dafbff; --sombra-m: #2a9fb6; --fita: #52d1c6; --fita-escura: #138f84; }
+.medalha--lendario { --cor: #ff6a10; --brilho: #ffc48f; --sombra-m: #b84400; --fita: #ffc21a; --fita-escura: #c98a00; }
+.medalha.bloqueada { filter: grayscale(1); opacity: .3; }
+
+/* cartão "Prêmio desbloqueado!" */
+.premio-pop {
+  position: fixed; left: 50%; top: 16%; z-index: 60; pointer-events: none;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 22px 14px 16px; border-radius: 16px;
+  background: var(--superficie); color: var(--tinta);
+  border: 2px solid var(--laranja);
+  box-shadow: 0 6px 0 var(--laranja-escuro), 0 24px 50px rgba(255, 98, 0, .3);
+  animation: premio-entra 2.6s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+.premio-pop .medalha { width: 52px; height: 56px; animation: medalha-ganha .7s cubic-bezier(.3, 1.6, .5, 1) .1s both; }
+.premio-pop div { display: flex; flex-direction: column; gap: 2px; }
+.premio-pop p { color: var(--laranja); font: 400 .6rem/1.4 var(--fonte-pixel); }
+.premio-pop strong { font-size: 1.15rem; font-weight: 800; }
+.premio-pop span { color: var(--suave); font-size: .78rem; font-weight: 600; }
+.premio-pop--prata, .premio-pop--diamante { border-color: var(--turquesa); box-shadow: 0 6px 0 var(--turquesa-escuro), 0 24px 50px rgba(19, 143, 132, .3); }
+@keyframes premio-entra {
+  0%   { transform: translate(-50%, 24px) scale(.6); opacity: 0; }
+  12%  { transform: translate(-50%, 0) scale(1.06); opacity: 1; }
+  20%  { transform: translate(-50%, 0) scale(1); }
+  85%  { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -20px); opacity: 0; }
+}
+/* confete em pixel que explode do cartão */
+.confete {
+  position: absolute; left: 40px; top: 50%; width: 8px; height: 8px;
+  animation: confete 1.1s cubic-bezier(.15, .7, .3, 1) forwards;
+}
+@keyframes confete {
+  from { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  to   { transform: translate(var(--dx), var(--dy)) rotate(var(--giro)); opacity: 0; }
+}
+
+/* ---------- 11. Janela de resultado ---------- */
+.resultado {
+  width: min(540px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow: auto;
+  padding: 30px 28px 26px; border: 0; border-radius: 24px;
+  background: var(--superficie); color: var(--tinta);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .35); text-align: center;
+}
+.resultado[open] { animation: abre .55s cubic-bezier(.2, .8, .2, 1); }
+@keyframes abre { from { transform: translateY(30px) scale(.95); opacity: 0; } to { transform: none; opacity: 1; } }
+.resultado::backdrop { background: rgba(12, 12, 18, .5); backdrop-filter: blur(4px); }
+.resultado__estrelas { display: flex; justify-content: center; align-items: flex-end; gap: 10px; }
+.resultado__estrelas svg { width: 50px; height: 50px; fill: currentColor; color: var(--linha); }
+.resultado__estrelas svg:nth-child(2) { width: 66px; height: 66px; margin-bottom: 8px; }
+.resultado__estrelas svg.ganhou { color: var(--ouro); filter: drop-shadow(0 0 12px rgba(255, 194, 26, .55)); animation: estrela-pop .5s cubic-bezier(.3, 1.6, .5, 1) calc(.25s + var(--i) * .2s) both; }
+@keyframes estrela-pop { from { transform: scale(0) rotate(-40deg); } to { transform: none; } }
+.resultado h2 { margin-top: 14px; font-size: 1.55rem; font-weight: 700; }
+.resultado__sub { margin-top: 4px; color: var(--suave); font-size: .9rem; }
+.resultado__recorde { display: inline-block; margin-top: 10px; padding: 5px 12px; border-radius: 99px; background: var(--turquesa); color: var(--turquesa-texto); font-size: .78rem; font-weight: 700; }
+.resultado__numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+.resultado__numeros div { display: flex; flex-direction: column; gap: 2px; padding: 12px 6px; border-radius: 12px; background: var(--pessego-claro); border: 1px solid var(--pessego-borda); }
+.resultado__numeros strong { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.resultado__numeros span { color: var(--suave); font-size: .72rem; }
+.resultado__xp { margin-top: 18px; color: var(--laranja); font: 400 1.25rem/1.2 var(--fonte-pixel); }
+.resultado__detalhe { margin-top: 6px; color: var(--suave); font-size: .76rem; }
+.resultado__premios { margin-top: 16px; }
+.resultado__rotulo { color: var(--suave); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.resultado__lista { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; margin-top: 8px; }
+.resultado__premio { display: flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 700; }
+.resultado__premio .medalha { stroke: none; }
+.resultado__vazio { color: var(--suave); font-size: .8rem; }
+.resultado__treinar { margin-top: 14px; font-size: .85rem; }
+.resultado__treinar > span:first-child { color: var(--suave); }
+.chip-tecla { display: inline-block; margin: 2px 3px; padding: 2px 8px; border-radius: 6px; background: var(--erro-fundo); color: var(--erro); font-weight: 700; font-size: .8rem; }
+.resultado__acoes { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 22px; }
+
+/* ---------- 12. Telas menores ---------- */
+@media (max-width: 1300px) {
+  /* menu lateral só com os ícones: sobra mais espaço para o teclado */
+  .app { grid-template-columns: 64px minmax(0, 1fr); }
+  .lateral { padding: 16px 8px; }
+  .lateral__marca span, .meta { display: none; }
+  .lateral__marca img { height: 34px; }
+  .lateral__nav a { justify-content: center; padding: 11px; font-size: 0; }   /* tamanho 0 esconde o texto; o ícone fica */
+  .painel { grid-template-columns: minmax(0, 1fr) 212px; }
+}
+@media (max-width: 900px) {
+  /* o menu lateral vira uma faixa em cima e a coluna de dados desce */
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .lateral { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; }
+  .lateral__marca span { display: inline; }
+  .lateral__nav { flex-direction: row; flex: 1 1 100%; overflow-x: auto; }
+  .lateral__nav a { justify-content: flex-start; white-space: nowrap; padding: 9px 12px; font-size: .92rem; }
+  .painel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas: "topo" "opcoes" "pratica" "rodape" "dados";
+  }
+  .dados { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+@media (max-width: 700px) {
+  /* no celular o teclado do próprio aparelho já ocupa a tela */
+  .teclado-area, .chip-maos { display: none; }
+  .pratica { padding-bottom: 14px; }
+  .opcoes__grupo + .opcoes__grupo { border-left: 0; }
+  .painel__rodape { flex-wrap: wrap; }
+  .sessao { order: -1; flex-basis: 100%; }
+  .btn-laranja { padding-inline: 22px; }
+  .resultado__numeros { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- 13. Tudo cabe na tela do notebook ----------
+   A partir de 901px de largura e 520px de altura, a tela inteira cabe sem
+   rolar a página: o teclado (com as mãos) fica do maior tamanho que couber
+   no espaço embaixo do texto, e a coluna de dados rola por dentro. */
+@media (min-width: 901px) and (min-height: 520px) {
+  .app { height: 100vh; height: 100dvh; min-height: 0; align-items: stretch; }
+  .lateral { height: auto; }
+  .painel { min-height: 0; overflow: hidden; grid-template-rows: auto auto minmax(0, 1fr) auto; }
+  .dados { min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+  .pratica { min-height: 0; }
+  .teclado-area { flex: 1 1 0; min-height: 0; container-type: size; }
+  .teclado-caixa { width: min(880px, 100cqw, (100cqh - 31px) * 3); }
+  /* com as mãos, guarda espaço embaixo do teclado para as palmas */
+  .pratica.com-maos .teclado-area { padding-bottom: 0; }
+  .pratica.com-maos .teclado-caixa { width: min(880px, 100cqw, (100cqh - 27px) * 2.08); }
+}
+/* telas baixas (notebook 1366×768, 1280×720...): tudo um pouco mais compacto */
+@media (min-width: 901px) and (min-height: 520px) and (max-height: 820px) {
+  .app { padding: 10px; gap: 10px; }
+  .lateral { top: 10px; gap: 16px; padding-top: 16px; padding-bottom: 12px; }
+  .lateral__nav a { padding-block: 8px; }
+  .painel { gap: 8px 12px; padding: 12px 16px; }
+  .modo { gap: 10px; }
+  .modo__icone { width: 40px; height: 32px; }
+  .modo__icone svg { width: 38px; height: 38px; }
+  .modo h1 { font-size: 1.05rem; }
+  .chip-sequencia, .chip-xp { padding: 5px 14px; }
+  .chip-sequencia__fogo { font-size: 1.3rem; }
+  .opcoes { padding: 7px 4px; }
+  .opcoes__grupo { gap: 5px; }
+  .opcoes__grupo > p { font-size: .68rem; }
+  .opcoes__botoes button { padding: 7px 10px; }
+  .pratica { padding: 8px 16px 0; }
+  .pratica__janela { --linha-altura: 2.2rem; margin-top: 6px; }
+  .pratica__texto { font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
+  .tracejado { margin: 8px 0 4px; }
+  .teclado-caixa { margin-top: 10px; padding: 10px; }
+  .btn-pessego, .btn-laranja { padding-block: 9px; }
+  .dados { gap: 8px; }
+  .cartao-dados, .cartao-dica { padding: 10px 14px; }
+  .desempenho { gap: 8px; margin-top: 10px; }
+  .ic { width: 24px; height: 24px; }
+  .tecla-atual { margin-top: 8px; }
+  .tecla-atual__tecla { min-width: 36px; height: 36px; }
+}
+/* telas bem baixas (1280×720, 1024×768...): ganha altura para o teclado */
+@media (min-width: 901px) and (min-height: 520px) and (max-height: 700px) {
+  .modo p, .opcoes__grupo > p { display: none; }   /* os botões já dizem o que são */
+  .opcoes { padding: 6px 4px; }
+  .chip-sequencia, .chip-xp { padding: 4px 12px; gap: 8px; }
+  .chip-sequencia__fogo { font-size: 1.1rem; }
+  .chip-sequencia div { flex-direction: row; align-items: baseline; gap: 6px; }
+  .chip-sequencia strong { font-size: .95rem; }
+  .chip-xp__bau { width: 26px; height: 21px; }
+  .pratica__janela { --linha-altura: 2rem; }
+  .pratica.com-maos .teclado-caixa { width: min(880px, 100cqw, (100cqh - 28px) * 2.31); }
+}

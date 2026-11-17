@@ -1,0 +1,106 @@
+/* =========================================================
+   TypeSkill — app.css
+   Menu lateral e layout das telas de dentro do app
+   (Início, Missões, Praticar). É o MESMO arquivo nas três telas,
+   então o menu tem sempre o mesmo tamanho e o mesmo fundo.
+   Carregue por ÚLTIMO, depois do CSS da tela.
+   ========================================================= */
+
+:root {
+  --menu-largura: 264px;          /* largura do menu em todas as telas */
+  --app-fundo: #f4f5f9;
+  --app-cartao: #ffffff;
+  --app-borda: #e8e9ef;
+  --app-laranja: #ff5a00;
+  --app-laranja-suave: #ffe3d1;
+  --app-texto: #16161d;
+  --app-suave: #5d5d6b;
+  --app-trilho: #d9d9de;
+}
+
+body.app-body {
+  margin: 0;
+  background: var(--app-fundo);
+  color: var(--app-texto);
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- Grade: menu | conteúdo ---------- */
+.app {
+  display: grid;
+  grid-template-columns: var(--menu-largura) minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  min-height: 100vh;
+  padding: 12px 16px 12px 12px;
+  box-sizing: border-box;
+}
+
+/* ---------- Menu lateral ---------- */
+.sidebar {
+  position: sticky; top: 12px;
+  display: flex; flex-direction: column; gap: 28px;
+  box-sizing: border-box;
+  height: calc(100vh - 24px);
+  padding: 22px 16px 16px;
+  overflow-y: auto;
+  background: var(--app-cartao);
+  border: 1px solid var(--app-borda);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(30, 24, 60, .05);
+}
+
+.sidebar__logo {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  color: var(--app-texto); text-decoration: none;
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; line-height: 1;
+}
+.sidebar__logo img { width: 44px; height: auto; flex: none; }
+.sidebar__logo b { color: var(--app-laranja); }
+
+.sidebar__nav { display: flex; flex-direction: column; gap: 6px; }
+.sidebar__item {
+  display: flex; align-items: center; gap: 12px;
+  height: 48px; padding-inline: 18px; border-radius: 12px;
+  color: var(--app-suave); text-decoration: none;
+  font-size: .98rem; font-weight: 500;
+  transition: background-color .15s, color .15s;
+}
+.sidebar__item:hover { background: #f6f6fa; color: var(--app-texto); }
+.sidebar__item.is-active { background: var(--app-laranja-suave); color: var(--app-laranja); font-weight: 600; }
+.sidebar__item[aria-disabled="true"] { cursor: default; opacity: .7; }
+.sidebar__item[aria-disabled="true"]:hover { background: none; color: var(--app-suave); }
+.sidebar svg {
+  width: 22px; height: 22px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Meta diária no pé do menu */
+.sidebar__meta {
+  margin-top: auto;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 16px; border-radius: 12px;
+  border: 1px solid var(--app-borda);
+}
+.sidebar__meta-titulo { margin: 0; font-size: .9rem; font-weight: 600; }
+.sidebar__meta-valor { margin: 0; font-size: .8rem; font-weight: 600; }
+.sidebar__meta-barra { display: block; height: 9px; border-radius: 99px; background: var(--app-trilho); overflow: hidden; }
+.sidebar__meta-barra span { display: block; height: 100%; width: 0; background: var(--app-laranja); border-radius: inherit; transition: width .4s; }
+.sidebar__meta-frase { margin: 0; color: var(--app-suave); font-size: .78rem; }
+
+.sidebar__sair {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-radius: 10px;
+  color: var(--app-suave); text-decoration: none; font-size: .88rem; font-weight: 500;
+}
+.sidebar__sair:hover { color: var(--app-laranja); }
+
+/* ---------- Telas menores: o menu vira uma faixa em cima ---------- */
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, 1fr); padding: 12px; }
+  .sidebar { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; }
+  .sidebar__logo { justify-content: flex-start; font-size: 1.3rem; }
+  .sidebar__nav { flex-direction: row; flex: 1 1 100%; overflow-x: auto; }
+  .sidebar__item { height: 42px; padding-inline: 12px; white-space: nowrap; font-size: .88rem; }
+  .sidebar__meta, .sidebar__sair { display: none; }
+}

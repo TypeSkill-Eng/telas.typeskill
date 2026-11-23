@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../src/js/tema.js"></script>
+  <title>Configurações | TypeSkill</title>
+  <meta name="description" content="Preferências da prática e da conta">
+  <link rel="icon" href="../public/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/css/telas.css">
+  <link rel="stylesheet" href="../src/css/app.css">
+  <link rel="stylesheet" href="../src/css/noturno.css">
+  <script src="../src/js/contas.js"></script>
+  <script>Contas.protegerPagina();</script>
+  <script src="../src/js/progresso.js"></script>
+</head>
+<body class="app-body">
+  <div class="app">
+
+    <!-- ===== MENU LATERAL (o mesmo em todas as telas) ===== -->
+    <aside class="sidebar">
+      <a class="sidebar__logo" href="inicio.html">
+        <img src="../public/img/logo.png" alt="">
+        <span><b>T</b>ypeSkill</span>
+      </a>
+      <nav class="sidebar__nav" aria-label="Menu principal">
+        <a class="sidebar__item" href="inicio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>Início</a>
+        <a class="sidebar__item" href="missoes.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>Missões</a>
+        <a class="sidebar__item" href="praticar.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Praticar</a>
+        <a class="sidebar__item" href="conquistas.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/></svg>Conquistas</a>
+        <a class="sidebar__item" href="progresso.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progresso</a>
+        <a class="sidebar__item" href="certificados.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></svg>Certificados</a>
+        <a class="sidebar__item" href="perfil.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Perfil</a>
+        <a class="sidebar__item is-active" aria-current="page" href="configuracoes.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Configurações</a>
+      </nav>
+      <div class="sidebar__meta">
+        <p class="sidebar__meta-titulo">Meta Diária</p>
+        <p class="sidebar__meta-valor">🔥 <span id="meta-min">0</span>/<span id="meta-alvo">20</span> Minutos</p>
+        <span class="sidebar__meta-barra"><span id="meta-barra" style="width: 0%"></span></span>
+        <p class="sidebar__meta-frase" id="meta-frase">Bora começar o dia?</p>
+      </div>
+      <button class="sidebar__tema" type="button" data-alternar-tema aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span data-tema-rotulo>Modo noturno</span></button>
+      <a class="sidebar__sair" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4H6v16h8"/><path d="M10 12h10m-3-3 3 3-3 3"/></svg>Sair</a>
+    </aside>
+
+    <!-- ===== CONTEÚDO ===== -->
+    <main class="tela">
+      <header class="tela__topo">
+        <div>
+          <h1>Configurações</h1>
+          <p>As mudanças salvam sozinhas.</p>
+        </div>
+        <span class="aviso-t cfg-salvo" id="cfg-salvo" role="status" hidden>✓ Salvo</span>
+      </header>
+
+      <section class="grade-2">
+        <!-- prática -->
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Prática <small>como o Praticar abre</small></h2>
+          <div class="cfg-linha">
+            <b>Tipo de treino</b>
+            <div class="segmento" id="cfg-tipo">
+              <button type="button" data-valor="letras">Letras</button>
+              <button type="button" data-valor="palavras">Palavras</button>
+              <button type="button" data-valor="frases">Frases</button>
+              <button type="button" data-valor="texto">Texto</button>
+            </div>
+          </div>
+          <div class="cfg-linha">
+            <b>Dificuldade</b>
+            <div class="segmento" id="cfg-dificuldade">
+              <button type="button" data-valor="facil">Fácil</button>
+              <button type="button" data-valor="medio">Médio</button>
+              <button type="button" data-valor="dificil">Difícil</button>
+            </div>
+          </div>
+          <div class="cfg-linha">
+            <b>Duração da sessão</b>
+            <div class="segmento" id="cfg-duracao">
+              <button type="button" data-valor="1">1 min</button>
+              <button type="button" data-valor="3">3 min</button>
+              <button type="button" data-valor="5">5 min</button>
+              <button type="button" data-valor="custom">Outro</button>
+            </div>
+            <label class="campo-t cfg-minutos" id="cfg-minutos-caixa" hidden>Minutos (1 a 60)
+              <input type="number" id="cfg-minutos" min="1" max="60" step="1">
+            </label>
+          </div>
+          <div class="opcao">
+            <div class="opcao__texto"><b>Mãos virtuais</b><span>Mostra as mãos indicando o dedo certo.</span></div>
+            <label class="chave"><input type="checkbox" id="cfg-maos" aria-label="Mãos virtuais"><span></span></label>
+          </div>
+          <div class="opcao">
+            <div class="opcao__texto"><b>Som</b><span>Clique nas teclas, aviso de erro e prêmios.</span></div>
+            <label class="chave"><input type="checkbox" id="cfg-som" aria-label="Som"><span></span></label>
+          </div>
+        </div>
+
+        <div class="cfg-coluna">
+          <!-- metas -->
+          <div class="cartao-t">
+            <h2 class="cartao-t__titulo">Meta diária <small>minutos de treino por dia</small></h2>
+            <div class="segmento" id="cfg-meta">
+              <button type="button" data-valor="10">10 min</button>
+              <button type="button" data-valor="15">15 min</button>
+              <button type="button" data-valor="20">20 min</button>
+              <button type="button" data-valor="30">30 min</button>
+              <button type="button" data-valor="45">45 min</button>
+              <button type="button" data-valor="60">60 min</button>
+            </div>
+          </div>
+
+          <!-- acessibilidade -->
+          <div class="cartao-t">
+            <h2 class="cartao-t__titulo">Aparência</h2>
+            <div class="opcao">
+              <div class="opcao__texto"><b>Modo noturno</b><span>Cores escuras em todas as telas do site.</span></div>
+              <label class="chave"><input type="checkbox" data-tema-check aria-label="Modo noturno"><span></span></label>
+            </div>
+            <div class="opcao">
+              <div class="opcao__texto"><b>Reduzir animações</b><span>Menos movimento na tela (confetes, transições).</span></div>
+              <label class="chave"><input type="checkbox" id="cfg-animacoes" aria-label="Reduzir animações"><span></span></label>
+            </div>
+          </div>
+
+          <!-- dados -->
+          <div class="cartao-t">
+            <h2 class="cartao-t__titulo">Seus dados</h2>
+            <div class="opcao">
+              <div class="opcao__texto"><b>Baixar meus dados</b><span>Arquivo .json com perfil, progresso e missões (sem a senha).</span></div>
+              <button class="botao-t botao-t--claro botao-t--pequeno" type="button" id="cfg-exportar">Baixar</button>
+            </div>
+            <div class="opcao">
+              <div class="opcao__texto"><b>Zerar progresso</b><span>XP, sessões, conquistas e missões voltam ao zero.</span></div>
+              <button class="botao-t botao-t--claro botao-t--pequeno cfg-perigo" type="button" id="cfg-zerar">Zerar</button>
+            </div>
+            <div class="opcao">
+              <div class="opcao__texto"><b>Excluir conta</b><span>Apaga a conta e todos os dados dela.</span></div>
+              <button class="botao-t botao-t--perigo botao-t--pequeno" type="button" id="cfg-excluir">Excluir</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- confirmação para ações perigosas -->
+      <dialog class="janela" id="cfg-janela" aria-labelledby="cfg-j-titulo">
+        <form class="janela__corpo" id="cfg-j-form">
+          <h2 id="cfg-j-titulo">Tem certeza?</h2>
+          <p id="cfg-j-texto"></p>
+          <label class="campo-t">Para confirmar, digite <b id="cfg-j-palavra"></b>
+            <input type="text" id="cfg-j-campo" autocomplete="off">
+          </label>
+          <div class="janela__acoes">
+            <button class="botao-t botao-t--claro" type="button" id="cfg-j-cancelar">Cancelar</button>
+            <button class="botao-t botao-t--perigo" type="submit" id="cfg-j-ok" disabled>Confirmar</button>
+          </div>
+        </form>
+      </dialog>
+    </main>
+  </div>
+
+  <script src="../src/js/curso.js"></script>
+  <script src="../src/js/pixel.js"></script>
+  <script src="../src/js/personagens.js"></script>
+  <script src="../src/js/medalhas.js"></script>
+  <script src="../src/js/app.js"></script>
+  <script src="../src/js/configuracoes.js"></script>
+</body>
+</html>

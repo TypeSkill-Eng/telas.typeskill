@@ -1,0 +1,18 @@
+# Arquivos que o sistema cria sozinho (não vão para o GitHub)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configurações pessoais do editor
+.vscode/
+.idea/
+
+# Pacotes e arquivos de publicação
+node_modules/
+.vercel/
+
+# Arquivos compactados e temporários
+*.zip
+*.rar
+*.tmp
+*.log

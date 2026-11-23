@@ -1,0 +1,116 @@
+/* =========================================================
+   TypeSkill — noturno.css (modo noturno das telas)
+   Vale quando o <html> tem a classe "tema-escuro" (tema.js).
+   Carregado por ÚLTIMO em todas as páginas de templates/.
+   A landing usa o modo noturno do global.css (mesma classe).
+   Organização: 1 cores (variáveis) de cada CSS · 2 app/menu ·
+   3 Início · 4 Missões · 5 Praticar · 6 telas novas · 7 login.
+   ========================================================= */
+
+/* ---------- 1. Variáveis: troca as cores de cada arquivo ---------- */
+html.tema-escuro {
+  color-scheme: dark;
+  /* app.css (menu e fundo) */
+  --app-fundo: #121219; --app-cartao: #1c1d27; --app-borda: #2c2d3b;
+  --app-texto: #f1f1f5; --app-suave: #a2a5b3; --app-trilho: #33354a; --app-laranja-suave: #3a2618;
+  /* inicio.css */
+  --bg: #121219; --card: #1c1d27; --border: #2c2d3b; --track: #33354a; --text: #f1f1f5; --muted: #a2a5b3;
+  /* missoes.css */
+  --orange-soft: #3a2618; --orange-row: #2a1f18; --green-soft: #15332a; --red-soft: #3a1c1e; --yellow-soft: #3a2c14;
+  --gray-100: #262735; --gray-200: #2c2d3b; --gray-300: #3a3c4f; --gray-400: #7d8091; --gray-500: #a2a5b3; --gray-700: #d4d6de;
+  /* telas.css */
+  --cartao: #1c1d27; --borda: #2c2d3b; --trilho: #33354a; --texto: #f1f1f5; --suave: #a2a5b3;
+  --laranja-suave: #3a2618; --verde-suave: #15332a; --vermelho-suave: #3a1c1e;
+  /* praticar.css */
+  --pessego-borda: #3a2a1f; --tecla-fundo: #23242f; --turquesa-claro: #133a37; --erro-fundo: #3a1c1e;
+}
+html.tema-escuro body { background: var(--app-fundo); color: var(--app-texto); }
+
+/* ---------- 2. Menu, avatar e mundos ---------- */
+html.tema-escuro .sidebar { box-shadow: none; }
+html.tema-escuro .sidebar__item:hover { background: #262735; }
+html.tema-escuro .avatar { border-color: #000; }
+html.tema-escuro .mundo { background: linear-gradient(#16263a, #213650); }
+html.tema-escuro .mundo--deserto { background: linear-gradient(#33241a, #4a3322); }
+html.tema-escuro .mundo--neve { background: linear-gradient(#1b2636, #2b3a52); }
+html.tema-escuro .mundo__nome { background: rgba(0, 0, 0, .45); color: #fff; }
+html.tema-escuro .mundo__caminho { stroke: #a2a5b3; }
+html.tema-escuro .mundo__placa circle { stroke: #1c1d27; }
+html.tema-escuro .toast-medalha { background: #2b2c3a; box-shadow: 0 14px 30px rgba(0, 0, 0, .5); }
+
+/* ---------- 3. Início ---------- */
+html.tema-escuro .topbar__hello p, html.tema-escuro .stat__label, html.tema-escuro .task__desc,
+html.tema-escuro .lesson-card__desc, html.tema-escuro .achievement p { color: #c4c6d0; }
+html.tema-escuro .world { color: #f1f1f5; }
+html.tema-escuro .world__progress .bar, html.tema-escuro .continue__bar { background: #2c2d3b; }
+html.tema-escuro .lesson-card { background: #17352a; }
+html.tema-escuro .challenge { border-color: #2c2d3b; }
+html.tema-escuro .continue { background: #2a2018; border-color: #3a2a1f; }
+html.tema-escuro .bar { background: var(--track); }
+
+/* ---------- 4. Missões ---------- */
+html.tema-escuro .btn { background: #23242f; color: var(--text); border-color: var(--gray-300); }
+html.tema-escuro .btn.primary { background: var(--orange); border-color: var(--orange); color: #fff; }
+html.tema-escuro .btn.locked { background: #1c1d27; }
+html.tema-escuro .module, html.tema-escuro .resumo { box-shadow: none; }
+html.tema-escuro .ring .track { stroke: #33354a; }
+
+/* ---------- 5. Praticar (o teclado vira "versão noturna") ---------- */
+html.tema-escuro .pratica { --af-traco: #9a97a6; --af-papel: #1c1d27; --af-feita: #6f6d7a; --af-texto: #f1f1f5; --af-proxima: #4a4b58; --af-placa: #20212c; --af-sombra: #4a3d22; --af-quadro: #15161e; --af-grade: #20212b; --af-barra: #b8964a; --af-trilho: #2c2d3b; }
+html.tema-escuro .texto-topo, html.tema-escuro .texto-topo button { color: #e8e6ef; }
+html.tema-escuro .texto-topo button:hover { background: #2c2d3b; }
+html.tema-escuro .pratica__texto .erro { color: #ff8a8e; background: #4a1f22; }
+html.tema-escuro .k { background: #2a2b37; color: #e8e6ef; }
+html.tema-escuro .k.alvo { background: #ffc85a; color: #222; }
+html.tema-escuro .k.apoio { background: #5a4320; color: #ffe6bf; }
+html.tema-escuro .k.pressionada { background: #33354a; }
+html.tema-escuro .k.acertou { background: #2a2b37; color: #e8e6ef; }
+html.tema-escuro .k.errou { background: #7a2a2a; color: #fff; }
+html.tema-escuro .k__alt { color: #9a97a6; }
+html.tema-escuro .pratica__pausa { background: rgba(18, 18, 25, .85); }
+html.tema-escuro .resultado__missao[data-tipo="ok"] { background: #15332a; color: #6fe0ae; }
+html.tema-escuro .resultado__missao[data-tipo="faltou"] { background: #3a2618; color: #ffb27d; }
+html.tema-escuro .resultado { background: #1c1d27; color: #f1f1f5; }
+
+/* ---------- 6. Conquistas, Progresso, Certificados, Perfil, Configurações ---------- */
+html.tema-escuro .botao-t--claro, html.tema-escuro .filtro, html.tema-escuro .segmento button,
+html.tema-escuro .campo-t input, html.tema-escuro .campo-t select, html.tema-escuro .campo-t textarea,
+html.tema-escuro .avatar-cores button { background-color: #23242f; color: #f1f1f5; border-color: #3a3c4f; }
+html.tema-escuro .avatar-cores button { border-color: #1c1d27; }
+html.tema-escuro .botao-t--claro:hover { background: #2c2d3b; }
+html.tema-escuro .campo-t input:disabled { background: #191a23; }
+html.tema-escuro .segmento button[aria-pressed="true"] { background: var(--laranja); color: #fff; border-color: var(--laranja); }
+html.tema-escuro .filtro[aria-pressed="true"] { background: #3a2618; color: #ff9a52; border-color: #5a3a22; }
+html.tema-escuro .chave span { background: #3a3c4f; }
+html.tema-escuro .chave input:checked + span { background: var(--laranja); }
+html.tema-escuro .cartao-t, html.tema-escuro .numero, html.tema-escuro .cert { box-shadow: none; }
+html.tema-escuro .conquista--ok { background: linear-gradient(135deg, #2a2018, #1c1d27); border-color: #4a3322; }
+html.tema-escuro .g-grade { stroke: #2c2d3b; }
+html.tema-escuro .g-eixo { fill: #7d8091; }
+html.tema-escuro .g-valor { fill: #f1f1f5; }
+html.tema-escuro .g-ponto { stroke: #1c1d27; }
+html.tema-escuro .g-area { fill: rgba(255, 116, 36, .12); }
+html.tema-escuro .g-dica { background: #2b2c3a; }
+html.tema-escuro .cal-dia { background: #262735; }
+html.tema-escuro .cal-dia--1 { background: #5a2e12; }
+html.tema-escuro .cal-dia--2 { background: #8f4316; }
+html.tema-escuro .cal-dia--3 { background: #d35a14; }
+html.tema-escuro .cal-dia--4 { background: #ff8a3d; }
+html.tema-escuro .cal-dia--f { background: transparent; border-color: #2c2d3b; }
+html.tema-escuro .tipos__trilho { background: #262735; }
+html.tema-escuro .teclas-erro kbd { background: #262735; border-color: #3a3c4f; box-shadow: 0 3px 0 #3a3c4f; color: #f1f1f5; }
+html.tema-escuro .perfil-numeros li, html.tema-escuro .avatar-montar { background: #23242f; }
+html.tema-escuro .cert__selo { background: #262735; }
+html.tema-escuro .cert--final { background: linear-gradient(160deg, #2a2018, #1c1d27 60%); border-color: #4a3322; }
+html.tema-escuro .cert-aviso { background: #3a2618; color: #ffb27d; }
+html.tema-escuro .janela { background: #1c1d27; color: #f1f1f5; }
+html.tema-escuro .cert-janela { background: #121219; }
+html.tema-escuro .aviso-t { background: #15332a; color: #6fe0ae; }
+html.tema-escuro .aviso-t--erro { background: #3a1c1e; color: #ff8a8e; }
+html.tema-escuro .selo-missao { background: #3a2618; color: #ff9a52; }
+/* o certificado continua claro: é um "papel" para imprimir */
+
+/* ---------- 7. Login, cadastro e código (já são escuros; só o que é claro) ---------- */
+html.tema-escuro .codigo-campo { background: #23242f; color: #f1f1f5; border-color: #3a3c4f; }
+html.tema-escuro .codigo-teste { background: #3a2c14; color: #ffc46b; }
+html.tema-escuro .form-aviso[data-tipo="ok"] { background: #15332a; color: #6fe0ae; }

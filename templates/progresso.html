@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../src/js/tema.js"></script>
+  <title>Progresso | TypeSkill</title>
+  <meta name="description" content="Gráficos e histórico da sua digitação">
+  <link rel="icon" href="../public/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/css/telas.css">
+  <link rel="stylesheet" href="../src/css/app.css">
+  <link rel="stylesheet" href="../src/css/noturno.css">
+  <script src="../src/js/contas.js"></script>
+  <script>Contas.protegerPagina();</script>
+  <script src="../src/js/progresso.js"></script>
+</head>
+<body class="app-body">
+  <div class="app">
+
+    <!-- ===== MENU LATERAL (o mesmo em todas as telas) ===== -->
+    <aside class="sidebar">
+      <a class="sidebar__logo" href="inicio.html">
+        <img src="../public/img/logo.png" alt="">
+        <span><b>T</b>ypeSkill</span>
+      </a>
+      <nav class="sidebar__nav" aria-label="Menu principal">
+        <a class="sidebar__item" href="inicio.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>Início</a>
+        <a class="sidebar__item" href="missoes.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>Missões</a>
+        <a class="sidebar__item" href="praticar.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Praticar</a>
+        <a class="sidebar__item" href="conquistas.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/></svg>Conquistas</a>
+        <a class="sidebar__item is-active" aria-current="page" href="progresso.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></svg>Progresso</a>
+        <a class="sidebar__item" href="certificados.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></svg>Certificados</a>
+        <a class="sidebar__item" href="perfil.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Perfil</a>
+        <a class="sidebar__item" href="configuracoes.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Configurações</a>
+      </nav>
+      <div class="sidebar__meta">
+        <p class="sidebar__meta-titulo">Meta Diária</p>
+        <p class="sidebar__meta-valor">🔥 <span id="meta-min">0</span>/<span id="meta-alvo">20</span> Minutos</p>
+        <span class="sidebar__meta-barra"><span id="meta-barra" style="width: 0%"></span></span>
+        <p class="sidebar__meta-frase" id="meta-frase">Bora começar o dia?</p>
+      </div>
+      <button class="sidebar__tema" type="button" data-alternar-tema aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span data-tema-rotulo>Modo noturno</span></button>
+      <a class="sidebar__sair" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4H6v16h8"/><path d="M10 12h10m-3-3 3 3-3 3"/></svg>Sair</a>
+    </aside>
+
+    <!-- ===== CONTEÚDO ===== -->
+    <main class="tela">
+      <header class="tela__topo">
+        <div>
+          <h1>Progresso</h1>
+          <p>Como sua digitação está evoluindo, sessão por sessão.</p>
+        </div>
+        <a class="botao-t" href="praticar.html">Praticar agora</a>
+      </header>
+
+      <!-- números gerais -->
+      <section class="numeros" aria-label="Resumo">
+        <div class="numero"><span class="numero__rotulo">Sessões</span><strong class="numero__valor" id="e-sessoes">0</strong><span class="numero__extra">no total</span></div>
+        <div class="numero"><span class="numero__rotulo">Tempo praticando</span><strong class="numero__valor" id="e-tempo">0 min</strong><span class="numero__extra">somando tudo</span></div>
+        <div class="numero"><span class="numero__rotulo">Recorde de velocidade</span><strong class="numero__valor"><span id="e-ppm">0</span> <small>PPM</small></strong><span class="numero__extra">palavras por minuto</span></div>
+        <div class="numero"><span class="numero__rotulo">Precisão</span><strong class="numero__valor" id="e-precisao">—</strong><span class="numero__extra" id="e-precisao-extra">média das 5 últimas</span></div>
+        <div class="numero"><span class="numero__rotulo">Sequência</span><strong class="numero__valor" id="e-sequencia">0 dias</strong><span class="numero__extra" id="e-sequencia-extra">melhor: 0 dias</span></div>
+        <div class="numero"><span class="numero__rotulo">Nível</span><strong class="numero__valor" id="e-nivel">1</strong><span class="numero__extra" id="e-nivel-extra">0 XP no total</span></div>
+      </section>
+
+      <!-- gráficos -->
+      <section class="grade-2">
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Velocidade <small>PPM nas últimas 30 sessões</small></h2>
+          <div class="grafico" id="g-ppm" data-precisa-sessao></div>
+        </div>
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Precisão <small>% nas últimas 30 sessões</small></h2>
+          <div class="grafico" id="g-precisao" data-precisa-sessao></div>
+        </div>
+      </section>
+
+      <section class="grade-2">
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Atividade <small>minutos por dia · últimas 12 semanas</small></h2>
+          <div id="g-calendario"></div>
+        </div>
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Por tipo de treino <small>velocidade média</small></h2>
+          <div id="g-tipos" data-precisa-sessao></div>
+        </div>
+      </section>
+
+      <section class="grade-progresso">
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Teclas para treinar <small>as que você mais erra</small></h2>
+          <div id="g-teclas" data-precisa-sessao></div>
+          <a class="botao-t botao-t--pequeno treinar-teclas" id="treinar-teclas" href="praticar.html" hidden>Treinar essas teclas</a>
+        </div>
+        <div class="cartao-t">
+          <h2 class="cartao-t__titulo">Histórico <small>últimas 12 sessões</small></h2>
+          <div id="g-historico" data-precisa-sessao></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../src/js/curso.js"></script>
+  <script src="../src/js/pixel.js"></script>
+  <script src="../src/js/personagens.js"></script>
+  <script src="../src/js/medalhas.js"></script>
+  <script src="../src/js/app.js"></script>
+  <script src="../src/js/estatisticas.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var PADRAO = { tipo: 'frases', dificuldade: 'medio', duracao: '5', minutos: 10, maos: true, som: false };
+  var PADRAO = { tipo: 'frases', dificuldade: 'medio', duracao: '5', minutos: 10, maos: true, som: false, estiloMao: 'classica' };
   var config;
   try { config = Object.assign({}, PADRAO, JSON.parse(localStorage.getItem('typeskill-config')) || {}); } catch (e) { config = Object.assign({}, PADRAO); }
   var ajustes = Progresso.ajustes();
@@ -49,6 +49,7 @@
     this.value = config.minutos;
     salvarConfig();
   });
+  segmento('cfg-estilo-maos', config.estiloMao, function (v) { config.estiloMao = v; salvarConfig(); });
   segmento('cfg-meta', ajustes.metaMin, function (v) {
     Progresso.salvarAjustes({ metaMin: Number(v) });
     document.getElementById('meta-alvo').textContent = v;

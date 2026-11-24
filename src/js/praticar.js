@@ -102,7 +102,7 @@ function gravar(chave, valor) {
 // progresso da conta logada (progresso.js): cada conta começa do zero
 const progresso = Progresso.ler();
 const config = Object.assign(
-  { tipo: 'frases', dificuldade: 'medio', duracao: '5', minutos: 10, maos: true, som: false },
+  { tipo: 'frases', dificuldade: 'medio', duracao: '5', minutos: 10, maos: true, som: false, estiloMao: 'classica' },
   ler('typeskill-config', {})
 );
 // Vindo de Missões ou do Início com ?tipo=frases&dificuldade=medio, já abre nessa lição
@@ -955,15 +955,49 @@ const SVG = 'http://www.w3.org/2000/svg';
 const NOMES_DEDOS = ['minimo_e', 'anelar_e', 'medio_e', 'indicador_e', 'polegar_e', 'polegar_d', 'indicador_d', 'medio_d', 'anelar_d', 'minimo_d'];
 const CASA = { minimo_e: 'KeyA', anelar_e: 'KeyS', medio_e: 'KeyD', indicador_e: 'KeyF', indicador_d: 'KeyJ', medio_d: 'KeyK', anelar_d: 'KeyL', minimo_d: 'Semicolon' };
 // medidas em "teclas" (u) e "fileiras" (f)
-// Medidas copiadas do AgileFingers (em "teclas"): dedos longos e finos que
-// descem até sair por baixo da tela; o mínimo é bem mais curto.
-const LARGURA_DEDO = { minimo: .6, anelar: .64, medio: .66, indicador: .66, polegar: .76 };
-const COMPRIMENTO_DEDO = { minimo: 2.6, anelar: 3.7, medio: 4.1, indicador: 3.8, polegar: 2.4 };
-// abertura dos dedos (graus) e inclinação da mão para dentro
-const ABERTURA_DEDO = { minimo: -5, anelar: -2, medio: 0, indicador: 2, polegar: 40 };
-// curvinha de cada dedo ("banana"), como no desenho do AgileFingers
-const CURVA_DEDO = { minimo: 1, anelar: .8, medio: .7, indicador: .6, polegar: -.6 };
-const GIRO_MAO = 20;
+// Mão NORMAL (em "teclas"): dedos retos, em leque, cada um com seu tamanho
+// (médio o maior, mínimo o menor), palma inteira e polegar saindo da lateral.
+// Dois estilos de mão (troca no botão "Estilo" do Praticar ou em Configurações):
+// - classica: desenho de contorno, pele clara meio transparente, dedos longos
+//             e inclinados, com a "dobrinha" em cada dedo (estilo dos sites de digitação)
+// - normal:   mão realista, retinha, com unhas e rugas
+const ESTILOS_MAO = {
+  classica: {
+    giro: 24,
+    largura: { minimo: .8, anelar: .86, medio: .88, indicador: .88, polegar: .96 },
+    comp: { minimo: 2.1, anelar: 2.5, medio: 2.7, indicador: 2.5, polegar: 1.9 },
+    abertura: { minimo: -3, anelar: -1.5, medio: 0, indicador: 1.5, polegar: 24 },
+    polegarBase: [.5, 1.35]
+  },
+  normal: {
+    giro: 0,
+    largura: { minimo: .66, anelar: .74, medio: .78, indicador: .78, polegar: .9 },
+    comp: { minimo: 1.72, anelar: 2.0, medio: 2.25, indicador: 2.0, polegar: 1.3 },
+    abertura: { minimo: -6, anelar: -3, medio: 0, indicador: 3, polegar: 20 },
+    polegarBase: [.62, 1.05]
+  }
+};
+const LARGURA_DEDO = {}, COMPRIMENTO_DEDO = {}, ABERTURA_DEDO = {};   // preenchidos pelo estilo escolhido
+let GIRO_MAO = 0, POLEGAR_BASE = [.62, 1.05], estiloMao = 'normal';
+function usarEstiloMao(nome) {
+  estiloMao = ESTILOS_MAO[nome] ? nome : 'classica';
+  const e = ESTILOS_MAO[estiloMao];
+  Object.assign(LARGURA_DEDO, e.largura);
+  Object.assign(COMPRIMENTO_DEDO, e.comp);
+  Object.assign(ABERTURA_DEDO, e.abertura);
+  GIRO_MAO = e.giro;
+  POLEGAR_BASE = e.polegarBase;
+  maosEl.classList.toggle('maos--classica', estiloMao === 'classica');
+}
+// formato de cada dedo: [posição ao longo do dedo (0 = junta, 1 = ponta), largura]
+// as juntas ficam um pouco mais grossas e a ponta afina e arredonda, como um dedo de verdade
+const PERFIL_DEDO = {
+  padrao:  [[-.1, 1.02], [0, 1], [.22, .95], [.46, 1], [.6, .88], [.75, .9], [.86, .8], [.94, .62], [.985, .32]],
+  minimo:  [[-.1, 1], [0, .97], [.22, .91], [.46, .95], [.6, .84], [.75, .84], [.86, .74], [.94, .56], [.985, .3]],
+  polegar: [[-.12, 1.06], [0, 1.04], [.28, .96], [.54, 1.05], [.68, .95], [.84, .86], [.94, .68], [.985, .36]],
+  // estilo clássico: dedo quase da mesma grossura até a ponta bem redonda
+  classica: [[-.1, 1], [0, 1], [.3, .98], [.6, .96], [.8, .93], [.9, .84], [.96, .64], [.99, .34]]
+};
 
 
 const dedosEl = {};
@@ -988,29 +1022,54 @@ function passoMola(m, dt) {
 const parada = (m) => Math.abs(m.alvo - m.v) < .03 && Math.abs(m.vel) < .03;
 const fixar = (m) => { m.v = m.alvo; m.vel = 0; };
 
-// Mão RÍGIDA: os dedos são desenhados uma vez só e nunca mudam de forma.
-// Só a mão inteira se move (x, y) e cada dedo tem só o "aperto" (afundar na tecla).
+// Os dedos são desenhados uma vez só e nunca mudam de forma (nada treme).
+// A mão desliza (x, y); cada dedo só GIRA na junta e ESTICA/ENCOLHE um pouco
+// (ang, esc) para a ponta cair certinho na tecla; "aperto" = afundar na tecla.
 const anim = {};
-for (const lado of ['e', 'd']) anim[lado] = { x: mola(170, .95), y: mola(170, .95) };
-for (const nome of NOMES_DEDOS) anim[nome] = { aperto: mola(700, .9) };
+for (const lado of ['e', 'd']) anim[lado] = { x: mola(110, 1), y: mola(110, 1) };   // a palma é mais "pesada" que os dedos
+for (const nome of NOMES_DEDOS) anim[nome] = { ang: mola(380, 1), esc: mola(380, 1), aperto: mola(700, .9) };
+// teclas "de canto": a mão fica parada e só o dedo (o mínimo) vai até elas
+const TECLAS_DE_CANTO = new Set(['ShiftLeft', 'ShiftRight', 'Enter', 'Backspace', 'Tab', 'CapsLock', 'ControlLeft', 'ControlRight', 'AltRight',
+  'IntlBackslash', 'Backquote', 'Minus', 'Equal', 'BracketLeft', 'BracketRight', 'Backslash', 'Quote', 'Slash', 'IntlRo']);
+const ESTICA = { min: .62, max: 1.5 };
+// posição "natural" do dedo: gira no máximo 22° e estica/encolhe pouco.
+// Se a tecla pedir mais que isso, a palma vai até lá (o dedo não fica "grudado").
+const LIMITE_DEDO = { giro: 16, min: .9, max: 1.08 };      // o dedo quase não estica: quem vai até a tecla é a mão
+const LIMITE_APOIO = LIMITE_DEDO;                           // no Shift também (o mínimo não fica esticado)   // quanto o dedo pode encolher/esticar (em relação ao tamanho dele)
 const todasMolas = Object.values(anim).flatMap((o) => Object.values(o));
 
 function montarMaos() {
   svgMaos = criar('svg', { class: 'maos-svg', 'aria-hidden': 'true' }, maosEl);
+  // degradês da pele: o dedo fica mais claro no meio e mais escuro nas bordas (parece redondo)
+  const defs = criar('defs', {}, svgMaos);
+  const degrade = (id, cores) => {
+    const g = criar('linearGradient', { id, x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
+    cores.forEach(([o, c]) => criar('stop', { offset: o, 'stop-color': c }, g));
+  };
+  degrade('pele-dedo', [[0, '#eeb197'], [.2, '#fdd2bd'], [.55, '#ffdccb'], [.85, '#fbcfb9'], [1, '#f1b8a0']]);
+  degrade('pele-ativa', [[0, '#eba487'], [.2, '#fbc5ab'], [.55, '#ffd0b8'], [.85, '#f9c2a7'], [1, '#eeab8f']]);
+  degrade('pele-apertando', [[0, '#e3926f'], [.2, '#f7b392'], [.55, '#fbbf9f'], [.85, '#f5b08f'], [1, '#e69a79']]);
+  const palma = criar('radialGradient', { id: 'pele-palma', cx: .5, cy: .35, r: .75 }, defs);
+  [[0, '#ffdecd'], [.7, '#fcd1bc'], [1, '#f2b9a0']].forEach(([o, c]) => criar('stop', { offset: o, 'stop-color': c }, palma));
   for (const lado of ['e', 'd']) {
     const mao = criar('g', { class: 'mao-r' }, svgMaos);
     const criarDedo = (nome) => {
       const g = criar('g', { class: 'dedo-r' }, mao);
       const corpo = criar('g', {}, g);
       const pele = criar('path', { class: 'dedo-r__pele' }, corpo);
+      const sombra = criar('path', { class: 'dedo-r__sombra' }, corpo);      // lateral mais escura (volume)
+      const dobras = criar('path', { class: 'dedo-r__dobras' }, corpo);      // rugas finas nas juntas
+      const unha = criar('path', { class: 'dedo-r__unha' }, corpo);
+      const cuticula = criar('path', { class: 'dedo-r__cuticula' }, corpo);  // pelinha na base da unha
+      const brilho = criar('path', { class: 'dedo-r__brilho' }, corpo);      // reflexo na unha
       const contorno = criar('path', { class: 'dedo-r__contorno' }, corpo);
-      const dobras = criar('path', { class: 'dedo-r__dobras' }, corpo);
       const ponta = criar('g', {}, g);
       const toque = criar('circle', { class: 'dedo-r__toque' }, ponta);
-      dedosEl[nome] = { g, corpo, pele, contorno, dobras, ponta, toque, classe: '', ultimo: '' };
+      dedosEl[nome] = { g, corpo, pele, sombra, contorno, dobras, unha, cuticula, brilho, ponta, toque, classe: '', ultimo: '' };
     };
-    // ordem de desenho: dedos embaixo, palma por cima das bases e o POLEGAR por cima de tudo
+    // ordem de desenho: dedos e polegar embaixo, palma por cima das bases (mão inteira, sem emendas)
     NOMES_DEDOS.filter((n) => n.endsWith(`_${lado}`) && !n.startsWith('polegar')).forEach(criarDedo);
+    criarDedo(`polegar_${lado}`);   // o polegar também nasce de DENTRO da palma
     maosG[lado] = {
       grupo: mao,
       palma: criar('path', { class: 'palma' }, mao),
@@ -1018,34 +1077,66 @@ function montarMaos() {
       detalhes: criar('path', { class: 'mao-detalhe' }, mao),
       juntas: criar('path', { class: 'mao-junta' }, mao)
     };
-    criarDedo(`polegar_${lado}`);
   }
 }
 
-// desenha um dedo "em pé" (junta em 0, ponta em -comp), no estilo AgileFingers:
-// longo, fino, levemente curvado, ponta bem redonda e dois risquinhos curvos
+// desenha um dedo "em pé" (junta em 0, ponta em -comp) com formato de dedo de verdade:
+// reto, juntas um pouco mais grossas, ponta redonda, UNHA com brilho e rugas finas.
+// Desenhado UMA vez só (na animação ele só gira, nunca é refeito: não deforma).
 function formaDedo(nome, comp, w) {
   const tipo = nome.split('_')[0];
-  const sinal = nome.endsWith('_e') ? 1 : -1;
-  const curva = (CURVA_DEDO[tipo] || 0) * sinal * w * .5;
-  const meio = (d) => curva * Math.sin(Math.PI * Math.min(1, Math.max(0, d / comp)));   // d = distância da ponta
-  // [distância da ponta, largura]: ponta redonda, dedo quase reto, base um pouco mais larga
-  const perfil = [[w * .07, .5], [w * .22, .8], [w * .5, .96], [w * 1.1, 1], [comp * .45, 1.03], [comp * .8, 1.1], [comp, 1.16], [comp + w * .8, 1.2]];
-  const lado = (sg) => perfil.map(([d, k]) => ({ x: meio(d) + sg * k * w / 2, y: -comp + d }));
-  const dir = lado(1).reverse(), esq = lado(-1);
-  const pts = [...dir, { x: meio(0), y: -comp }, ...esq];
+  const polegar = tipo === 'polegar';
+  const perfil = estiloMao === 'classica' ? PERFIL_DEDO.classica : (PERFIL_DEDO[tipo] || PERFIL_DEDO.padrao);
+  const dir = perfil.map(([t, k]) => ({ x: k * w / 2, y: -t * comp }));
+  const esq = perfil.map(([t, k]) => ({ x: -k * w / 2, y: -t * comp })).reverse();
+  const pts = [...dir, { x: 0, y: -comp }, ...esq];
   const segs = curvaSuave(pts);
   const linha = (lista) => lista.map((sg) => `C${pt(sg[1])} ${pt(sg[2])} ${pt(sg[3])}`).join('');
   const pele = `M${pt(pts[0])}${linha(segs)}Z`;
-  const contorno = `M${pt(pts[0])}${linha(segs.slice(0, -1))}`;   // aberto embaixo (o dedo "continua" para fora da tela)
-  // risquinhos curvos (como sorrisos) atravessando parte do dedo
-  const risco = (d, larg) => {
-    if (d > comp - w * .6) return '';
-    const c = meio(d), y = -comp + d;
-    return `M${pt({ x: c - larg * w, y: y - .04 * w })}Q${pt({ x: c - .05 * w, y: y + .26 * w })} ${pt({ x: c + larg * w * .9, y: y - .06 * w })}`;
+  const contorno = `M${pt(pts[0])}${linha(segs.slice(0, -1))}`;   // sem a base (fica embaixo da palma)
+
+  // estilo clássico: contorno, UNHA de verdade (placa clarinha com a ponta redonda
+  // e a base curva), CUTÍCULA (curvinha logo abaixo da unha), brilho na unha
+  // e uma dobrinha curta na junta do meio
+  if (estiloMao === 'classica') {
+    const lado = (nome.endsWith('_e') ? 1 : -1);              // a dobrinha fica puxada para o lado de fora
+    const meia = w * (polegar ? .34 : .3);                    // meia largura da unha
+    const topo = -comp + w * .13;                             // ponta da unha (quase na ponta do dedo)
+    const base = topo + w * (polegar ? .78 : .7);             // onde a unha termina
+    const unha = `M${pt({ x: -meia, y: base })}` +
+      `L${pt({ x: -meia, y: topo + meia })}` +
+      `Q${pt({ x: -meia, y: topo })} ${pt({ x: 0, y: topo })}` +
+      `Q${pt({ x: meia, y: topo })} ${pt({ x: meia, y: topo + meia })}` +
+      `L${pt({ x: meia, y: base })}` +
+      `Q${pt({ x: 0, y: base + w * .24 })} ${pt({ x: -meia, y: base })}Z`;
+    const cuticula = `M${pt({ x: -meia * 1.18, y: base - w * .04 })}Q${pt({ x: 0, y: base + w * .42 })} ${pt({ x: meia * 1.18, y: base - w * .04 })}`;
+    const brilho = `M${pt({ x: -meia * .45, y: topo + meia * .75 })}L${pt({ x: -meia * .45, y: base - w * .1 })}`;
+    const y = -comp + comp * (polegar ? .52 : .56);
+    const dobras = `M${pt({ x: -w * .12 * lado - w * .2, y: y + w * .04 })}Q${pt({ x: w * .05 * lado, y: y - w * .16 })} ${pt({ x: w * .3 * lado, y: y - w * .02 })}`;
+    return { pele, contorno, dobras, sombra: '', unha, cuticula, brilho };
+  }
+
+  // UNHA: na ponta, com a parte de cima redonda e a cutícula curvinha
+  const nl = w * (polegar ? .78 : .72), nw = w * (polegar ? .64 : .58);
+  const topo = -comp + w * .13, base = topo + nl;
+  const unha = `M${pt({ x: -nw / 2, y: base })}` +
+    `L${pt({ x: -nw / 2, y: topo + nw * .42 })}` +
+    `Q${pt({ x: -nw / 2, y: topo })} ${pt({ x: 0, y: topo })}` +
+    `Q${pt({ x: nw / 2, y: topo })} ${pt({ x: nw / 2, y: topo + nw * .42 })}` +
+    `L${pt({ x: nw / 2, y: base })}` +
+    `Q${pt({ x: 0, y: base + nw * .3 })} ${pt({ x: -nw / 2, y: base })}Z`;
+  const brilho = `M${pt({ x: -nw * .22, y: topo + nw * .32 })}L${pt({ x: -nw * .22, y: base - nw * .12 })}`;
+
+  // RUGAS: linhas finas nas juntas (3 na junta do meio, 2 perto da ponta)
+  const ruga = (d, larg, curva) => {   // d = distância da ponta
+    if (d > comp - w * .4) return '';
+    const y = -comp + d;
+    return `M${pt({ x: -larg * w, y })}Q${pt({ x: 0, y: y + curva * w })} ${pt({ x: larg * w, y })}`;
   };
-  const dobras = tipo === 'polegar' ? risco(w * 1.5, .36) : risco(w * 2.1, .38) + risco(w * 3.7, .36);
-  return { pele, contorno, dobras };
+  const pip = polegar ? comp * .52 : comp * .5, dip = polegar ? 0 : comp * .25;
+  let dobras = ruga(pip - w * .1, .2, .08) + ruga(pip, .27, .1) + ruga(pip + w * .1, .2, .08);
+  if (dip) dobras += ruga(dip, .17, .06) + ruga(dip + w * .08, .13, .05);
+  return { pele, contorno, dobras, sombra: '', unha, brilho };
 }
 
 // liga uma lista de pontos com uma curva suave e fechada (Catmull-Rom)
@@ -1096,16 +1187,26 @@ function medirMaos() {
   };
 
   // 1) a ponta de cada dedo fica na tecla dele; a junta fica "um dedo" para trás
-  geo.descanso.polegar_e = { x: B.x - u * .55, y: espaco.y + f * .15 };
-  geo.descanso.polegar_d = { x: N.x + u * 1.35, y: espaco.y + f * .25 };
   for (const dedo of NOMES_DEDOS) {
+    if (dedo.startsWith('polegar')) continue;
     const tipo = dedo.split('_')[0], lado = dedo.slice(-1);
-    const ponta = dedo.startsWith('polegar') ? geo.descanso[dedo] : centros[CASA[dedo]];
+    const ponta = centros[CASA[dedo]];
     const comp = COMPRIMENTO_DEDO[tipo] * u;
     const dir = eixo(lado, ABERTURA_DEDO[tipo]).cima;
     geo.descanso[dedo] = ponta;
     geo.comp[dedo] = comp;
     geo.juntas[dedo] = { x: ponta.x - dir.x * comp, y: ponta.y - dir.y * comp };
+  }
+  // o POLEGAR nasce na lateral da palma (do lado de dentro, abaixo do indicador)
+  // e sobe inclinado para o centro, apoiado na barra de espaço. Ele não atravessa a mão.
+  for (const lado of ['e', 'd']) {
+    const dedo = `polegar_${lado}`;
+    const comp = COMPRIMENTO_DEDO.polegar * u;
+    const base = naMao(lado, geo.juntas[`indicador_${lado}`], POLEGAR_BASE[0], POLEGAR_BASE[1]);
+    const dir = eixo(lado, ABERTURA_DEDO.polegar).cima;
+    geo.juntas[dedo] = base;
+    geo.comp[dedo] = comp;
+    geo.descanso[dedo] = { x: base.x + dir.x * comp, y: base.y + dir.y * comp };
   }
 
   // 2) contorno da mão, montado em volta das juntas (gira junto com a mão)
@@ -1113,14 +1214,48 @@ function medirMaos() {
     const P = geo.juntas[`minimo_${lado}`], R = geo.juntas[`anelar_${lado}`], M = geo.juntas[`medio_${lado}`];
     const I = geo.juntas[`indicador_${lado}`], T = geo.juntas[`polegar_${lado}`];
     const centro = { x: (P.x + I.x) / 2, y: (P.y + I.y) / 2 + u * .2 };
-    // a palma fica quase toda fora da tela (embaixo): é só o "recheio" entre as bases
-    // dos dedos, sem contorno em cima. Só a lateral do lado do mínimo tem traço.
+    // palma: contorno do lado do indicador, base do polegar, pulso e lado do mínimo.
+    // A parte de cima (onde nascem os dedos) não tem traço: os dedos "saem" dela.
     const m = maosG[lado];
-    const palma = [naMao(lado, P, -.42, -.15), naMao(lado, P, -.9, 4), naMao(lado, I, .8, 4), naMao(lado, I, .36, -.1), naMao(lado, M, 0, -.35), naMao(lado, R, 0, -.3)];
-    m.palma.setAttribute('d', `M${palma.map(pt).join('L')}Z`);
-    m.contorno.setAttribute('d', `M${pt(naMao(lado, P, -.3, -.7))}Q${pt(naMao(lado, P, -.5, .6))} ${pt(naMao(lado, P, -.85, 4))}`);
-    m.detalhes.setAttribute('d', '');
-    m.juntas.setAttribute('d', '');
+    // onde o polegar sai da palma: um ponto de cada lado da base dele
+    const sg = lado === 'e' ? 1 : -1;
+    const dT = eixo(lado, ABERTURA_DEDO.polegar).cima;                       // direção do polegar
+    const fora = sg > 0 ? { x: -dT.y, y: dT.x } : { x: dT.y, y: -dT.x };    // lado de fora do polegar
+    const wT = u * LARGURA_DEDO.polegar;
+    const somar = (p0, v, k) => ({ x: p0.x + v.x * k, y: p0.y + v.y * k });
+    const polegarDentro = somar(somar(T, fora, -wT * .56), dT, wT * .45);   // lado do indicador
+    const polegarFora = somar(somar(T, fora, wT * .56), dT, wT * .45);      // lado de fora
+    const pts = [
+      naMao(lado, I, .4, .02),                              // 0 lado do indicador, na junta (desce pela "membrana")
+      polegarDentro,                                        // 1 polegar sai daqui...
+      polegarFora,                                          // 2 ...até aqui (sem traço: é onde o polegar nasce)
+      somar(somar(polegarFora, fora, u * .3), dT, -u * .75),// 3 volume da base do polegar (cobre a base dele)
+      naMao(lado, centro, 1.25, 2.8),                       // 4 pulso (lado do polegar)
+      naMao(lado, centro, 1.1, 6),                          // 5 antebraço (some embaixo)
+      naMao(lado, centro, -1.1, 6),                         // 6
+      naMao(lado, centro, -1.2, 2.6),                       // 7 pulso (lado do mínimo)
+      naMao(lado, P, -.5, 1.1),                             // 8 lateral da mão
+      naMao(lado, P, -.38, .02),                            // 9 lado do mínimo, na junta
+      // topo (escondido atrás dos dedos): passa por baixo da base de cada dedo, sem deixar buraco
+      naMao(lado, P, .3, -.06),                             // 10 lado de dentro do mínimo
+      naMao(lado, R, -.36, -.08),                           // 11 lado de fora do anelar
+      naMao(lado, M, 0, .08),                               // 12
+      naMao(lado, I, -.3, .06)                              // 13
+    ];
+    // curva suave aberta (as pontas não "puxam" a curva: sem ganchos)
+    const aberta = (lista) => lista.slice(0, -1).map((p1, i) => {
+      const p0 = lista[Math.max(0, i - 1)], p2 = lista[i + 1], p3 = lista[Math.min(lista.length - 1, i + 2)];
+      return `C${pt({ x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 })} ${pt({ x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 })} ${pt(p2)}`;
+    }).join('');
+    // "membrana" entre o indicador e o polegar: pele contínua (sem traço)
+    const meioMembrana = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+    const membrana = `Q${pt(somar(meioMembrana, fora, u * .16))} ${pt(pts[1])}`;   // sem "buraco" entre indicador e polegar
+    const resto = pts.slice(2, 10);   // da base do polegar até o lado do mínimo
+    m.palma.setAttribute('d', `M${pt(pts[0])}${membrana}L${pt(pts[2])}${aberta(resto)}${pts.slice(10).map((q) => 'L' + pt(q)).join('')}Z`);
+    m.contorno.setAttribute('d', `M${pt(pts[2])}${aberta(resto)}`);
+    // dobra da palma em volta da base do polegar e risquinhos nas juntas
+    m.detalhes.setAttribute('d', `M${pt(somar(somar(T, fora, -wT * .45), dT, -u * .3))}Q${pt(somar(somar(T, fora, -wT * .6), dT, -u * .75))} ${pt(somar(somar(T, fora, -wT * .2), dT, -u * 1.25))}`);
+    m.juntas.setAttribute('d', [P, R, M, I].map((k) => `M${pt(naMao(lado, k, -.22, .3))}Q${pt(naMao(lado, k, 0, .42))} ${pt(naMao(lado, k, .2, .28))}`).join(''));
     geo.pivo[lado] = naMao(lado, centro, 0, 2.2);   // a mão gira em volta do pulso
   }
 
@@ -1137,11 +1272,16 @@ function medirMaos() {
     const d = dedosEl[nome], junta = geo.juntas[nome], ponta = geo.descanso[nome];
     const comp = Math.hypot(ponta.x - junta.x, ponta.y - junta.y) + d.largura * .42;
     d.comp = comp;
+    d.distCasa = Math.hypot(ponta.x - junta.x, ponta.y - junta.y);
     d.angulo = Math.atan2(ponta.x - junta.x, junta.y - ponta.y) * 180 / Math.PI;
     const forma = formaDedo(nome, comp, d.largura);
     d.pele.setAttribute('d', forma.pele);
     d.contorno.setAttribute('d', forma.contorno);
     d.dobras.setAttribute('d', forma.dobras);
+    d.sombra.setAttribute('d', forma.sombra);
+    d.unha.setAttribute('d', forma.unha);
+    d.brilho.setAttribute('d', forma.brilho);
+    d.cuticula.setAttribute('d', forma.cuticula || '');
     d.ponta.setAttribute('transform', `translate(0 ${(-comp).toFixed(2)})`);
     d.ultimoAperto = -1;
   }
@@ -1176,45 +1316,75 @@ function calcularAlvos() {
 
   for (const lado of ['e', 'd']) {
     const dedos = NOMES_DEDOS.filter((n) => n.endsWith(`_${lado}`));
-    // a mão anda o necessário para a ponta do dedo cair na tecla
-    // (se dois dedos da mesma mão tiverem tecla, ela fica no meio do caminho)
-    const usados = dedos.filter((n) => !n.startsWith('polegar') && destino[n]);
-    let dx = 0, dy = 0;
-    for (const n of usados) {
-      const a = alvoDe(n);
-      dx += a.x - geo.descanso[n].x;
-      dy += a.y - geo.descanso[n].y;
+    // 1) o dedo "guia" desta mão: o que vai digitar a letra; se só tiver o Shift
+    //    (ou outra tecla de apoio), ele mesmo é o guia — assim a mão vai junto
+    const comTecla = dedos.filter((n) => !n.startsWith('polegar') && destino[n]);
+    const guia = comTecla.find((n) => destino[n].classe !== 'apoio' && !TECLAS_DE_CANTO.has(destino[n].codigo))
+      || comTecla.find((n) => destino[n].classe !== 'apoio') || comTecla[0];
+    // 2) quanto a PALMA vai junto: tecla perto -> quase nada; tecla longe -> bastante.
+    //    E se o dedo tiver que girar ou esticar demais (ficaria "grudado" e torto),
+    //    a palma vai mais, até o dedo alcançar numa posição natural.
+    let tx = 0, ty = 0;
+    if (guia) {
+      const a = alvoDe(guia), d = dedosEl[guia], j = geo.juntas[guia];
+      const vx = a.x - geo.descanso[guia].x, vy = a.y - geo.descanso[guia].y;
+      const distancia = Math.hypot(vx / geo.u, vy / geo.f);           // em teclas
+      let segue = destino[guia].classe === 'apoio' ? .15 : .12 + .7 * limitar((distancia - .9) / 1.7, 0, 1);
+      const natural = (sg) => {
+        const ox = a.x - (j.x + vx * sg), oy = a.y - (j.y + vy * sg);
+        const giro = Math.abs(((Math.atan2(ox, -oy) * 180 / Math.PI - d.angulo + 540) % 360) - 180);
+        const esc = Math.hypot(ox, oy) / d.distCasa;
+        const lim = destino[guia].classe === 'apoio' ? LIMITE_APOIO : LIMITE_DEDO;
+        return giro <= lim.giro && esc >= lim.min && esc <= lim.max;
+      };
+      while (segue < 1 && !natural(segue)) segue = Math.min(1, segue + .04);
+      tx = vx * segue;
+      ty = vy * segue;
     }
-    if (usados.length) { dx /= usados.length; dy /= usados.length; }
+    anim[lado].x.alvo = tx = limitar(tx, -geo.u * 4, geo.u * 4);
+    ty = limitar(ty, -geo.f * 3, geo.f * 1.5);
     const apertando = dedos.some((n) => destino[n]?.classe === 'apertando');
-    anim[lado].x.alvo = limitar(dx, -geo.u * 4, geo.u * 4);
-    anim[lado].y.alvo = limitar(dy, -geo.f * 3, geo.f * 1.5) + (apertando ? geo.f * .05 : 0);
+    anim[lado].y.alvo = ty + (apertando ? geo.f * .05 : 0);
 
+    // 3) cada dedo com tecla gira na junta e estica/encolhe até a ponta cair nela
     for (const n of dedos) {
+      const d = dedosEl[n];
+      if (destino[n] && !(n.startsWith('polegar') && destino[n].codigo === 'Space')) {
+        const alvo = alvoDe(n), j = geo.juntas[n];
+        const vx = alvo.x - (j.x + tx), vy = alvo.y - (j.y + ty);
+        anim[n].ang.alvo = Math.atan2(vx, -vy) * 180 / Math.PI;
+        anim[n].esc.alvo = limitar(Math.hypot(vx, vy) / d.distCasa, ESTICA.min, ESTICA.max);
+      } else {
+        anim[n].ang.alvo = d.angulo;   // sem tecla: o dedo fica na posição de casa
+        anim[n].esc.alvo = 1;
+      }
       anim[n].aperto.alvo = destino[n]?.classe === 'apertando' ? 1 : 0;
       const classe = destino[n]?.classe || '';
-      if (dedosEl[n].classe !== classe) {
-        dedosEl[n].classe = classe;
-        dedosEl[n].g.setAttribute('class', classe ? `dedo-r ${classe}` : 'dedo-r');
+      if (d.classe !== classe) {
+        d.classe = classe;
+        d.g.setAttribute('class', classe ? `dedo-r ${classe}` : 'dedo-r');
       }
     }
   }
 }
 
-// desenha a posição atual das molas (só transformações: nada é redesenhado)
+// desenha a posição atual das molas (só transformações: o formato do dedo nunca é refeito)
 function desenharQuadro() {
   for (const lado of ['e', 'd']) {
     const m = anim[lado];
     maosG[lado].grupo.setAttribute('transform', `translate(${m.x.v.toFixed(2)} ${m.y.v.toFixed(2)})`);
   }
   for (const nome of NOMES_DEDOS) {
-    const d = dedosEl[nome], aperto = Math.max(0, anim[nome].aperto.v), junta = geo.juntas[nome];
-    const chave = aperto.toFixed(3);
+    const d = dedosEl[nome], a = anim[nome], junta = geo.juntas[nome];
+    // ao apertar, o dedo encolhe um tiquinho (parece que afunda na tecla)
+    const esc = a.esc.v * (1 - .05 * Math.max(0, a.aperto.v));
+    const chave = a.ang.v.toFixed(2) + '|' + esc.toFixed(3);
     if (d.ultimoAperto === chave) continue;
     d.ultimoAperto = chave;
-    // ao apertar, o dedo encolhe um tiquinho na direção da tecla (parece que afunda)
-    const encolhe = 1 - .05 * aperto;
-    d.g.setAttribute('transform', `translate(${junta.x.toFixed(2)} ${junta.y.toFixed(2)}) rotate(${d.angulo.toFixed(2)}) translate(0 ${(d.comp * (1 - encolhe)).toFixed(2)})`);
+    d.g.setAttribute('transform', `translate(${junta.x.toFixed(2)} ${junta.y.toFixed(2)}) rotate(${a.ang.v.toFixed(2)})`);
+    // estica só no comprimento (o contorno não engrossa: vector-effect no CSS)
+    d.corpo.setAttribute('transform', `scale(1 ${esc.toFixed(4)})`);
+    d.ponta.setAttribute('transform', `translate(0 ${(-d.comp * esc).toFixed(2)})`);
   }
 }
 
@@ -1237,6 +1407,13 @@ function atualizarMaos() {
     ultimoQuadro = performance.now();
     quadroPedido = requestAnimationFrame(quadro);
   }
+}
+
+function trocarEstiloMao(nome) {
+  usarEstiloMao(nome);
+  $('botao-estilo').textContent = estiloMao === 'classica' ? '🖐 Estilo: clássica' : '🖐 Estilo: normal';
+  medirMaos();
+  if (estado) marcarTeclaAtual();
 }
 
 function mostrarMaos(ligar) {
@@ -1277,6 +1454,12 @@ $('botao-maos').addEventListener('click', () => {
   mostrarMaos(config.maos);
   entrada.focus({ preventScroll: true });
 });
+$('botao-estilo').addEventListener('click', () => {
+  config.estiloMao = estiloMao === 'classica' ? 'normal' : 'classica';
+  gravar('typeskill-config', config);
+  trocarEstiloMao(config.estiloMao);
+  entrada.focus({ preventScroll: true });
+});
 $('botao-som').addEventListener('click', () => {
   config.som = !config.som;
   gravar('typeskill-config', config);
@@ -1298,6 +1481,7 @@ document.querySelectorAll('[aria-disabled="true"]').forEach((a) => a.addEventLis
 // ---------- 17. Começar ----------
 montarTeclado();
 montarMaos();
+trocarEstiloMao(config.estiloMao);
 atualizarXp(progresso.xp);
 atualizarCartoes();
 iniciarSessao();

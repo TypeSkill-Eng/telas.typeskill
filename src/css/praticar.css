@@ -581,12 +581,48 @@
 .k.acertou { background: #fff; border-color: var(--af-traco); color: #222; }
 .k.errou { background: #ffb4b4; border-color: var(--af-traco); color: #222; }
 
-/* mãos no estilo AgileFingers: pele pêssego bem clarinha e transparente
-   (dá para ler as teclas por baixo), contorno grosso cinza-escuro */
-.maos { --pele: #ffd7c4; --pele-ativa: #ffd7c4; --pele-apertando: #ffc4a8; --traco: #555; }
-.mao-r { opacity: 1; }
-.palma, .dedo-r__pele { fill-opacity: .72; }
-.palma { fill-opacity: .6; }
-.palma-contorno, .dedo-r__contorno { stroke-width: 3.6; }
-.dedo-r__dobras { stroke-width: 2.8; }
-.dedo-r__toque { display: none; }
+/* mão NORMAL detalhada: pele pêssego sólida (a mão inteira fica um pouco
+   transparente de uma vez só, então nada aparece "por trás"), degradê dando
+   volume aos dedos, unhas com brilho, rugas finas e contorno marrom suave */
+.maos {
+  --pele: #ffd8c4; --traco: #6e4a3e; --ruga: rgba(132, 78, 60, .55);
+  --unha: #ffeee6; --unha-traco: #d29a86;
+}
+.mao-r { opacity: .94; }
+.dedo-r__pele { fill: url(#pele-dedo); fill-opacity: 1; }
+.palma { fill: url(#pele-palma); fill-opacity: 1; }
+.dedo-r.ativo .dedo-r__pele, .dedo-r.apoio .dedo-r__pele { fill: url(#pele-ativa); }
+.dedo-r.apertando .dedo-r__pele { fill: url(#pele-apertando); }
+.palma-contorno, .dedo-r__contorno { stroke: var(--traco); stroke-width: 2.6; }
+.dedo-r__dobras { stroke: var(--ruga); stroke-width: 1.3; }
+.mao-detalhe, .mao-junta { stroke: var(--ruga); stroke-width: 1.5; opacity: 1; }
+.dedo-r__unha { fill: var(--unha); stroke: var(--unha-traco); stroke-width: 1.3; vector-effect: non-scaling-stroke; }
+.dedo-r__brilho { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; opacity: .85; vector-effect: non-scaling-stroke; }
+.dedo-r.apertando .dedo-r__unha { fill: #ffe0d4; }
+.dedo-r__sombra, .dedo-r__toque { display: none; }
+
+/* mão CLÁSSICA (botão "Estilo"): desenho de contorno, pele clarinha meio
+   transparente (dá para ler as teclas por baixo), traço cinza escuro e uma
+   dobrinha em U em cada dedo. A transparência é na mão inteira de uma vez,
+   então as partes sobrepostas não ficam manchadas. */
+.maos--classica { --pele: #ffd6c8; --pele-ativa: #ffc2ab; --pele-apertando: #ffab8c; --traco: #4a4645; }
+.maos--classica .mao-r { opacity: .68; }
+.maos--classica .palma,
+.maos--classica .dedo-r__pele,
+.maos--classica .dedo-r.ativo .dedo-r__pele,
+.maos--classica .dedo-r.apoio .dedo-r__pele { fill: var(--pele); }
+.maos--classica .dedo-r.ativo .dedo-r__pele,
+.maos--classica .dedo-r.apoio .dedo-r__pele { fill: var(--pele-ativa); }
+.maos--classica .dedo-r.apertando .dedo-r__pele { fill: var(--pele-apertando); }
+.maos--classica .palma-contorno,
+.maos--classica .dedo-r__contorno { stroke: var(--traco); stroke-width: 3.4; }
+.maos--classica .dedo-r__dobras { stroke: var(--traco); stroke-width: 2.8; }
+/* unha do estilo clássico: placa clarinha com contorno, cutícula e brilho */
+.dedo-r__cuticula { fill: none; stroke: none; }
+.maos--classica .dedo-r__unha { fill: #fff4ef; stroke: var(--traco); stroke-width: 2.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.maos--classica .dedo-r.apertando .dedo-r__unha { fill: #ffe3d8; }
+.maos--classica .dedo-r__cuticula { stroke: var(--traco); stroke-width: 1.8; stroke-linecap: round; opacity: .75; vector-effect: non-scaling-stroke; }
+.maos--classica .dedo-r__brilho { display: inline; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; opacity: 1; vector-effect: non-scaling-stroke; }
+
+.maos--classica .mao-junta { display: none; }
+.maos--classica .mao-detalhe { stroke: var(--traco); stroke-width: 2.4; }

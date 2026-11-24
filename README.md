@@ -228,7 +228,7 @@ Tudo é desenhado pelo código (não precisa de imagem), com o **`src/js/pixel.j
 - Só a **linha atual** fica grande (letra monoespaçada Roboto Mono): o que já foi digitado fica cinza, o resto preto e um cursor amarelo pisca antes da próxima letra. As 2 linhas seguintes aparecem pequenas e clarinhas. As quebras de linha se ajustam à largura da tela.
 - Errou e corrigiu: ✓ verde pequenininho em cima da letra. Apagou o erro: a letra fica sublinhada de vermelho até você acertar.
 - Teclado: placa cinza-clara com cantos grandes e "sombra" bege embaixo e à esquerda; teclas brancas de contorno fino; a tecla da vez fica amarelo-laranja.
-- Mãos grandes, de dedos longos, viradas para dentro; a mão inteira desliza até cada tecla e o dedo encaixa nela.
+- Mãos "clássicas" (estilo tutorial): retas, dedos em leque, cada um com seu tamanho, palma aparecendo e polegares na barra de espaço. A mão quase não sai do lugar: o dedo certo gira e estica até a tecla (o desenho do dedo nunca é refeito, por isso não treme). No Shift/enter/backspace só o mínimo vai até a tecla.
 
 ## Modo noturno
 

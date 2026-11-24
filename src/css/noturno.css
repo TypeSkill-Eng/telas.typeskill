@@ -42,6 +42,14 @@ html.tema-escuro .toast-medalha { background: #2b2c3a; box-shadow: 0 14px 30px r
 html.tema-escuro .topbar__hello p, html.tema-escuro .stat__label, html.tema-escuro .task__desc,
 html.tema-escuro .lesson-card__desc, html.tema-escuro .achievement p { color: #c4c6d0; }
 html.tema-escuro .world { color: #f1f1f5; }
+/* cartão "Mundo" do Início: o fundo do cartão inteiro fica escuro (o céu da noite)
+   e o mapa por dentro fica transparente, para não sobrar faixa clara em volta */
+html.tema-escuro .world { background: linear-gradient(#16263a, #213650); }
+html.tema-escuro .world.mundo--deserto { background: linear-gradient(#33241a, #4a3322); }
+html.tema-escuro .world.mundo--neve { background: linear-gradient(#1b2636, #2b3a52); }
+html.tema-escuro .world.mundo--vulcao { background: linear-gradient(#2a2138, #4a3045); }
+html.tema-escuro .world .mundo { background: none; }
+html.tema-escuro .world .world__progress .bar { background: rgba(255, 255, 255, .18); }
 html.tema-escuro .world__progress .bar, html.tema-escuro .continue__bar { background: #2c2d3b; }
 html.tema-escuro .lesson-card { background: #17352a; }
 html.tema-escuro .challenge { border-color: #2c2d3b; }
